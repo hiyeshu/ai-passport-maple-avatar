@@ -17,7 +17,7 @@
 | `CLAUDE.zh_CN.md` | 简体中文模块地图。 |
 | `maple_avatar_app.c` | LVGL 屏幕、动画计时器、可选电量角标与标准化命令处理。 |
 | `maple_avatar_app.h` | 展示层 API 与命令枚举。 |
-| `maple_avatar_assets.h` | 稳定类型、尺寸与生成数据声明。 |
+| `maple_avatar_assets.h` | 稳定类型、全宽统一像素倍率与身体原点对齐的帧尺寸、生成数据声明。 |
 | `maple_avatar_state.c` | 纯六动作动画转移与时序。 |
 | `maple_avatar_state.h` | 固件与主机测试共用的状态机值与函数。 |
 | `generated/assets.cmake` | 生成的嵌入文件清单。 |

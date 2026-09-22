@@ -1,11 +1,12 @@
 /**
  * [INPUT]: Depends on captured Canvas data, profile metadata, and pure pixel converters.
- * [OUTPUT]: Writes provenance assets plus generated LVGL binaries, descriptors, and CMake inventory.
- * [POS]: Importer persistence boundary; atomically replaces only build-scoped and generated outputs.
+ * [OUTPUT]: Writes provenance and anchor metadata plus generated LVGL binaries, descriptors, and CMake inventory while retaining curated build sidecars.
+ * [POS]: Importer persistence boundary; atomically replaces generated outputs without deleting the build's documented device mockup.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 import { createHash } from "node:crypto";
 import {
+  copyFile,
   mkdir,
   rename,
   rm,
@@ -14,6 +15,8 @@ import {
 import path from "node:path";
 
 import { rgbaToRgb565, rgbaToRgb565A8 } from "./pixels.mjs";
+
+const PRESERVED_BUILD_SIDECARS = Object.freeze(["device-mockup.png"]);
 
 function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
@@ -160,6 +163,17 @@ export async function writeCapture({ repoRoot, source, capture, font }) {
   await mkdir(path.join(assetTemp, "device-preview"), { recursive: true });
   await mkdir(firmwareTemp, { recursive: true });
 
+  for (const filename of PRESERVED_BUILD_SIDECARS) {
+    try {
+      await copyFile(
+        path.join(assetDirectory, filename),
+        path.join(assetTemp, filename)
+      );
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+  }
+
   try {
     const { screen: screenGeometry, avatar: avatarGeometry } = capture.geometry;
     const backgroundBytes = Buffer.from(capture.screen.backgroundBase64, "base64");
@@ -218,6 +232,7 @@ export async function writeCapture({ repoRoot, source, capture, font }) {
           canvasHash: frame.hash,
           sourceWidth: frame.sourceWidth,
           sourceHeight: frame.sourceHeight,
+          devicePlacement: frame.devicePlacement,
           sourcePng: `frames/${sourceName}`,
           sourceSha256: sha256(sourcePng),
           devicePng: `device-preview/${sourceName}`,
@@ -235,6 +250,7 @@ export async function writeCapture({ repoRoot, source, capture, font }) {
         capturedFrameCount: action.frames.length,
         frameDelayMs: action.frames.length > 1 ? action.frameDelayMs : 0,
         static: action.frames.length <= 1,
+        alignment: action.alignment,
         layerPaths: action.layerPaths,
         frames: frameManifest,
       });

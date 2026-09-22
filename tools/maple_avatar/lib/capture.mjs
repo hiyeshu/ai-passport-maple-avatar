@@ -1,6 +1,6 @@
 /**
- * [INPUT]: Depends on Playwright, a public MXDC build URL, and a TrueType UI subset.
- * [OUTPUT]: Captures real Canvas frames, Henesys, and a 240x320 Maple profile-card image.
+ * [INPUT]: Depends on Playwright, layout.mjs geometry, a public MXDC build URL, and a TrueType UI subset.
+ * [OUTPUT]: Captures real Canvas frames at one reference scale and body anchor, Henesys, and a 240x320 Maple profile-card image.
  * [POS]: Browser adapter; owns all DOM selectors and fails explicitly when the source page drifts.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -8,27 +8,21 @@ import { existsSync } from "node:fs";
 
 import { chromium } from "playwright";
 
+import {
+  AVATAR_HEIGHT,
+  AVATAR_REFERENCE_HEIGHT,
+  AVATAR_WIDTH,
+  AVATAR_X,
+  AVATAR_Y,
+  GOLDEN_RATIO,
+  PROFILE_LAYOUT,
+  SCENE_GROUND_Y,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  calculateActionCanvasGeometry,
+  calculateFramePlacement,
+} from "./layout.mjs";
 import { extractCharacterProfile } from "./source.mjs";
-
-export const SCREEN_WIDTH = 240;
-export const SCREEN_HEIGHT = 320;
-export const AVATAR_WIDTH = 132;
-export const AVATAR_HEIGHT = 173;
-export const AVATAR_X = 54;
-export const AVATAR_Y = 66;
-export const GOLDEN_RATIO = 0.618;
-export const SCENE_GROUND_Y = 232;
-
-export const PROFILE_LAYOUT = Object.freeze({
-  variant: "maple-profile-card-v2",
-  panel: { x: 0, y: 246, width: 240, height: 74 },
-  chips: [
-    { key: "server", x: 8, y: 250, width: 59, height: 21 },
-    { key: "level", x: 72, y: 250, width: 56, height: 21 },
-    { key: "job", x: 133, y: 250, width: 99, height: 21 },
-  ],
-  nameplate: { x: 8, y: 277, width: 224, height: 37, dividerX: 120 },
-});
 
 export const ACTION_SPECS = Object.freeze([
   { id: "stand", label: "站立" },
@@ -227,7 +221,7 @@ async function captureScreen(page, profile, fontBytes) {
         ctx.fillRect(plate.dividerX, plate.y + 6, 1, plate.height - 12);
 
         drawText({
-          text: "姓名",
+          text: layout.labels.name,
           x: plate.x + 10,
           baseline: plate.y + 12,
           align: "left",
@@ -246,7 +240,7 @@ async function captureScreen(page, profile, fontBytes) {
           maxWidth: plate.dividerX - plate.x - 18,
         });
         drawText({
-          text: "家族",
+          text: layout.labels.family,
           x: plate.dividerX + 9,
           baseline: plate.y + 12,
           align: "left",
@@ -295,13 +289,93 @@ async function captureScreen(page, profile, fontBytes) {
   );
 }
 
-async function captureVisibleFrames(page, expectedCount, frameDelayMs) {
+async function readVisibleFrameGeometry(page) {
+  return page.evaluate(async () => {
+    const canvas = document.querySelector("canvas.character-animation-canvas");
+    const image = document.querySelector(".character-animation-fallback img");
+    if (!canvas || !image) throw new Error("Character Canvas or fallback image is missing");
+
+    const style = getComputedStyle(canvas);
+    if (style.display !== "none" && canvas.width > 0 && canvas.height > 0) {
+      return { width: canvas.width, height: canvas.height };
+    }
+
+    await image.decode();
+    return { width: image.naturalWidth, height: image.naturalHeight };
+  });
+}
+
+async function waitForVisibleFrameGeometry(page, expected, actionLabel) {
+  try {
+    await page.waitForFunction(
+      ({ width, height }) => {
+        const canvas = document.querySelector("canvas.character-animation-canvas");
+        const image = document.querySelector(".character-animation-fallback img");
+        if (!canvas || !image) return false;
+        const canvasVisible =
+          getComputedStyle(canvas).display !== "none" &&
+          canvas.width > 0 &&
+          canvas.height > 0;
+        if (canvasVisible) return canvas.width === width && canvas.height === height;
+        return (
+          image.complete &&
+          image.naturalWidth === width &&
+          image.naturalHeight === height
+        );
+      },
+      expected,
+      { timeout: 10000 }
+    );
+  } catch (error) {
+    const actual = await readVisibleFrameGeometry(page);
+    throw new Error(
+      `${actionLabel} Canvas geometry did not settle: page rendered ` +
+        `${actual.width}x${actual.height}, expected ${expected.width}x${expected.height}`,
+      { cause: error }
+    );
+  }
+  return readVisibleFrameGeometry(page);
+}
+
+async function readLayerImageSizes(page, frames) {
+  const paths = Array.from(
+    new Set(
+      frames
+        .flatMap((frame) => frame || [])
+        .map((layer) => layer?.path)
+        .filter(Boolean)
+    )
+  );
+  const entries = await page.evaluate(async (layerPaths) => {
+    return Promise.all(
+      layerPaths.map(
+        (path) =>
+          new Promise((resolve, reject) => {
+            const image = new Image();
+            image.onload = () =>
+              resolve([path, { width: image.naturalWidth, height: image.naturalHeight }]);
+            image.onerror = () => reject(new Error(`Character layer failed to load: ${path}`));
+            image.src = new URL(path, location.origin).href;
+          })
+      )
+    );
+  }, paths);
+  return new Map(entries);
+}
+
+async function captureVisibleFrames(
+  page,
+  expectedCount,
+  frameDelayMs,
+  sourceGeometry,
+  placement
+) {
   const durationMs = Math.min(
     12000,
     Math.max(1400, expectedCount * Math.max(frameDelayMs, 100) * 2 + 700)
   );
   return page.evaluate(
-    async ({ expected, duration, targetWidth, targetHeight }) => {
+    async ({ expected, duration, targetWidth, targetHeight, sourceGeometry, placement }) => {
       const bytesToBase64 = (bytes) => {
         let binary = "";
         for (let offset = 0; offset < bytes.length; offset += 0x8000) {
@@ -319,6 +393,15 @@ async function captureVisibleFrames(page, expectedCount, frameDelayMs) {
         return (hash >>> 0).toString(16).padStart(8, "0");
       };
       const frameFromCanvas = (source) => {
+        if (
+          source.width !== sourceGeometry.width ||
+          source.height !== sourceGeometry.height
+        ) {
+          throw new Error(
+            `Character Canvas dimensions changed from ${sourceGeometry.width}x${sourceGeometry.height} ` +
+              `to ${source.width}x${source.height}`
+          );
+        }
         const sourceContext = source.getContext("2d", { willReadFrequently: true });
         const sourceRgba = sourceContext.getImageData(0, 0, source.width, source.height).data;
         const hash = hashRgba(sourceRgba);
@@ -328,16 +411,13 @@ async function captureVisibleFrames(page, expectedCount, frameDelayMs) {
         device.height = targetHeight;
         const deviceContext = device.getContext("2d", { willReadFrequently: true });
         deviceContext.imageSmoothingEnabled = false;
-        const scale = Math.min(targetWidth / source.width, targetHeight / source.height);
-        const drawWidth = Math.max(1, Math.round(source.width * scale));
-        const drawHeight = Math.max(1, Math.round(source.height * scale));
         deviceContext.clearRect(0, 0, targetWidth, targetHeight);
         deviceContext.drawImage(
           source,
-          Math.floor((targetWidth - drawWidth) / 2),
-          targetHeight - drawHeight,
-          drawWidth,
-          drawHeight
+          placement.x,
+          placement.y,
+          placement.width,
+          placement.height
         );
         const deviceRgba = deviceContext.getImageData(0, 0, targetWidth, targetHeight).data;
         return {
@@ -347,6 +427,7 @@ async function captureVisibleFrames(page, expectedCount, frameDelayMs) {
           sourcePngBase64: dataUrlBytes(source.toDataURL("image/png")),
           devicePngBase64: dataUrlBytes(device.toDataURL("image/png")),
           deviceRgbaBase64: bytesToBase64(deviceRgba),
+          devicePlacement: placement,
         };
       };
 
@@ -400,11 +481,13 @@ async function captureVisibleFrames(page, expectedCount, frameDelayMs) {
       duration: durationMs,
       targetWidth: AVATAR_WIDTH,
       targetHeight: AVATAR_HEIGHT,
+      sourceGeometry,
+      placement,
     }
   );
 }
 
-async function captureAction(page, spec, firstAction) {
+async function captureAction(page, spec, firstAction, referenceAlignment) {
   const layersPromise = page.waitForResponse(
     (response) => response.url().includes("/api/character_layers.php"),
     { timeout: 30000 }
@@ -432,11 +515,45 @@ async function captureAction(page, spec, firstAction) {
     spec.label,
     { timeout: 10000 }
   );
-  await page.waitForTimeout(250);
-
+  const imageSizes = await readLayerImageSizes(page, layers.frames || []);
+  const canvasGeometry = calculateActionCanvasGeometry(layers.frames || [], imageSizes);
+  const sourceGeometry = await waitForVisibleFrameGeometry(
+    page,
+    { width: canvasGeometry.sourceWidth, height: canvasGeometry.sourceHeight },
+    spec.label
+  );
+  if (
+    sourceGeometry.width !== canvasGeometry.sourceWidth ||
+    sourceGeometry.height !== canvasGeometry.sourceHeight
+  ) {
+    throw new Error(
+      `${spec.label} Canvas geometry drifted: page rendered ` +
+        `${sourceGeometry.width}x${sourceGeometry.height}, calculated ` +
+        `${canvasGeometry.sourceWidth}x${canvasGeometry.sourceHeight}`
+    );
+  }
+  const referenceSourceHeight =
+    referenceAlignment?.sourceHeight || sourceGeometry.height;
+  const placement = calculateFramePlacement(
+    sourceGeometry.width,
+    sourceGeometry.height,
+    referenceSourceHeight,
+    referenceAlignment ? canvasGeometry.sourceAnchor : undefined,
+    referenceAlignment?.targetAnchor
+  );
+  const targetAnchor = referenceAlignment?.targetAnchor || {
+    x: placement.x + canvasGeometry.sourceAnchor.x * placement.scale,
+    y: placement.y + canvasGeometry.sourceAnchor.y * placement.scale,
+  };
   const declaredCount = Array.isArray(layers.frames) ? layers.frames.length : 0;
   const frameDelayMs = Number.isFinite(layers.frame_delay) ? layers.frame_delay : 0;
-  const frames = await captureVisibleFrames(page, Math.max(1, declaredCount), frameDelayMs);
+  const frames = await captureVisibleFrames(
+    page,
+    Math.max(1, declaredCount),
+    frameDelayMs,
+    sourceGeometry,
+    placement
+  );
   if (declaredCount > 1 && frames.length === 0) {
     throw new Error(`${spec.label} declared animation frames but Canvas capture was empty`);
   }
@@ -458,6 +575,18 @@ async function captureAction(page, spec, firstAction) {
     declaredFrameCount: declaredCount,
     frameDelayMs,
     layerPaths,
+    alignment: {
+      logicalBounds: {
+        left: canvasGeometry.left,
+        top: canvasGeometry.top,
+        width: canvasGeometry.width,
+        height: canvasGeometry.height,
+      },
+      bodyAnchor: canvasGeometry.bodyAnchor,
+      sourceAnchor: canvasGeometry.sourceAnchor,
+      targetAnchor,
+      devicePlacement: placement,
+    },
     frames,
   };
 }
@@ -528,7 +657,7 @@ export async function captureAvatar({
     }
     const job = (await page.locator(".character-preview-job").innerText()).trim();
     const profile = extractCharacterProfile(config, { server, family, job });
-    const fontText = `${profile.server} LV.${profile.level} ${profile.job} 姓名 ${profile.name} 家族 ${profile.family}`;
+    const fontText = `${profile.server} LV.${profile.level} ${profile.job} ${PROFILE_LAYOUT.labels.name} ${profile.name} ${PROFILE_LAYOUT.labels.family} ${profile.family}`;
     const font = await fontProvider(fontText);
     if (!font?.bytes?.length) {
       throw new Error("The UI font provider returned no font bytes");
@@ -543,8 +672,21 @@ export async function captureAvatar({
     const screen = await captureScreen(page, profile, font.bytes);
 
     const actions = [];
+    let referenceAlignment;
     for (let index = 0; index < ACTION_SPECS.length; index++) {
-      actions.push(await captureAction(page, ACTION_SPECS[index], index === 0));
+      const action = await captureAction(
+        page,
+        ACTION_SPECS[index],
+        index === 0,
+        referenceAlignment
+      );
+      actions.push(action);
+      if (!referenceAlignment) {
+        referenceAlignment = {
+          sourceHeight: action.frames[0].sourceHeight,
+          targetAnchor: action.alignment.targetAnchor,
+        };
+      }
     }
     const previewPngBase64 = await composePreview(
       page,
@@ -568,6 +710,9 @@ export async function captureAvatar({
             y: AVATAR_Y,
             width: AVATAR_WIDTH,
             height: AVATAR_HEIGHT,
+            referenceRenderHeight: AVATAR_REFERENCE_HEIGHT,
+            referenceSourceHeight: referenceAlignment.sourceHeight,
+            targetAnchor: referenceAlignment.targetAnchor,
           },
         },
         appearance: {

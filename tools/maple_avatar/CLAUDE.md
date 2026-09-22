@@ -21,15 +21,16 @@ assets plus the firmware-generated directory.
 | `import_avatar.mjs` | CLI composition root for capture and output. |
 | `package.json` | Pinned Playwright dependency and npm commands. |
 | `package-lock.json` | Reproducible npm dependency graph. |
-| `lib/capture.mjs` | Playwright DOM adapter, Canvas-frame capture, and Maple profile-card composition. |
+| `lib/capture.mjs` | Playwright DOM adapter, body-origin-aligned Canvas-frame capture, and Maple profile-card composition. |
 | `lib/cli.mjs` | Pure argument parsing and help text. |
 | `lib/font.mjs` | Noto Sans SC TrueType subset download and validation. |
-| `lib/output.mjs` | Atomic provenance and generated-firmware writer. |
+| `lib/layout.mjs` | Pure 240 x 320 profile-card geometry, reference scaling, and body-anchor placement. |
+| `lib/output.mjs` | Atomic provenance, body-anchor metadata, generated-firmware writer, and curated device-mockup preservation. |
 | `lib/pixels.mjs` | Pure RGBA-to-RGB565/RGB565A8 conversion. |
 | `lib/source.mjs` | URL trust boundary, server enum, profile fallbacks, and display-capacity validation. |
 | `test/cli.test.mjs` | CLI argument-boundary tests. |
 | `test/font.test.mjs` | Font request and CSS parsing tests. |
-| `test/layout.test.mjs` | Golden-ratio avatar geometry and ground-contact test. |
+| `test/layout.test.mjs` | Golden-ratio geometry, ground contact, and cross-action scale/body-anchor regression tests. |
 | `test/output.test.mjs` | ESP-IDF embedded-file symbol regression test. |
 | `test/pixels.test.mjs` | Binary pixel-layout tests. |
 | `test/source.test.mjs` | Source canonicalization and profile tests. |

@@ -45,6 +45,10 @@ Henesys background; it never substitutes AI-generated or placeholder art.
 - `device-preview/`: nearest-neighbor 132 x 173 transparent frame previews.
 - `screen.png`: 240 x 320 RGB background with MapleStory-inspired attribute chips and name/family nameplate.
 - `preview.png`: visual inspection composite for the default frame.
+- `device-mockup.png`: 3840 x 2160 README presentation mockup directly
+  compositing the generated `preview.png` into the screen region of the
+  user-supplied AI Passport hardware image. Pixels outside the screen remain
+  unchanged; this is not a firmware input or hardware-validation result.
 - `manifest.json`: source URL, build revision, appearance IDs, action timing,
   layer paths, dimensions, and SHA-256 provenance.
 - `ui-font.ttf`: exact Noto Sans SC subset used to rasterize fixed profile

@@ -48,6 +48,8 @@ Supported server values are <code>&#x84DD;&#x8717;&#x725B;</code>,
 The importer canonicalizes every accepted URL to read-only mode, reads
 `CHARACTER_BUILDER_CONFIG`, selects the Henesys background, listens for each
 same-origin layer response, and captures unique composited Canvas frames.
+Each response's real `map` and `origin` coordinates reconstruct the action
+Canvas bounds and body anchor; geometry drift fails explicitly.
 
 The fixed profile area adapts MapleStory's identity-card language for the
 small display: server, level, and job use separate berry, amber, and cool-blue
@@ -62,9 +64,15 @@ instead of shrinking text indefinitely; measured coordinates replace spaces.
 - `assets/images/maple-avatar/build-<id>/` preserves source PNGs, device
   previews, font subset, a visual composite, and `manifest.json` provenance.
 - `main/maple_avatar/generated/` contains one 240 x 320 RGB565 screen,
-  132 x 173 RGB565A8 frames, generated LVGL descriptors, and CMake inventory.
-  The opaque avatar is centered horizontally, its visual center sits at 61.8%
-  of the 246 px scene, and its feet meet the grass-surface baseline at 232 px.
+  240 x 246 RGB565A8 scene frames, generated LVGL descriptors, and CMake inventory.
+  Every action uses the standing Canvas height as one pixel-scale reference, so
+  wider attack canvases reveal their horizontal range without shrinking the
+  character. The standing action establishes one device-space body anchor;
+  every later action maps its real source body origin to that same point rather
+  than centering an asymmetrical Canvas. The transparent frame spans the full
+  246 px scene so attack pixels below the anchor remain available. The standing
+  avatar's visual center sits at 61.8% of the scene, and its feet meet the
+  grass-surface baseline at 232 px.
 - The fixed Chinese profile text and nameplate UI are rasterized into the screen at build time.
   Runtime firmware therefore needs no broad CJK font allocation.
 - An action with one unique frame has a zero frame delay and is rendered

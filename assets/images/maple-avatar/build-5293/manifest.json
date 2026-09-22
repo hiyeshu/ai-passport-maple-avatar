@@ -38,10 +38,16 @@
       "groundY": 232
     },
     "avatar": {
-      "x": 54,
-      "y": 66,
-      "width": 132,
-      "height": 173
+      "x": 0,
+      "y": 0,
+      "width": 240,
+      "height": 246,
+      "referenceRenderHeight": 173,
+      "referenceSourceHeight": 264,
+      "targetAnchor": {
+        "x": 126.73863636363636,
+        "y": 233.10227272727272
+      }
     },
     "variant": "maple-profile-card-v2",
     "infoPanel": {
@@ -106,10 +112,10 @@
   "font": {
     "family": "Noto Sans SC",
     "weight": 600,
-    "cssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC%3Awght%40600&text=%E7%BB%BF%E6%B0%B4%E7%81%B5+LV.30+%E5%86%B0%E9%9B%B7%E6%B3%95%E5%B8%88+%E5%A7%93%E5%90%8D+%E8%93%9D%E8%8E%93%E5%91%80+%E5%AE%B6%E6%97%8F+MiiiAo",
-    "sourceUrl": "https://fonts.gstatic.com/l/font?kit=k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGwHCnYxVXNT9zEMIvHo6RiUP0nS0sOLwK9zVcPz3oRFs4RCmTPu3Mqb5aQjONuk7VZpup73qdGuWBkE&skey=cf0bb10b5602fdc3&v=v40",
+    "cssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC%3Awght%40600&text=%E7%BB%BF%E6%B0%B4%E7%81%B5+LV.30+%E5%86%B0%E9%9B%B7%E6%B3%95%E5%B8%88+ID+%E8%93%9D%E8%8E%93%E5%91%80+%E5%AE%B6%E6%97%8F+MiiiAo",
+    "sourceUrl": "https://fonts.gstatic.com/l/font?kit=k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGwHCnYxVWNT9zEMItH4gYhyDOyHXkIqEOrmeYYqqh0Ee1n7wb5LiF_Web3qSCLRSfc0VtMeZUA&skey=cf0bb10b5602fdc3&v=v40",
     "file": "ui-font.ttf",
-    "sha256": "28f3f6a1ce6f1f7685c3a23a275bf882f8916b2abe7b35b29bdd8c0a3aec15ae",
+    "sha256": "12073c0ea6e78b4a1113b4a7c4fb71508419aed4837ef8376ce88df2ef8e51c3",
     "license": "SIL Open Font License 1.1",
     "licenseFile": "../../../fonts/NotoSansSC-OFL.txt"
   },
@@ -123,6 +129,33 @@
       "capturedFrameCount": 3,
       "frameDelayMs": 350,
       "static": false,
+      "alignment": {
+        "logicalBounds": {
+          "left": -15,
+          "top": -21,
+          "width": 67,
+          "height": 88
+        },
+        "bodyAnchor": {
+          "x": 22,
+          "y": 64
+        },
+        "sourceAnchor": {
+          "x": 111,
+          "y": 255
+        },
+        "targetAnchor": {
+          "x": 126.73863636363636,
+          "y": 233.10227272727272
+        },
+        "devicePlacement": {
+          "x": 54,
+          "y": 66,
+          "width": 132,
+          "height": 173,
+          "scale": 0.6553030303030303
+        }
+      },
       "layerPaths": [
         "/dbsource/picstand1/Character.00002010.img.stand1.0.arm.png",
         "/dbsource/picstand1/Character.00002010.img.stand1.0.body.png",
@@ -154,36 +187,57 @@
           "canvasHash": "da0fdc03",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/stand-00.png",
           "sourceSha256": "753adbfc77c838ee6853a230218d856e2507c18c937e2d617135a7131e4c622b",
           "devicePng": "device-preview/stand-00.png",
-          "deviceSha256": "53f0a37e3d64b205c23bcb7cae171da3b54bf2b65c3c0bf48ec29fe53b3e6db5",
+          "deviceSha256": "fc72357232c489e57f4cf065663f7d45f7338f1e6756c8ef58d9595221d25c5c",
           "firmwareFile": "maple_avatar/generated/stand-00.rgb565a8",
-          "firmwareSha256": "c52c3a1e4259550118ef91e5b8c66f538bf61ab2a689476effc11d45df3a6ac2"
+          "firmwareSha256": "898eac736a11cf2c1da4df6214f68fa5367528a02a61ad5511c3c9b834ef41d0"
         },
         {
           "index": 1,
           "canvasHash": "09852565",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/stand-01.png",
           "sourceSha256": "113fe73c9bfa26595ba13843a122df0b11e8b5beeb00a423db0f8adb347da202",
           "devicePng": "device-preview/stand-01.png",
-          "deviceSha256": "c17eb09e489cb550f4ed3421fef4cf6ff749c6f475518da98cbdbb735ee60644",
+          "deviceSha256": "76e8c34d4cd7f24b2e38f2b2af7a5788152968fc1830ecd930153b703fc25da5",
           "firmwareFile": "maple_avatar/generated/stand-01.rgb565a8",
-          "firmwareSha256": "6c5e471a0f9c4f617e70a88972fee2e24710273872254ea4d4ff1281aa12727e"
+          "firmwareSha256": "8803d1b9399059ff534f8c0b1b38232de125e78279cc434e24f789ec521adebf"
         },
         {
           "index": 2,
           "canvasHash": "2814d4c2",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/stand-02.png",
           "sourceSha256": "904e72d390b5d52252a70d398a4bdef3952c2dfe57082e29711dccedffbc8035",
           "devicePng": "device-preview/stand-02.png",
-          "deviceSha256": "c287f26b7683044e9a0303cb6acff985e8073fd8b369655c227821fbd84c9b96",
+          "deviceSha256": "a0a43301049d9169e1eb0dd8fad8e24d7aba3298d222002b7a2c93f06a4f1924",
           "firmwareFile": "maple_avatar/generated/stand-02.rgb565a8",
-          "firmwareSha256": "96ad19ef75ecfd289ac7bb892db0d6373826d35ff4200213ae8332639b6f6b35"
+          "firmwareSha256": "a796cfb95869c2ed344a4f8387fdc42a55d1805ecd3c53e40da0ee7ed27beddf"
         }
       ]
     },
@@ -196,6 +250,33 @@
       "capturedFrameCount": 4,
       "frameDelayMs": 200,
       "static": false,
+      "alignment": {
+        "logicalBounds": {
+          "left": -15,
+          "top": -21,
+          "width": 67,
+          "height": 88
+        },
+        "bodyAnchor": {
+          "x": 22,
+          "y": 64
+        },
+        "sourceAnchor": {
+          "x": 111,
+          "y": 255
+        },
+        "targetAnchor": {
+          "x": 126.73863636363636,
+          "y": 233.10227272727272
+        },
+        "devicePlacement": {
+          "x": 54,
+          "y": 66,
+          "width": 132,
+          "height": 173,
+          "scale": 0.6553030303030303
+        }
+      },
       "layerPaths": [
         "/dbsource/picstand1/Character.00002010.img.walk1.0.arm.png",
         "/dbsource/picstand1/Character.00002010.img.walk1.0.body.png",
@@ -232,48 +313,76 @@
           "canvasHash": "6507ece7",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/walk-00.png",
           "sourceSha256": "2005e7cf504697960ea1bef3b3ce9d8fd6ebd495aecedd1d67cb64498fde88d4",
           "devicePng": "device-preview/walk-00.png",
-          "deviceSha256": "f23d768f4c275b527b80a92c0b3b2185498e74c0b8de7d46fca48932a5bba535",
+          "deviceSha256": "7da6b44e9643317802560219eca958f817f0a7838600c5219ed08e2b3a663708",
           "firmwareFile": "maple_avatar/generated/walk-00.rgb565a8",
-          "firmwareSha256": "e7f519fe144eda8bba43901ed37a1fbc9bd4d8f76881cc951df627760fa27141"
+          "firmwareSha256": "d52807156e98211b23426e3c4f36daf3b5066401fdb5b31cbf213c1104d8191b"
         },
         {
           "index": 1,
           "canvasHash": "98fd61a4",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/walk-01.png",
           "sourceSha256": "226d149687742a88db8bd56c106f79a6c3ee193eb37407299706b526f1532157",
           "devicePng": "device-preview/walk-01.png",
-          "deviceSha256": "81ebf8660aee05bb2fcc47e47f37004686c71114b71a8f5bfebaf02fbdb2ba8a",
+          "deviceSha256": "e9c5569e940610b5f41146e3ce19c0aff085d01e43100a3dc73c8ecc5b98b8fd",
           "firmwareFile": "maple_avatar/generated/walk-01.rgb565a8",
-          "firmwareSha256": "946cde247c8be24985cdf86012fe5890a736ed3bea81639278729b3038388857"
+          "firmwareSha256": "993d31bd942218f504836d6b55743c69987c1d41065ae497ec3806c8c9081d5f"
         },
         {
           "index": 2,
           "canvasHash": "8bd4df60",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/walk-02.png",
           "sourceSha256": "10304a7af8a73ae4b0065cde584168b8ff25169e9472ac9bdb583a65c9f8ec19",
           "devicePng": "device-preview/walk-02.png",
-          "deviceSha256": "a2dcacb30879262716c45abdc930923de21b2d73c91df422fc24a4466c113ee3",
+          "deviceSha256": "d1b9fdeafc4618dbc2d8da65c6ddf118292314b9eece990c967398cee9169b95",
           "firmwareFile": "maple_avatar/generated/walk-02.rgb565a8",
-          "firmwareSha256": "36465689a1797e64f68d82dc7c8e7cd6a3494ace0461dd92db90ed8dbd54d41f"
+          "firmwareSha256": "60fb7b0cc8b8f9dcf3a76df5364c3d53bd2d64659bb7840ed1b0987a2b306459"
         },
         {
           "index": 3,
           "canvasHash": "d9a97358",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/walk-03.png",
           "sourceSha256": "723638c774018ad21e5b01b142f7b67f71712eb632ef77a590b56ddc8e5f0bce",
           "devicePng": "device-preview/walk-03.png",
-          "deviceSha256": "35ccbc06c2e672449a262d7f318a267e1b8d2d934682a79612e93f00dcf3fc6f",
+          "deviceSha256": "96ec21cc6a44245024479d6f88a20cb6e4b73d791b92f5bd45acf2524495f3c0",
           "firmwareFile": "maple_avatar/generated/walk-03.rgb565a8",
-          "firmwareSha256": "fdb31b8420fa605d7bd42950a1cc127af71407ac68438191eff70dbc9e6af5b8"
+          "firmwareSha256": "b562b4c9ce6550689a6b81775b8c959207f12465aaeaa70fefe36578c031e1c3"
         }
       ]
     },
@@ -286,6 +395,33 @@
       "capturedFrameCount": 3,
       "frameDelayMs": 200,
       "static": false,
+      "alignment": {
+        "logicalBounds": {
+          "left": -70,
+          "top": -91,
+          "width": 104,
+          "height": 100
+        },
+        "bodyAnchor": {
+          "x": 0,
+          "y": 0
+        },
+        "sourceAnchor": {
+          "x": 210,
+          "y": 273
+        },
+        "targetAnchor": {
+          "x": 126.73863636363636,
+          "y": 233.10227272727272
+        },
+        "devicePlacement": {
+          "x": -11,
+          "y": 54,
+          "width": 204,
+          "height": 197,
+          "scale": 0.6553030303030303
+        }
+      },
       "layerPaths": [
         "/public/generated/character-attacks/sprites/026a83daefc5722273c0c2c6.png",
         "/public/generated/character-attacks/sprites/0be1a8eb10357e847d03f713.png",
@@ -321,36 +457,57 @@
           "canvasHash": "215f56eb",
           "sourceWidth": 312,
           "sourceHeight": 300,
+          "devicePlacement": {
+            "x": -11,
+            "y": 54,
+            "width": 204,
+            "height": 197,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/attack-00.png",
           "sourceSha256": "b22b0a8b39fac8b4d03df3bd32d03bfb3d64e085e53bea1076fe7c373f36edc4",
           "devicePng": "device-preview/attack-00.png",
-          "deviceSha256": "23c05759146b04d67750d9ac2e4732b160b5eab6eeff131c54aa61e9bd77f5cd",
+          "deviceSha256": "58223f5bd535c78b88103edda5be3eb01626fd2046e463b425ccf51c4be17ec4",
           "firmwareFile": "maple_avatar/generated/attack-00.rgb565a8",
-          "firmwareSha256": "ce2f6e217c8e52ca803151ac98e1980102c86f76bfc10aea5d0a0c8e9e38c81b"
+          "firmwareSha256": "38f25c4656b195f8ed35c612fdfa89f1ebe2f97753710b4f79fd0d05be3c6b9b"
         },
         {
           "index": 1,
           "canvasHash": "5410a43b",
           "sourceWidth": 312,
           "sourceHeight": 300,
+          "devicePlacement": {
+            "x": -11,
+            "y": 54,
+            "width": 204,
+            "height": 197,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/attack-01.png",
           "sourceSha256": "a22c41800da6f556e27002618df8b791a80fd19302e6c8181fed275fb47a3ec4",
           "devicePng": "device-preview/attack-01.png",
-          "deviceSha256": "9caf6d59f0233633d8de45075dba71aeeedb8fbebe81caafbceb26cb99b3e7a9",
+          "deviceSha256": "6bb9260cf475b17b76b5b8b4d00d17672bf7297aef6c3712033819bf98402f81",
           "firmwareFile": "maple_avatar/generated/attack-01.rgb565a8",
-          "firmwareSha256": "1a8ef64dddbd8ea46bd4a5722335ad54e1f7a860fd57f2c3a8e115dc218d79e0"
+          "firmwareSha256": "14e56b5bfa9a5726fdd12a093db8331e071c79bf32a2ce06b16e3de081137a39"
         },
         {
           "index": 2,
           "canvasHash": "df563c61",
           "sourceWidth": 312,
           "sourceHeight": 300,
+          "devicePlacement": {
+            "x": -11,
+            "y": 54,
+            "width": 204,
+            "height": 197,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/attack-02.png",
           "sourceSha256": "187a3a3326be1f6bdbf0f389279234519cc932b7aa3b1e21714e70e52ba98dd5",
           "devicePng": "device-preview/attack-02.png",
-          "deviceSha256": "5b55dcfa3b2c4e46aeed2635d4f8b1cafe490411dd8e9c4008389bd2f3c4f1da",
+          "deviceSha256": "85678f5b4f720d791d58431027d8a5ba3cde597586be403a8f2d62b31496b45b",
           "firmwareFile": "maple_avatar/generated/attack-02.rgb565a8",
-          "firmwareSha256": "2901e3308de6e05ba733f30d771bf693258a9dc7dd8ceb53623fda693f7c3edb"
+          "firmwareSha256": "5f447b252428cee4c0c36b97c62548f534256af9ef6b4c89b64cec5dc211221c"
         }
       ]
     },
@@ -363,6 +520,33 @@
       "capturedFrameCount": 1,
       "frameDelayMs": 0,
       "static": true,
+      "alignment": {
+        "logicalBounds": {
+          "left": -15,
+          "top": -21,
+          "width": 67,
+          "height": 87
+        },
+        "bodyAnchor": {
+          "x": 19,
+          "y": 60
+        },
+        "sourceAnchor": {
+          "x": 102,
+          "y": 243
+        },
+        "targetAnchor": {
+          "x": 126.73863636363636,
+          "y": 233.10227272727272
+        },
+        "devicePlacement": {
+          "x": 60,
+          "y": 74,
+          "width": 132,
+          "height": 171,
+          "scale": 0.6553030303030303
+        }
+      },
       "layerPaths": [
         "/dbsource/picstand1/Character.00002010.img.sit.0.arm.png",
         "/dbsource/picstand1/Character.00002010.img.sit.0.body.png",
@@ -382,12 +566,19 @@
           "canvasHash": "e857171e",
           "sourceWidth": 201,
           "sourceHeight": 261,
+          "devicePlacement": {
+            "x": 60,
+            "y": 74,
+            "width": 132,
+            "height": 171,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/sit-00.png",
           "sourceSha256": "21b436d3de7779540b889d5c3b7db85a205695657d7f8bf549132dc66e6ea7aa",
           "devicePng": "device-preview/sit-00.png",
-          "deviceSha256": "a34dc7f1d1a60dc57521a87b7ccc44af9844ec0d4064bd65b9a69486982c10e3",
+          "deviceSha256": "83869bc36e203522f5595702b2fa7362e8badfe44cff6ec3ffcd671ad68769e3",
           "firmwareFile": "maple_avatar/generated/sit-00.rgb565a8",
-          "firmwareSha256": "7e4a286f2f711017730550454721e7b3d436b1bf2e8a62077bac21c157136627"
+          "firmwareSha256": "171630293388bf1f328bf71d9afd703689ecdbd2e91579510bc910cb082f7515"
         }
       ]
     },
@@ -400,6 +591,33 @@
       "capturedFrameCount": 3,
       "frameDelayMs": 350,
       "static": false,
+      "alignment": {
+        "logicalBounds": {
+          "left": -15,
+          "top": -21,
+          "width": 67,
+          "height": 88
+        },
+        "bodyAnchor": {
+          "x": 22,
+          "y": 64
+        },
+        "sourceAnchor": {
+          "x": 111,
+          "y": 255
+        },
+        "targetAnchor": {
+          "x": 126.73863636363636,
+          "y": 233.10227272727272
+        },
+        "devicePlacement": {
+          "x": 54,
+          "y": 66,
+          "width": 132,
+          "height": 173,
+          "scale": 0.6553030303030303
+        }
+      },
       "layerPaths": [
         "/dbsource/picstand1/Character.00002010.img.stand2.0.arm.png",
         "/dbsource/picstand1/Character.00002010.img.stand2.0.body.png",
@@ -434,36 +652,57 @@
           "canvasHash": "2ae87d9f",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/two_hand_stand-00.png",
           "sourceSha256": "7d886e37232a2bd88422a5a2e59cc997c2eac82cafaed492c131e7344051eeeb",
           "devicePng": "device-preview/two_hand_stand-00.png",
-          "deviceSha256": "da95654da53b31b5c2e4d2774369138d5b99c94f7119ac3e5ba0bc432f9f8e79",
+          "deviceSha256": "cf3f1c34f22b2a5238225f5c42d3b48a94f7d888cbcd2884fb387407dd47393c",
           "firmwareFile": "maple_avatar/generated/two_hand_stand-00.rgb565a8",
-          "firmwareSha256": "18e2c7953be16eaa01e32608e158ca319a8171d0cb333ea2d30f0d5af55bcae6"
+          "firmwareSha256": "f78c8620e2b6f2d27b59dede090801fb8acc47425a50b31b568defda6ef65663"
         },
         {
           "index": 1,
           "canvasHash": "f40a01e5",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/two_hand_stand-01.png",
           "sourceSha256": "cbc3903beaae6fa8b96c71c5d28494bcc3c4900651b98b90316e3d7ff503c744",
           "devicePng": "device-preview/two_hand_stand-01.png",
-          "deviceSha256": "73ed62579851443e46b3fb7c6ce3a22a546db1ed4e368723f7be25b721523a66",
+          "deviceSha256": "93cc5d12189096c45f9d9d614743f5bc0bd4addde287aa5838e34f6cd5d5b3ed",
           "firmwareFile": "maple_avatar/generated/two_hand_stand-01.rgb565a8",
-          "firmwareSha256": "9e2c2d2363e99bbb6b92bdddd6f15e1673e9ed5f7fa276a85220aa942401ef0c"
+          "firmwareSha256": "20f9db5da7578e61d247c1403024f47a08574fa5a99014939f448957d76dba43"
         },
         {
           "index": 2,
           "canvasHash": "a964e959",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/two_hand_stand-02.png",
           "sourceSha256": "52d62b578861e827d4c12533c31d27257dd4f98a85c0b539973949e008cade52",
           "devicePng": "device-preview/two_hand_stand-02.png",
-          "deviceSha256": "c10a0f6663e2b2200b2374d8c5385a10515c8abbd10013f32255f28210dbc3e7",
+          "deviceSha256": "e1c0d34ae7867d70f495e1df01a3302ac5f2716795df43c4e73b57bd092fe329",
           "firmwareFile": "maple_avatar/generated/two_hand_stand-02.rgb565a8",
-          "firmwareSha256": "e1047e83854ba7a8b6cde0ba8c245053d28af411027c09858fbec3c5ab9c73bf"
+          "firmwareSha256": "7d57c44edd7d29bf20556b4f5a5ab187d5450e7c7cd35632486fcbc07fd297cc"
         }
       ]
     },
@@ -476,6 +715,33 @@
       "capturedFrameCount": 4,
       "frameDelayMs": 200,
       "static": false,
+      "alignment": {
+        "logicalBounds": {
+          "left": -15,
+          "top": -21,
+          "width": 67,
+          "height": 88
+        },
+        "bodyAnchor": {
+          "x": 22,
+          "y": 64
+        },
+        "sourceAnchor": {
+          "x": 111,
+          "y": 255
+        },
+        "targetAnchor": {
+          "x": 126.73863636363636,
+          "y": 233.10227272727272
+        },
+        "devicePlacement": {
+          "x": 54,
+          "y": 66,
+          "width": 132,
+          "height": 173,
+          "scale": 0.6553030303030303
+        }
+      },
       "layerPaths": [
         "/dbsource/picstand1/Character.00002010.img.walk2.0.arm.png",
         "/dbsource/picstand1/Character.00002010.img.walk2.0.body.png",
@@ -514,48 +780,76 @@
           "canvasHash": "7e47ed1b",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/two_hand_walk-00.png",
           "sourceSha256": "8c96381a522ecff9806210fd49a41bf5cbf0828962cb2e30345ab40e81427822",
           "devicePng": "device-preview/two_hand_walk-00.png",
-          "deviceSha256": "1dd7859c41e442dac1d4cd7553086a181ab29414ae5ca99a1c5a58dc354ac5e5",
+          "deviceSha256": "e249d0b139083c34c38b3265a92d1f55a55244d42c80bfca6b63681b14de56ea",
           "firmwareFile": "maple_avatar/generated/two_hand_walk-00.rgb565a8",
-          "firmwareSha256": "77d092c74e206b4a5f8900cbc855d12b2b70e570400df9f4d6ff2b7e63d21aeb"
+          "firmwareSha256": "fcbcaafb07d2410fc104f50e4b360d7c2d134730af1cdf8ad3335f305fcd8be5"
         },
         {
           "index": 1,
           "canvasHash": "6ec89f91",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/two_hand_walk-01.png",
           "sourceSha256": "5e2edbe6f064690f8de63267d1b9010c75f1e456920f05cf6d99245ed78c43e1",
           "devicePng": "device-preview/two_hand_walk-01.png",
-          "deviceSha256": "45cb4a354686d7d6cb2315a07d6ea2a0cb727673c78c793cddf7c098d63fe41d",
+          "deviceSha256": "984c8af9d576cf26324d3bc69034420c274f15ae8fb042a8cb33ff733bbeb651",
           "firmwareFile": "maple_avatar/generated/two_hand_walk-01.rgb565a8",
-          "firmwareSha256": "231a93a9b4d6cd5e6ad77d110d06d2ab183bb0eb21eb6d337fcb20f230b96b5d"
+          "firmwareSha256": "5727e26d6495a783317d4db801ea479fe4b2e4f2b43c3b0217343734a08e215d"
         },
         {
           "index": 2,
           "canvasHash": "8114c15b",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/two_hand_walk-02.png",
           "sourceSha256": "81de04088bac75923b715c18cb3462c79753aafb9410da50765068ac12ba45dc",
           "devicePng": "device-preview/two_hand_walk-02.png",
-          "deviceSha256": "50cae739170446835bd9a43b0500150771aab3f8fd629589f0b7972c380e1960",
+          "deviceSha256": "74cf6e93e300bc7d4c9894e341424658b93ef7c4a329692445e2b8700ee8f063",
           "firmwareFile": "maple_avatar/generated/two_hand_walk-02.rgb565a8",
-          "firmwareSha256": "0542a8d6e18d6c0031709790686579a7bede498913949ac6727fc13a86f8eb7f"
+          "firmwareSha256": "7474e4061c2b05ac0e941dbd2c808ba34b7ceb1bf045f033520c19d1dbf86a26"
         },
         {
           "index": 3,
           "canvasHash": "a17f52a7",
           "sourceWidth": 201,
           "sourceHeight": 264,
+          "devicePlacement": {
+            "x": 54,
+            "y": 66,
+            "width": 132,
+            "height": 173,
+            "scale": 0.6553030303030303
+          },
           "sourcePng": "frames/two_hand_walk-03.png",
           "sourceSha256": "d041cc6f87a5b8638466afc6e0447144c5b5695fe2b918640632b69883749feb",
           "devicePng": "device-preview/two_hand_walk-03.png",
-          "deviceSha256": "14d0c255b07257a24bf4b616620fc161a89ea24818287845276d63898f69493c",
+          "deviceSha256": "7aa0772b260bfc938821fd74545e4d6434f564d78935e1c7a4cce72cc21b5100",
           "firmwareFile": "maple_avatar/generated/two_hand_walk-03.rgb565a8",
-          "firmwareSha256": "80a8726916c6ac7e586f862895ca82a29b28bc3e540f52806995ff1a33dc8bdc"
+          "firmwareSha256": "314d03925636118a10e0c09899499f4196336dd151bf98b42a79a55b8021e31b"
         }
       ]
     }
@@ -564,133 +858,133 @@
     {
       "relativePath": "maple_avatar/generated/screen.rgb565",
       "bytes": 153600,
-      "sha256": "33060291ce61127260959519981a38a635ec3710686adbbcb724183b7727bded"
+      "sha256": "a9f4584566fd9b3b30b24a1ab41e6aa933ec7ef8e0cf421171cf81fdd69df7eb"
     },
     {
       "relativePath": "maple_avatar/generated/stand-00.rgb565a8",
       "actionId": "stand",
       "frameIndex": 0,
-      "bytes": 68508,
-      "sha256": "c52c3a1e4259550118ef91e5b8c66f538bf61ab2a689476effc11d45df3a6ac2"
+      "bytes": 177120,
+      "sha256": "898eac736a11cf2c1da4df6214f68fa5367528a02a61ad5511c3c9b834ef41d0"
     },
     {
       "relativePath": "maple_avatar/generated/stand-01.rgb565a8",
       "actionId": "stand",
       "frameIndex": 1,
-      "bytes": 68508,
-      "sha256": "6c5e471a0f9c4f617e70a88972fee2e24710273872254ea4d4ff1281aa12727e"
+      "bytes": 177120,
+      "sha256": "8803d1b9399059ff534f8c0b1b38232de125e78279cc434e24f789ec521adebf"
     },
     {
       "relativePath": "maple_avatar/generated/stand-02.rgb565a8",
       "actionId": "stand",
       "frameIndex": 2,
-      "bytes": 68508,
-      "sha256": "96ad19ef75ecfd289ac7bb892db0d6373826d35ff4200213ae8332639b6f6b35"
+      "bytes": 177120,
+      "sha256": "a796cfb95869c2ed344a4f8387fdc42a55d1805ecd3c53e40da0ee7ed27beddf"
     },
     {
       "relativePath": "maple_avatar/generated/walk-00.rgb565a8",
       "actionId": "walk",
       "frameIndex": 0,
-      "bytes": 68508,
-      "sha256": "e7f519fe144eda8bba43901ed37a1fbc9bd4d8f76881cc951df627760fa27141"
+      "bytes": 177120,
+      "sha256": "d52807156e98211b23426e3c4f36daf3b5066401fdb5b31cbf213c1104d8191b"
     },
     {
       "relativePath": "maple_avatar/generated/walk-01.rgb565a8",
       "actionId": "walk",
       "frameIndex": 1,
-      "bytes": 68508,
-      "sha256": "946cde247c8be24985cdf86012fe5890a736ed3bea81639278729b3038388857"
+      "bytes": 177120,
+      "sha256": "993d31bd942218f504836d6b55743c69987c1d41065ae497ec3806c8c9081d5f"
     },
     {
       "relativePath": "maple_avatar/generated/walk-02.rgb565a8",
       "actionId": "walk",
       "frameIndex": 2,
-      "bytes": 68508,
-      "sha256": "36465689a1797e64f68d82dc7c8e7cd6a3494ace0461dd92db90ed8dbd54d41f"
+      "bytes": 177120,
+      "sha256": "60fb7b0cc8b8f9dcf3a76df5364c3d53bd2d64659bb7840ed1b0987a2b306459"
     },
     {
       "relativePath": "maple_avatar/generated/walk-03.rgb565a8",
       "actionId": "walk",
       "frameIndex": 3,
-      "bytes": 68508,
-      "sha256": "fdb31b8420fa605d7bd42950a1cc127af71407ac68438191eff70dbc9e6af5b8"
+      "bytes": 177120,
+      "sha256": "b562b4c9ce6550689a6b81775b8c959207f12465aaeaa70fefe36578c031e1c3"
     },
     {
       "relativePath": "maple_avatar/generated/attack-00.rgb565a8",
       "actionId": "attack",
       "frameIndex": 0,
-      "bytes": 68508,
-      "sha256": "ce2f6e217c8e52ca803151ac98e1980102c86f76bfc10aea5d0a0c8e9e38c81b"
+      "bytes": 177120,
+      "sha256": "38f25c4656b195f8ed35c612fdfa89f1ebe2f97753710b4f79fd0d05be3c6b9b"
     },
     {
       "relativePath": "maple_avatar/generated/attack-01.rgb565a8",
       "actionId": "attack",
       "frameIndex": 1,
-      "bytes": 68508,
-      "sha256": "1a8ef64dddbd8ea46bd4a5722335ad54e1f7a860fd57f2c3a8e115dc218d79e0"
+      "bytes": 177120,
+      "sha256": "14e56b5bfa9a5726fdd12a093db8331e071c79bf32a2ce06b16e3de081137a39"
     },
     {
       "relativePath": "maple_avatar/generated/attack-02.rgb565a8",
       "actionId": "attack",
       "frameIndex": 2,
-      "bytes": 68508,
-      "sha256": "2901e3308de6e05ba733f30d771bf693258a9dc7dd8ceb53623fda693f7c3edb"
+      "bytes": 177120,
+      "sha256": "5f447b252428cee4c0c36b97c62548f534256af9ef6b4c89b64cec5dc211221c"
     },
     {
       "relativePath": "maple_avatar/generated/sit-00.rgb565a8",
       "actionId": "sit",
       "frameIndex": 0,
-      "bytes": 68508,
-      "sha256": "7e4a286f2f711017730550454721e7b3d436b1bf2e8a62077bac21c157136627"
+      "bytes": 177120,
+      "sha256": "171630293388bf1f328bf71d9afd703689ecdbd2e91579510bc910cb082f7515"
     },
     {
       "relativePath": "maple_avatar/generated/two_hand_stand-00.rgb565a8",
       "actionId": "two_hand_stand",
       "frameIndex": 0,
-      "bytes": 68508,
-      "sha256": "18e2c7953be16eaa01e32608e158ca319a8171d0cb333ea2d30f0d5af55bcae6"
+      "bytes": 177120,
+      "sha256": "f78c8620e2b6f2d27b59dede090801fb8acc47425a50b31b568defda6ef65663"
     },
     {
       "relativePath": "maple_avatar/generated/two_hand_stand-01.rgb565a8",
       "actionId": "two_hand_stand",
       "frameIndex": 1,
-      "bytes": 68508,
-      "sha256": "9e2c2d2363e99bbb6b92bdddd6f15e1673e9ed5f7fa276a85220aa942401ef0c"
+      "bytes": 177120,
+      "sha256": "20f9db5da7578e61d247c1403024f47a08574fa5a99014939f448957d76dba43"
     },
     {
       "relativePath": "maple_avatar/generated/two_hand_stand-02.rgb565a8",
       "actionId": "two_hand_stand",
       "frameIndex": 2,
-      "bytes": 68508,
-      "sha256": "e1047e83854ba7a8b6cde0ba8c245053d28af411027c09858fbec3c5ab9c73bf"
+      "bytes": 177120,
+      "sha256": "7d57c44edd7d29bf20556b4f5a5ab187d5450e7c7cd35632486fcbc07fd297cc"
     },
     {
       "relativePath": "maple_avatar/generated/two_hand_walk-00.rgb565a8",
       "actionId": "two_hand_walk",
       "frameIndex": 0,
-      "bytes": 68508,
-      "sha256": "77d092c74e206b4a5f8900cbc855d12b2b70e570400df9f4d6ff2b7e63d21aeb"
+      "bytes": 177120,
+      "sha256": "fcbcaafb07d2410fc104f50e4b360d7c2d134730af1cdf8ad3335f305fcd8be5"
     },
     {
       "relativePath": "maple_avatar/generated/two_hand_walk-01.rgb565a8",
       "actionId": "two_hand_walk",
       "frameIndex": 1,
-      "bytes": 68508,
-      "sha256": "231a93a9b4d6cd5e6ad77d110d06d2ab183bb0eb21eb6d337fcb20f230b96b5d"
+      "bytes": 177120,
+      "sha256": "5727e26d6495a783317d4db801ea479fe4b2e4f2b43c3b0217343734a08e215d"
     },
     {
       "relativePath": "maple_avatar/generated/two_hand_walk-02.rgb565a8",
       "actionId": "two_hand_walk",
       "frameIndex": 2,
-      "bytes": 68508,
-      "sha256": "0542a8d6e18d6c0031709790686579a7bede498913949ac6727fc13a86f8eb7f"
+      "bytes": 177120,
+      "sha256": "7474e4061c2b05ac0e941dbd2c808ba34b7ceb1bf045f033520c19d1dbf86a26"
     },
     {
       "relativePath": "maple_avatar/generated/two_hand_walk-03.rgb565a8",
       "actionId": "two_hand_walk",
       "frameIndex": 3,
-      "bytes": 68508,
-      "sha256": "80a8726916c6ac7e586f862895ca82a29b28bc3e540f52806995ff1a33dc8bdc"
+      "bytes": 177120,
+      "sha256": "314d03925636118a10e0c09899499f4196336dd151bf98b42a79a55b8021e31b"
     }
   ]
 }

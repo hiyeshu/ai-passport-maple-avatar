@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on LVGL image descriptor types and the six-action domain enumeration.
- * [OUTPUT]: Exposes generated screen, frame tables, timing, and imported profile metadata.
+ * [OUTPUT]: Exposes generated screen, full-width origin-aligned frames, timing, and imported profile metadata.
  * [POS]: Stable contract between generated assets and the handwritten application layer.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -13,10 +13,10 @@
 
 #define MAPLE_AVATAR_SCREEN_WIDTH 240
 #define MAPLE_AVATAR_SCREEN_HEIGHT 320
-#define MAPLE_AVATAR_FRAME_WIDTH 132
-#define MAPLE_AVATAR_FRAME_HEIGHT 173
-#define MAPLE_AVATAR_FRAME_X 54
-#define MAPLE_AVATAR_FRAME_Y 66
+#define MAPLE_AVATAR_FRAME_WIDTH 240
+#define MAPLE_AVATAR_FRAME_HEIGHT 246
+#define MAPLE_AVATAR_FRAME_X 0
+#define MAPLE_AVATAR_FRAME_Y 0
 
 typedef struct {
     const char *id;

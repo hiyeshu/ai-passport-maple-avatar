@@ -18,7 +18,7 @@ as one build-scoped unit.
 | `CLAUDE.zh_CN.md` | Simplified Chinese module map. |
 | `maple_avatar_app.c` | LVGL screen, animation timer, optional battery badge, and normalized command handling. |
 | `maple_avatar_app.h` | Presentation API and command enumeration. |
-| `maple_avatar_assets.h` | Stable types, dimensions, and generated-data declarations. |
+| `maple_avatar_assets.h` | Stable types, full-width reference-scale and body-origin-aligned frame dimensions, and generated-data declarations. |
 | `maple_avatar_state.c` | Pure six-action animation transitions and timing. |
 | `maple_avatar_state.h` | State-machine values and functions used by firmware and host tests. |
 | `generated/assets.cmake` | Generated embedded-file inventory. |

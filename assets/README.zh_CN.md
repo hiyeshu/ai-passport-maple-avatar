@@ -39,11 +39,14 @@ Semibold 字体子集所适用的 SIL Open Font License 1.1 声明。每次抓�
 - `henesys.png`：页面原始 493 x 272 背景图。
 - `frames/`：页面原尺寸的 Canvas 完整合成帧。
 - `device-preview/`：最近邻缩放的 132 x 173 透明帧预览。
-- `screen.png`：240 x 320 RGB 背景与冒险岛风格属性签/姓名家族铭牌。
+- `screen.png`：240 x 320 RGB 背景与冒险岛风格属性签/ID 家族铭牌。
 - `preview.png`：用于视觉检查的默认帧合成图。
+- `device-mockup.png`：3840 x 2160 README 展示效果图，把实际生成的
+  `preview.png` 直接合成到用户提供的 AI Passport 机身原图屏幕区域；屏幕外
+  像素保持不变，仅用于视觉说明，不参与固件构建或硬件验证。
 - `manifest.json`：源 URL、方案修订、外观 ID、动作时序、分层路径、
   尺寸与 SHA-256 来源证据。
-- `ui-font.ttf`：栅格化固定资料及“姓名/家族”标签时使用的 Noto Sans SC 精确子集，
+- `ui-font.ttf`：栅格化固定资料及“ID/家族”标签时使用的 Noto Sans SC 精确子集，
   采用 SIL Open Font License 1.1。
 
 固件二进制输出到 `main/maple_avatar/generated/`：一张 RGB565 屏幕图与
