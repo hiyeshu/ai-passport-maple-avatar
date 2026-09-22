@@ -14,6 +14,7 @@ These rules apply equally to human contributors and AI agents. Documentation is 
 - English default prose must not contain Chinese text. The `简体中文` switch label is the only allowed CJK text on an English page.
 - Code, commands, paths, URLs, identifiers, and data fields remain unchanged between translations where appropriate.
 - The repository check rejects an unpaired document, a missing language switch, or CJK prose in an English default file.
+- A fork owner may explicitly use one Chinese-only regular file at the repository root: `README.md`. This narrow landing-page exception does not apply to symlinks or nested documents, and it never bypasses link, secret, or conflict-marker checks.
 
 ## Vendored third-party documentation
 
@@ -63,7 +64,7 @@ require rewriting or translating the original upstream documents.
 
 ## Placement
 
-- Keep the tracked repository root limited to tool-discovery files (`AGENTS.md`, `CLAUDE.md` and their translations), an optional fork README pair, license/build manifests, and ESP-IDF configuration.
+- Keep the tracked repository root limited to tool-discovery files (`AGENTS.md`, `CLAUDE.md` and their translations), an optional fork README pair or the explicit Chinese-only fork README, license/build manifests, and ESP-IDF configuration.
 - Put project documentation and history in `docs/`, grouped by contribution, development, hardware, and software responsibility.
 - Put GitHub-recognized community files, templates, issue forms, and workflows in `.github/`.
 - Put reusable binary/source assets in `assets/`, project skills in `skills/`, and automation in `tools/`.

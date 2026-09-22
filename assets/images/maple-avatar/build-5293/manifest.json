@@ -1,0 +1,696 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "url": "https://mxdc.dvg.cn/tools/character-builder/?build=5293&readonly=1",
+    "buildId": 5293,
+    "revision": "0a2df6775a34f92f8af57b2e72cb5d1483d9ab3bf84670cc3040bd74c581781a",
+    "pageTitle": "蓝莓呀 - 公开角色方案 - 冒险岛怀旧服小册子"
+  },
+  "profile": {
+    "buildId": 5293,
+    "name": "蓝莓呀",
+    "level": 30,
+    "job": "冰雷法师",
+    "family": "MiiiAo",
+    "server": "绿水灵",
+    "revision": "0a2df6775a34f92f8af57b2e72cb5d1483d9ab3bf84670cc3040bd74c581781a"
+  },
+  "appearance": {
+    "gender": "female",
+    "class": "magician",
+    "fashion": {
+      "skin": 12010,
+      "hairstyle": 34451,
+      "facestyle": 24213,
+      "face": 1012028,
+      "top": 1041127,
+      "bottom": 1061138,
+      "hat": 1002724,
+      "weapon": 1702043
+    }
+  },
+  "ui": {
+    "width": 240,
+    "height": 320,
+    "scene": {
+      "height": 246,
+      "goldenFocalY": 152,
+      "groundY": 232
+    },
+    "avatar": {
+      "x": 54,
+      "y": 66,
+      "width": 132,
+      "height": 173
+    },
+    "variant": "maple-profile-card-v2",
+    "infoPanel": {
+      "x": 0,
+      "y": 246,
+      "width": 240,
+      "height": 74
+    },
+    "chips": [
+      {
+        "key": "server",
+        "x": 8,
+        "y": 250,
+        "width": 59,
+        "height": 21
+      },
+      {
+        "key": "level",
+        "x": 72,
+        "y": 250,
+        "width": 56,
+        "height": 21
+      },
+      {
+        "key": "job",
+        "x": 133,
+        "y": 250,
+        "width": 99,
+        "height": 21
+      }
+    ],
+    "nameplate": {
+      "x": 8,
+      "y": 277,
+      "width": 224,
+      "height": 37,
+      "dividerX": 120
+    },
+    "capacity": {
+      "nameCharacters": 6,
+      "familyCharacters": 6,
+      "maximumLevel": 999,
+      "jobCharacters": 5,
+      "server": "fixed-enum"
+    },
+    "line1": "绿水灵   LV.30   冰雷法师",
+    "line2": "蓝莓呀   MiiiAo",
+    "chipFontSize": 11,
+    "fieldLabelFontSize": 9,
+    "nameFontSize": 15,
+    "familyFontSize": 15,
+    "displaysBuildId": false
+  },
+  "background": {
+    "name": "Henesys",
+    "sourceUrl": "https://mxdc.dvg.cn/tools/character-builder/assets/assets/henesys-BTmdsqQg.png",
+    "width": 493,
+    "height": 272,
+    "file": "henesys.png",
+    "sha256": "b7638fe9820a15cdd273d84afd277ba70333863223d4511afcb592bab2211a6c"
+  },
+  "font": {
+    "family": "Noto Sans SC",
+    "weight": 600,
+    "cssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC%3Awght%40600&text=%E7%BB%BF%E6%B0%B4%E7%81%B5+LV.30+%E5%86%B0%E9%9B%B7%E6%B3%95%E5%B8%88+%E5%A7%93%E5%90%8D+%E8%93%9D%E8%8E%93%E5%91%80+%E5%AE%B6%E6%97%8F+MiiiAo",
+    "sourceUrl": "https://fonts.gstatic.com/l/font?kit=k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGwHCnYxVXNT9zEMIvHo6RiUP0nS0sOLwK9zVcPz3oRFs4RCmTPu3Mqb5aQjONuk7VZpup73qdGuWBkE&skey=cf0bb10b5602fdc3&v=v40",
+    "file": "ui-font.ttf",
+    "sha256": "28f3f6a1ce6f1f7685c3a23a275bf882f8916b2abe7b35b29bdd8c0a3aec15ae",
+    "license": "SIL Open Font License 1.1",
+    "licenseFile": "../../../fonts/NotoSansSC-OFL.txt"
+  },
+  "actions": [
+    {
+      "id": "stand",
+      "label": "站立",
+      "rendererAction": "stand",
+      "pose": "stand1",
+      "declaredFrameCount": 4,
+      "capturedFrameCount": 3,
+      "frameDelayMs": 350,
+      "static": false,
+      "layerPaths": [
+        "/dbsource/picstand1/Character.00002010.img.stand1.0.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.stand1.0.body.png",
+        "/dbsource/picstand1/Character.00002010.img.stand1.1.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.stand1.1.body.png",
+        "/dbsource/picstand1/Character.00002010.img.stand1.2.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.stand1.2.body.png",
+        "/dbsource/picstand1/Character.00012010.img.front.head.png",
+        "/dbsource/picstand1/Character.Accessory.01012028.img.default.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.0.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.1.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.2.default.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.stand1.0.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.stand1.1.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.stand1.2.mail.png",
+        "/dbsource/picstand1/Character.Face.00024213.img.default.face.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hair.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairBelowBody.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairOverHead.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.stand1.0.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.stand1.1.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.stand1.2.pants.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.stand1.0.weapon.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.stand1.2.weapon.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "canvasHash": "da0fdc03",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/stand-00.png",
+          "sourceSha256": "753adbfc77c838ee6853a230218d856e2507c18c937e2d617135a7131e4c622b",
+          "devicePng": "device-preview/stand-00.png",
+          "deviceSha256": "53f0a37e3d64b205c23bcb7cae171da3b54bf2b65c3c0bf48ec29fe53b3e6db5",
+          "firmwareFile": "maple_avatar/generated/stand-00.rgb565a8",
+          "firmwareSha256": "c52c3a1e4259550118ef91e5b8c66f538bf61ab2a689476effc11d45df3a6ac2"
+        },
+        {
+          "index": 1,
+          "canvasHash": "09852565",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/stand-01.png",
+          "sourceSha256": "113fe73c9bfa26595ba13843a122df0b11e8b5beeb00a423db0f8adb347da202",
+          "devicePng": "device-preview/stand-01.png",
+          "deviceSha256": "c17eb09e489cb550f4ed3421fef4cf6ff749c6f475518da98cbdbb735ee60644",
+          "firmwareFile": "maple_avatar/generated/stand-01.rgb565a8",
+          "firmwareSha256": "6c5e471a0f9c4f617e70a88972fee2e24710273872254ea4d4ff1281aa12727e"
+        },
+        {
+          "index": 2,
+          "canvasHash": "2814d4c2",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/stand-02.png",
+          "sourceSha256": "904e72d390b5d52252a70d398a4bdef3952c2dfe57082e29711dccedffbc8035",
+          "devicePng": "device-preview/stand-02.png",
+          "deviceSha256": "c287f26b7683044e9a0303cb6acff985e8073fd8b369655c227821fbd84c9b96",
+          "firmwareFile": "maple_avatar/generated/stand-02.rgb565a8",
+          "firmwareSha256": "96ad19ef75ecfd289ac7bb892db0d6373826d35ff4200213ae8332639b6f6b35"
+        }
+      ]
+    },
+    {
+      "id": "walk",
+      "label": "行走",
+      "rendererAction": "walk",
+      "pose": "stand1",
+      "declaredFrameCount": 4,
+      "capturedFrameCount": 4,
+      "frameDelayMs": 200,
+      "static": false,
+      "layerPaths": [
+        "/dbsource/picstand1/Character.00002010.img.walk1.0.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk1.0.body.png",
+        "/dbsource/picstand1/Character.00002010.img.walk1.1.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk1.1.body.png",
+        "/dbsource/picstand1/Character.00002010.img.walk1.2.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk1.2.body.png",
+        "/dbsource/picstand1/Character.00002010.img.walk1.3.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk1.3.body.png",
+        "/dbsource/picstand1/Character.00012010.img.front.head.png",
+        "/dbsource/picstand1/Character.Accessory.01012028.img.default.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.0.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.1.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.2.default.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.walk1.0.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.walk1.1.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.walk1.3.mail.png",
+        "/dbsource/picstand1/Character.Face.00024213.img.default.face.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hair.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairBelowBody.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairOverHead.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.0.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.1.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.2.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.3.pants.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk1.0.weapon.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk1.1.weapon.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk1.2.weapon.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk1.3.weapon.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "canvasHash": "6507ece7",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/walk-00.png",
+          "sourceSha256": "2005e7cf504697960ea1bef3b3ce9d8fd6ebd495aecedd1d67cb64498fde88d4",
+          "devicePng": "device-preview/walk-00.png",
+          "deviceSha256": "f23d768f4c275b527b80a92c0b3b2185498e74c0b8de7d46fca48932a5bba535",
+          "firmwareFile": "maple_avatar/generated/walk-00.rgb565a8",
+          "firmwareSha256": "e7f519fe144eda8bba43901ed37a1fbc9bd4d8f76881cc951df627760fa27141"
+        },
+        {
+          "index": 1,
+          "canvasHash": "98fd61a4",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/walk-01.png",
+          "sourceSha256": "226d149687742a88db8bd56c106f79a6c3ee193eb37407299706b526f1532157",
+          "devicePng": "device-preview/walk-01.png",
+          "deviceSha256": "81ebf8660aee05bb2fcc47e47f37004686c71114b71a8f5bfebaf02fbdb2ba8a",
+          "firmwareFile": "maple_avatar/generated/walk-01.rgb565a8",
+          "firmwareSha256": "946cde247c8be24985cdf86012fe5890a736ed3bea81639278729b3038388857"
+        },
+        {
+          "index": 2,
+          "canvasHash": "8bd4df60",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/walk-02.png",
+          "sourceSha256": "10304a7af8a73ae4b0065cde584168b8ff25169e9472ac9bdb583a65c9f8ec19",
+          "devicePng": "device-preview/walk-02.png",
+          "deviceSha256": "a2dcacb30879262716c45abdc930923de21b2d73c91df422fc24a4466c113ee3",
+          "firmwareFile": "maple_avatar/generated/walk-02.rgb565a8",
+          "firmwareSha256": "36465689a1797e64f68d82dc7c8e7cd6a3494ace0461dd92db90ed8dbd54d41f"
+        },
+        {
+          "index": 3,
+          "canvasHash": "d9a97358",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/walk-03.png",
+          "sourceSha256": "723638c774018ad21e5b01b142f7b67f71712eb632ef77a590b56ddc8e5f0bce",
+          "devicePng": "device-preview/walk-03.png",
+          "deviceSha256": "35ccbc06c2e672449a262d7f318a267e1b8d2d934682a79612e93f00dcf3fc6f",
+          "firmwareFile": "maple_avatar/generated/walk-03.rgb565a8",
+          "firmwareSha256": "fdb31b8420fa605d7bd42950a1cc127af71407ac68438191eff70dbc9e6af5b8"
+        }
+      ]
+    },
+    {
+      "id": "attack",
+      "label": "攻击",
+      "rendererAction": "attack",
+      "pose": "",
+      "declaredFrameCount": 3,
+      "capturedFrameCount": 3,
+      "frameDelayMs": 200,
+      "static": false,
+      "layerPaths": [
+        "/public/generated/character-attacks/sprites/026a83daefc5722273c0c2c6.png",
+        "/public/generated/character-attacks/sprites/0be1a8eb10357e847d03f713.png",
+        "/public/generated/character-attacks/sprites/2fd27f9eefa741fa6975b4bf.png",
+        "/public/generated/character-attacks/sprites/4fa0490dc1b31affd7813fba.png",
+        "/public/generated/character-attacks/sprites/57eb52cb732c10ebcd786c93.png",
+        "/public/generated/character-attacks/sprites/5840df454a20959026836a1e.png",
+        "/public/generated/character-attacks/sprites/6dc56540a2dc8a8b1d0c2591.png",
+        "/public/generated/character-attacks/sprites/71fe1efa9ef88ba701f0bba5.png",
+        "/public/generated/character-attacks/sprites/8998d7244282d5b13c0b7ef8.png",
+        "/public/generated/character-attacks/sprites/9479010d516de7f6082179ff.png",
+        "/public/generated/character-attacks/sprites/97be5c6ba27d6df94ffa0fda.png",
+        "/public/generated/character-attacks/sprites/a4de19425fb5534f952b236d.png",
+        "/public/generated/character-attacks/sprites/a7d54270c94fef7d5cafcd13.png",
+        "/public/generated/character-attacks/sprites/aaf7f09414adf11191aa0092.png",
+        "/public/generated/character-attacks/sprites/be71ef70e283b6205f8dbe87.png",
+        "/public/generated/character-attacks/sprites/c13ecea299c61a26fb9ca526.png",
+        "/public/generated/character-attacks/sprites/c529cc153c15835d2c052e4c.png",
+        "/public/generated/character-attacks/sprites/c7545b7cf9ee6edcceca1444.png",
+        "/public/generated/character-attacks/sprites/cbd6e2518e8e75ff9951e137.png",
+        "/public/generated/character-attacks/sprites/cf2c2a7d38beb3c323ee82a7.png",
+        "/public/generated/character-attacks/sprites/d1905da64ab58e1662ac9cc9.png",
+        "/public/generated/character-attacks/sprites/d6da8a26ae39634caef59b8e.png",
+        "/public/generated/character-attacks/sprites/dc67aa5dc7b403ada7a349d8.png",
+        "/public/generated/character-attacks/sprites/ddac19aadb311ff7cc396da8.png",
+        "/public/generated/character-attacks/sprites/e07d7df29137a3b40963f5ec.png",
+        "/public/generated/character-attacks/sprites/e5100589544c5ed7c158d3ba.png",
+        "/public/generated/character-attacks/sprites/f1ecb2f87983919e2f89a4fc.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "canvasHash": "215f56eb",
+          "sourceWidth": 312,
+          "sourceHeight": 300,
+          "sourcePng": "frames/attack-00.png",
+          "sourceSha256": "b22b0a8b39fac8b4d03df3bd32d03bfb3d64e085e53bea1076fe7c373f36edc4",
+          "devicePng": "device-preview/attack-00.png",
+          "deviceSha256": "23c05759146b04d67750d9ac2e4732b160b5eab6eeff131c54aa61e9bd77f5cd",
+          "firmwareFile": "maple_avatar/generated/attack-00.rgb565a8",
+          "firmwareSha256": "ce2f6e217c8e52ca803151ac98e1980102c86f76bfc10aea5d0a0c8e9e38c81b"
+        },
+        {
+          "index": 1,
+          "canvasHash": "5410a43b",
+          "sourceWidth": 312,
+          "sourceHeight": 300,
+          "sourcePng": "frames/attack-01.png",
+          "sourceSha256": "a22c41800da6f556e27002618df8b791a80fd19302e6c8181fed275fb47a3ec4",
+          "devicePng": "device-preview/attack-01.png",
+          "deviceSha256": "9caf6d59f0233633d8de45075dba71aeeedb8fbebe81caafbceb26cb99b3e7a9",
+          "firmwareFile": "maple_avatar/generated/attack-01.rgb565a8",
+          "firmwareSha256": "1a8ef64dddbd8ea46bd4a5722335ad54e1f7a860fd57f2c3a8e115dc218d79e0"
+        },
+        {
+          "index": 2,
+          "canvasHash": "df563c61",
+          "sourceWidth": 312,
+          "sourceHeight": 300,
+          "sourcePng": "frames/attack-02.png",
+          "sourceSha256": "187a3a3326be1f6bdbf0f389279234519cc932b7aa3b1e21714e70e52ba98dd5",
+          "devicePng": "device-preview/attack-02.png",
+          "deviceSha256": "5b55dcfa3b2c4e46aeed2635d4f8b1cafe490411dd8e9c4008389bd2f3c4f1da",
+          "firmwareFile": "maple_avatar/generated/attack-02.rgb565a8",
+          "firmwareSha256": "2901e3308de6e05ba733f30d771bf693258a9dc7dd8ceb53623fda693f7c3edb"
+        }
+      ]
+    },
+    {
+      "id": "sit",
+      "label": "坐下",
+      "rendererAction": "sit",
+      "pose": "sit",
+      "declaredFrameCount": 4,
+      "capturedFrameCount": 1,
+      "frameDelayMs": 0,
+      "static": true,
+      "layerPaths": [
+        "/dbsource/picstand1/Character.00002010.img.sit.0.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.sit.0.body.png",
+        "/dbsource/picstand1/Character.00012010.img.front.head.png",
+        "/dbsource/picstand1/Character.Accessory.01012028.img.default.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.0.default.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.sit.0.mail.png",
+        "/dbsource/picstand1/Character.Face.00024213.img.default.face.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hair.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairBelowBody.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairOverHead.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.sit.0.pants.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "canvasHash": "e857171e",
+          "sourceWidth": 201,
+          "sourceHeight": 261,
+          "sourcePng": "frames/sit-00.png",
+          "sourceSha256": "21b436d3de7779540b889d5c3b7db85a205695657d7f8bf549132dc66e6ea7aa",
+          "devicePng": "device-preview/sit-00.png",
+          "deviceSha256": "a34dc7f1d1a60dc57521a87b7ccc44af9844ec0d4064bd65b9a69486982c10e3",
+          "firmwareFile": "maple_avatar/generated/sit-00.rgb565a8",
+          "firmwareSha256": "7e4a286f2f711017730550454721e7b3d436b1bf2e8a62077bac21c157136627"
+        }
+      ]
+    },
+    {
+      "id": "two_hand_stand",
+      "label": "双手持武器站立",
+      "rendererAction": "stand",
+      "pose": "stand2",
+      "declaredFrameCount": 4,
+      "capturedFrameCount": 3,
+      "frameDelayMs": 350,
+      "static": false,
+      "layerPaths": [
+        "/dbsource/picstand1/Character.00002010.img.stand2.0.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.0.body.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.0.hand.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.1.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.1.body.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.1.hand.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.2.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.2.body.png",
+        "/dbsource/picstand1/Character.00002010.img.stand2.2.hand.png",
+        "/dbsource/picstand1/Character.00012010.img.front.head.png",
+        "/dbsource/picstand1/Character.Accessory.01012028.img.default.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.0.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.1.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.2.default.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.stand2.0.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.stand2.1.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.stand2.2.mail.png",
+        "/dbsource/picstand1/Character.Face.00024213.img.default.face.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hair.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairBelowBody.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairOverHead.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.stand1.0.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.stand1.1.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.stand1.2.pants.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk2.0.weapon.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk2.1.weapon.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "canvasHash": "2ae87d9f",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/two_hand_stand-00.png",
+          "sourceSha256": "7d886e37232a2bd88422a5a2e59cc997c2eac82cafaed492c131e7344051eeeb",
+          "devicePng": "device-preview/two_hand_stand-00.png",
+          "deviceSha256": "da95654da53b31b5c2e4d2774369138d5b99c94f7119ac3e5ba0bc432f9f8e79",
+          "firmwareFile": "maple_avatar/generated/two_hand_stand-00.rgb565a8",
+          "firmwareSha256": "18e2c7953be16eaa01e32608e158ca319a8171d0cb333ea2d30f0d5af55bcae6"
+        },
+        {
+          "index": 1,
+          "canvasHash": "f40a01e5",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/two_hand_stand-01.png",
+          "sourceSha256": "cbc3903beaae6fa8b96c71c5d28494bcc3c4900651b98b90316e3d7ff503c744",
+          "devicePng": "device-preview/two_hand_stand-01.png",
+          "deviceSha256": "73ed62579851443e46b3fb7c6ce3a22a546db1ed4e368723f7be25b721523a66",
+          "firmwareFile": "maple_avatar/generated/two_hand_stand-01.rgb565a8",
+          "firmwareSha256": "9e2c2d2363e99bbb6b92bdddd6f15e1673e9ed5f7fa276a85220aa942401ef0c"
+        },
+        {
+          "index": 2,
+          "canvasHash": "a964e959",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/two_hand_stand-02.png",
+          "sourceSha256": "52d62b578861e827d4c12533c31d27257dd4f98a85c0b539973949e008cade52",
+          "devicePng": "device-preview/two_hand_stand-02.png",
+          "deviceSha256": "c10a0f6663e2b2200b2374d8c5385a10515c8abbd10013f32255f28210dbc3e7",
+          "firmwareFile": "maple_avatar/generated/two_hand_stand-02.rgb565a8",
+          "firmwareSha256": "e1047e83854ba7a8b6cde0ba8c245053d28af411027c09858fbec3c5ab9c73bf"
+        }
+      ]
+    },
+    {
+      "id": "two_hand_walk",
+      "label": "双手持武器行走",
+      "rendererAction": "walk",
+      "pose": "stand2",
+      "declaredFrameCount": 4,
+      "capturedFrameCount": 4,
+      "frameDelayMs": 200,
+      "static": false,
+      "layerPaths": [
+        "/dbsource/picstand1/Character.00002010.img.walk2.0.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.0.body.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.0.hand.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.1.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.1.body.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.1.hand.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.2.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.2.body.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.2.hand.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.3.arm.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.3.body.png",
+        "/dbsource/picstand1/Character.00002010.img.walk2.3.hand.png",
+        "/dbsource/picstand1/Character.00012010.img.front.head.png",
+        "/dbsource/picstand1/Character.Accessory.01012028.img.default.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.0.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.1.default.png",
+        "/dbsource/picstand1/Character.Cap.01002724.img.stand1.2.default.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.walk2.0.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.walk2.1.mail.png",
+        "/dbsource/picstand1/Character.Coat.01041127.img.walk2.3.mail.png",
+        "/dbsource/picstand1/Character.Face.00024213.img.default.face.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hair.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairBelowBody.png",
+        "/dbsource/picstand1/Character.Hair.00034451.img.default.hairOverHead.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.0.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.1.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.2.pants.png",
+        "/dbsource/picstand1/Character.Pants.01061138.img.walk1.3.pants.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk2.0.weapon.png",
+        "/dbsource/picstand1/Character.Weapon.01702043.img.30.walk2.1.weapon.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "canvasHash": "7e47ed1b",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/two_hand_walk-00.png",
+          "sourceSha256": "8c96381a522ecff9806210fd49a41bf5cbf0828962cb2e30345ab40e81427822",
+          "devicePng": "device-preview/two_hand_walk-00.png",
+          "deviceSha256": "1dd7859c41e442dac1d4cd7553086a181ab29414ae5ca99a1c5a58dc354ac5e5",
+          "firmwareFile": "maple_avatar/generated/two_hand_walk-00.rgb565a8",
+          "firmwareSha256": "77d092c74e206b4a5f8900cbc855d12b2b70e570400df9f4d6ff2b7e63d21aeb"
+        },
+        {
+          "index": 1,
+          "canvasHash": "6ec89f91",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/two_hand_walk-01.png",
+          "sourceSha256": "5e2edbe6f064690f8de63267d1b9010c75f1e456920f05cf6d99245ed78c43e1",
+          "devicePng": "device-preview/two_hand_walk-01.png",
+          "deviceSha256": "45cb4a354686d7d6cb2315a07d6ea2a0cb727673c78c793cddf7c098d63fe41d",
+          "firmwareFile": "maple_avatar/generated/two_hand_walk-01.rgb565a8",
+          "firmwareSha256": "231a93a9b4d6cd5e6ad77d110d06d2ab183bb0eb21eb6d337fcb20f230b96b5d"
+        },
+        {
+          "index": 2,
+          "canvasHash": "8114c15b",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/two_hand_walk-02.png",
+          "sourceSha256": "81de04088bac75923b715c18cb3462c79753aafb9410da50765068ac12ba45dc",
+          "devicePng": "device-preview/two_hand_walk-02.png",
+          "deviceSha256": "50cae739170446835bd9a43b0500150771aab3f8fd629589f0b7972c380e1960",
+          "firmwareFile": "maple_avatar/generated/two_hand_walk-02.rgb565a8",
+          "firmwareSha256": "0542a8d6e18d6c0031709790686579a7bede498913949ac6727fc13a86f8eb7f"
+        },
+        {
+          "index": 3,
+          "canvasHash": "a17f52a7",
+          "sourceWidth": 201,
+          "sourceHeight": 264,
+          "sourcePng": "frames/two_hand_walk-03.png",
+          "sourceSha256": "d041cc6f87a5b8638466afc6e0447144c5b5695fe2b918640632b69883749feb",
+          "devicePng": "device-preview/two_hand_walk-03.png",
+          "deviceSha256": "14d0c255b07257a24bf4b616620fc161a89ea24818287845276d63898f69493c",
+          "firmwareFile": "maple_avatar/generated/two_hand_walk-03.rgb565a8",
+          "firmwareSha256": "80a8726916c6ac7e586f862895ca82a29b28bc3e540f52806995ff1a33dc8bdc"
+        }
+      ]
+    }
+  ],
+  "firmwareFiles": [
+    {
+      "relativePath": "maple_avatar/generated/screen.rgb565",
+      "bytes": 153600,
+      "sha256": "33060291ce61127260959519981a38a635ec3710686adbbcb724183b7727bded"
+    },
+    {
+      "relativePath": "maple_avatar/generated/stand-00.rgb565a8",
+      "actionId": "stand",
+      "frameIndex": 0,
+      "bytes": 68508,
+      "sha256": "c52c3a1e4259550118ef91e5b8c66f538bf61ab2a689476effc11d45df3a6ac2"
+    },
+    {
+      "relativePath": "maple_avatar/generated/stand-01.rgb565a8",
+      "actionId": "stand",
+      "frameIndex": 1,
+      "bytes": 68508,
+      "sha256": "6c5e471a0f9c4f617e70a88972fee2e24710273872254ea4d4ff1281aa12727e"
+    },
+    {
+      "relativePath": "maple_avatar/generated/stand-02.rgb565a8",
+      "actionId": "stand",
+      "frameIndex": 2,
+      "bytes": 68508,
+      "sha256": "96ad19ef75ecfd289ac7bb892db0d6373826d35ff4200213ae8332639b6f6b35"
+    },
+    {
+      "relativePath": "maple_avatar/generated/walk-00.rgb565a8",
+      "actionId": "walk",
+      "frameIndex": 0,
+      "bytes": 68508,
+      "sha256": "e7f519fe144eda8bba43901ed37a1fbc9bd4d8f76881cc951df627760fa27141"
+    },
+    {
+      "relativePath": "maple_avatar/generated/walk-01.rgb565a8",
+      "actionId": "walk",
+      "frameIndex": 1,
+      "bytes": 68508,
+      "sha256": "946cde247c8be24985cdf86012fe5890a736ed3bea81639278729b3038388857"
+    },
+    {
+      "relativePath": "maple_avatar/generated/walk-02.rgb565a8",
+      "actionId": "walk",
+      "frameIndex": 2,
+      "bytes": 68508,
+      "sha256": "36465689a1797e64f68d82dc7c8e7cd6a3494ace0461dd92db90ed8dbd54d41f"
+    },
+    {
+      "relativePath": "maple_avatar/generated/walk-03.rgb565a8",
+      "actionId": "walk",
+      "frameIndex": 3,
+      "bytes": 68508,
+      "sha256": "fdb31b8420fa605d7bd42950a1cc127af71407ac68438191eff70dbc9e6af5b8"
+    },
+    {
+      "relativePath": "maple_avatar/generated/attack-00.rgb565a8",
+      "actionId": "attack",
+      "frameIndex": 0,
+      "bytes": 68508,
+      "sha256": "ce2f6e217c8e52ca803151ac98e1980102c86f76bfc10aea5d0a0c8e9e38c81b"
+    },
+    {
+      "relativePath": "maple_avatar/generated/attack-01.rgb565a8",
+      "actionId": "attack",
+      "frameIndex": 1,
+      "bytes": 68508,
+      "sha256": "1a8ef64dddbd8ea46bd4a5722335ad54e1f7a860fd57f2c3a8e115dc218d79e0"
+    },
+    {
+      "relativePath": "maple_avatar/generated/attack-02.rgb565a8",
+      "actionId": "attack",
+      "frameIndex": 2,
+      "bytes": 68508,
+      "sha256": "2901e3308de6e05ba733f30d771bf693258a9dc7dd8ceb53623fda693f7c3edb"
+    },
+    {
+      "relativePath": "maple_avatar/generated/sit-00.rgb565a8",
+      "actionId": "sit",
+      "frameIndex": 0,
+      "bytes": 68508,
+      "sha256": "7e4a286f2f711017730550454721e7b3d436b1bf2e8a62077bac21c157136627"
+    },
+    {
+      "relativePath": "maple_avatar/generated/two_hand_stand-00.rgb565a8",
+      "actionId": "two_hand_stand",
+      "frameIndex": 0,
+      "bytes": 68508,
+      "sha256": "18e2c7953be16eaa01e32608e158ca319a8171d0cb333ea2d30f0d5af55bcae6"
+    },
+    {
+      "relativePath": "maple_avatar/generated/two_hand_stand-01.rgb565a8",
+      "actionId": "two_hand_stand",
+      "frameIndex": 1,
+      "bytes": 68508,
+      "sha256": "9e2c2d2363e99bbb6b92bdddd6f15e1673e9ed5f7fa276a85220aa942401ef0c"
+    },
+    {
+      "relativePath": "maple_avatar/generated/two_hand_stand-02.rgb565a8",
+      "actionId": "two_hand_stand",
+      "frameIndex": 2,
+      "bytes": 68508,
+      "sha256": "e1047e83854ba7a8b6cde0ba8c245053d28af411027c09858fbec3c5ab9c73bf"
+    },
+    {
+      "relativePath": "maple_avatar/generated/two_hand_walk-00.rgb565a8",
+      "actionId": "two_hand_walk",
+      "frameIndex": 0,
+      "bytes": 68508,
+      "sha256": "77d092c74e206b4a5f8900cbc855d12b2b70e570400df9f4d6ff2b7e63d21aeb"
+    },
+    {
+      "relativePath": "maple_avatar/generated/two_hand_walk-01.rgb565a8",
+      "actionId": "two_hand_walk",
+      "frameIndex": 1,
+      "bytes": 68508,
+      "sha256": "231a93a9b4d6cd5e6ad77d110d06d2ab183bb0eb21eb6d337fcb20f230b96b5d"
+    },
+    {
+      "relativePath": "maple_avatar/generated/two_hand_walk-02.rgb565a8",
+      "actionId": "two_hand_walk",
+      "frameIndex": 2,
+      "bytes": 68508,
+      "sha256": "0542a8d6e18d6c0031709790686579a7bede498913949ac6727fc13a86f8eb7f"
+    },
+    {
+      "relativePath": "maple_avatar/generated/two_hand_walk-03.rgb565a8",
+      "actionId": "two_hand_walk",
+      "frameIndex": 3,
+      "bytes": 68508,
+      "sha256": "80a8726916c6ac7e586f862895ca82a29b28bc3e540f52806995ff1a33dc8bdc"
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Dependency-free repository checks shared by local development and CI."""
+"""
+[INPUT]: Depends on the Git index, repository documents, and workflow metadata.
+[OUTPUT]: Provides dependency-free repository policy checks for local development and CI.
+[POS]: Repository validation entry point shared by tools/validate.sh and automated checks.
+[PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+"""
 
 from __future__ import annotations
 
@@ -14,6 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FULL_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 MARKDOWN_LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff]")
+GEB_PROTOCOL_MARKER = "[PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md"
 SECRET_PATTERNS = {
     "GitHub token": re.compile(r"(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}"),
     "AWS access key": re.compile(r"AKIA[0-9A-Z]{16}"),
@@ -27,6 +33,9 @@ ROOT_MARKDOWN_ALLOWLIST = {
     "README.md",
     "README.zh_CN.md",
 }
+# The public fork landing page intentionally follows its Chinese audience.
+# This exception does not bypass link, secret, or conflict-marker checks.
+CHINESE_ONLY_ROOT_DOCUMENTS = {"README.md"}
 # Register only concrete, vendored component directories, e.g. "components/foo".
 # These exemptions never change the input to sensitive-content/conflict checks.
 VENDORED_DOC_ROOTS: tuple[str, ...] = ()
@@ -159,6 +168,14 @@ def check_document_languages(
         name = path.name
         text = path.read_text(encoding="utf-8")
         opening = "\n".join(text.splitlines()[:8])
+        relative = path.relative_to(ROOT).as_posix()
+
+        if (
+            relative in CHINESE_ONLY_ROOT_DOCUMENTS
+            and path.is_file()
+            and not path.is_symlink()
+        ):
+            continue
 
         if name.endswith(".zh_CN.md"):
             default_name = f"{name[:-len('.zh_CN.md')]}.md"
@@ -184,7 +201,7 @@ def check_document_languages(
                 f"{path.relative_to(ROOT)}: missing top language link to {chinese_name}"
             )
 
-        english_prose = text.replace("简体中文", "")
+        english_prose = text.replace("简体中文", "").replace(GEB_PROTOCOL_MARKER, "")
         match = CJK_RE.search(english_prose)
         if match:
             line = english_prose.count("\n", 0, match.start()) + 1

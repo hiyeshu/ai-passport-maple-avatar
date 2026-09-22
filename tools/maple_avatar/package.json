@@ -1,0 +1,13 @@
+{
+  "name": "ai-passport-maple-avatar-importer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import": "node import_avatar.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}

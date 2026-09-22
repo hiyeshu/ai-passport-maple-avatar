@@ -15,6 +15,11 @@
 - 添加字库前评估 Flash 与内部 RAM 影响；ESP32-C3 无 PSRAM。
 - 不提交许可不允许分发的字库。
 
+`fonts/NotoSansSC-OFL.txt` 保留 Maple Avatar 导入器下载的 Noto Sans SC
+Semibold 字体子集所适用的 SIL Open Font License 1.1 声明。每次抓取
+保存的子集仅在构建期栅格化固定资料文字，ESP32 运行时不加载它。
+完整 URL 与 SHA-256 记录在对应抓取的 `manifest.json` 中。
+
 ## 图片（images）
 
 可复用的源图与生成的显示资产放在 `images/`。
@@ -23,6 +28,27 @@
 - 优先采用适合 240 × 320 RGB565 显示的格式，并纳入 Flash 与内部 RAM 考量。
 - 许可允许时保留可编辑源文件，并记录来源与许可。
 - 图片中不得包含设备二维码秘密、凭证或个人数据。
+
+### Maple Avatar 抓取
+
+`images/maple-avatar/build-5293/` 是公开
+[MXDC 角色方案](https://mxdc.dvg.cn/tools/character-builder/?build=5293&readonly=1)
+的可复现抓取。项目所有者已确认这些公共资源可直接用于本实现。
+导入器保留真实 Canvas 输出与射手村背景，绝不替换为 AI 生成图或占位图。
+
+- `henesys.png`：页面原始 493 x 272 背景图。
+- `frames/`：页面原尺寸的 Canvas 完整合成帧。
+- `device-preview/`：最近邻缩放的 132 x 173 透明帧预览。
+- `screen.png`：240 x 320 RGB 背景与冒险岛风格属性签/姓名家族铭牌。
+- `preview.png`：用于视觉检查的默认帧合成图。
+- `manifest.json`：源 URL、方案修订、外观 ID、动作时序、分层路径、
+  尺寸与 SHA-256 来源证据。
+- `ui-font.ttf`：栅格化固定资料及“姓名/家族”标签时使用的 Noto Sans SC 精确子集，
+  采用 SIL Open Font License 1.1。
+
+固件二进制输出到 `main/maple_avatar/generated/`：一张 RGB565 屏幕图与
+RGB565A8 动作帧。使用 [Maple Avatar 导入器](../tools/maple_avatar/README.zh_CN.md)
+可重现抓取；浏览器或源站失败会直接失败，不会产生替代图像。
 
 ## 音乐与音效（music）
 

@@ -1,16 +1,15 @@
+# [INPUT]: Depends on generated asset inventory and the BSP public component.
+# [OUTPUT]: Builds the Maple Avatar application and embeds RGB565/RGB565A8 resources.
+# [POS]: Main component build boundary; product UI replaces the upstream demo menu.
+# [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+include("${CMAKE_CURRENT_LIST_DIR}/maple_avatar/generated/assets.cmake")
+
 idf_component_register(
     SRCS "main.c"
-         "demo_navigation.c"
-         "ui_pixel.c"
-         "ui_pixel_math.c"
-         "demo_display.c"
-         "demo_button.c"
-         "demo_audio.c"
-         "demo_battery.c"
-         "demo_radio.c"
-         "demo_wifi.c"
-         "demo_ble.c"
-         "demo_low_power.c"
-    INCLUDE_DIRS "."
-    REQUIRES bsp bt esp_event esp_hw_support esp_netif esp_timer esp_wifi nvs_flash
+         "maple_avatar/maple_avatar_app.c"
+         "maple_avatar/maple_avatar_state.c"
+         "maple_avatar/generated/avatar_generated.c"
+    INCLUDE_DIRS "." "maple_avatar"
+    EMBED_FILES ${MAPLE_AVATAR_EMBED_FILES}
+    REQUIRES bsp
 )

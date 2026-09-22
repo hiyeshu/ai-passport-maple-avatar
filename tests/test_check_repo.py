@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Host tests for bounded third-party documentation exemptions."""
+"""
+[INPUT]: Depends on tools/check_repo.py and isolated temporary repository fixtures.
+[OUTPUT]: Verifies bounded documentation exceptions and fail-closed security behavior.
+[POS]: Host policy-test suite for repository document validation.
+[PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+"""
 
 from __future__ import annotations
 
@@ -95,10 +100,26 @@ class VendoredDocumentationTest(unittest.TestCase):
 
     def test_valid_first_party_pair_and_links_still_pass(self) -> None:
         files = [
-            self.document("docs/guide.md", "[简体中文](guide.zh_CN.md)\n# Guide\n"),
+            self.document(
+                "docs/guide.md",
+                "[简体中文](guide.zh_CN.md)\n# Guide\n\n"
+                + CHECKS.GEB_PROTOCOL_MARKER
+                + "\n",
+            ),
             self.document("docs/guide.zh_CN.md", "[English](guide.md)\n# 指南\n"),
         ]
         self.assertEqual(self.document_errors(files), [])
+
+    def test_regular_root_readme_may_be_chinese_only(self) -> None:
+        readme = self.document("README.md", "# 中文项目入口\n")
+        self.assertEqual(self.document_errors([readme]), [])
+
+    def test_nested_chinese_readme_still_requires_language_pair(self) -> None:
+        readme = self.document("docs/README.md", "# 中文项目入口\n")
+        errors = self.document_errors([readme])
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(any("missing Simplified Chinese peer" in error for error in errors))
+        self.assertTrue(any("default Markdown must use English prose" in error for error in errors))
 
     def test_invalid_root_registrations_fail_closed(self) -> None:
         file_path = self.document("components/vendor_audio/README.md")
