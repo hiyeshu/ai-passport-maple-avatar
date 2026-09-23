@@ -40,7 +40,7 @@ Semibold 字体子集所适用的 SIL Open Font License 1.1 声明。每次抓�
 - `frames/`：页面原尺寸的 Canvas 完整合成帧。
 - `device-preview/`：按身体原点对齐的 240 x 246 透明设备动作帧。
 - `screen.png`：240 x 320 RGB 背景与冒险岛风格属性签/ID 家族铭牌。
-- `builder-screen.png`：240 x 320 设备内替换示例说明，入口为 `avatar.miiiao.cn`。
+- `builder-screen.png`：240 x 320 设备内替换示例说明，保留 `avatar.miiiao.cn` 并标注“备案中，稍后开放”。
 - `preview.png`：用于视觉检查的默认帧合成图。
 - `device-mockup.png`：3840 x 2160 README 展示效果图，把实际生成的
   `preview.png` 直接合成到用户提供的 AI Passport 机身原图屏幕区域；屏幕外

@@ -70,6 +70,12 @@ limits and request logs without logging private tokens or complete browser data.
 The current API is intentionally stateless from the user's perspective: expired
 jobs are regenerated from the original public link.
 
+While ICP filing is pending, only the frontend is exposed on a Vercel-provided
+preview domain for testing. It must not bind or redirect `miiiao.cn`, and the
+device continues to show the planned `avatar.miiiao.cn` address with an explicit
+pending-filing notice. The production API remains a same-origin deployment
+target after filing, DNS, TLS, and the backend are ready.
+
 ## Tests
 
 ```bash

@@ -44,7 +44,7 @@ Henesys background; it never substitutes AI-generated or placeholder art.
 - `frames/`: original composited Canvas frames at their page dimensions.
 - `device-preview/`: body-origin-aligned 240 x 246 transparent device frames.
 - `screen.png`: 240 x 320 RGB background with MapleStory-inspired attribute chips and name/family nameplate.
-- `builder-screen.png`: 240 x 320 in-device instructions for replacing the sample at `avatar.miiiao.cn`.
+- `builder-screen.png`: 240 x 320 in-device instructions retaining `avatar.miiiao.cn` and marking it as pending ICP filing.
 - `preview.png`: visual inspection composite for the default frame.
 - `device-mockup.png`: 3840 x 2160 README presentation mockup directly
   compositing the generated `preview.png` into the screen region of the

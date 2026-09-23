@@ -147,6 +147,10 @@ export async function writeCapture({ repoRoot, source, capture, font, sample = f
         nameFontSize: capture.screen.nameFontSize,
         familyFontSize: capture.screen.familyFontSize,
         displaysBuildId: false,
+        builderPage: {
+          url: "avatar.miiiao.cn",
+          status: capture.builderScreen.statusText,
+        },
       },
       background: {
         name: "Henesys",

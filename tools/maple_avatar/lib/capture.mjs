@@ -37,6 +37,7 @@ const DEFAULT_CHROME_PATH =
   process.platform === "darwin"
     ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     : "";
+const BUILDER_STATUS_TEXT = "备案中，稍后开放";
 
 function browserLaunchOptions(explicitPath) {
   const executablePath = explicitPath || process.env.MAPLE_AVATAR_CHROME || DEFAULT_CHROME_PATH;
@@ -291,7 +292,7 @@ async function captureScreen(page, profile, fontBytes) {
 
 async function captureBuilderScreen(page, backgroundBase64, fontBytes) {
   return page.evaluate(
-    async ({ background, fontBase64, width, height }) => {
+    async ({ background, fontBase64, width, height, statusText }) => {
       const bytesToBase64 = (bytes) => {
         let binary = "";
         for (let offset = 0; offset < bytes.length; offset += 0x8000) {
@@ -351,18 +352,20 @@ async function captureBuilderScreen(page, backgroundBase64, fontBytes) {
         ctx.fillText(value, width / 2, y, 196);
       };
 
-      text("制作或更换我的角色", 93, 18, "#f7d884");
-      text("avatar.miiiao.cn", 132, 18, "#ffffff");
+      text("制作或更换我的角色", 88, 18, "#f7d884");
+      text("avatar.miiiao.cn", 123, 18, "#ffffff");
+      text(statusText, 149, 11, "#f7d884");
       ctx.fillStyle = "rgba(188, 221, 236, 0.45)";
-      ctx.fillRect(32, 154, 176, 1);
-      text("请使用电脑 Chrome / Edge", 181, 12, "#d6edf7");
-      text("连接 USB 后写入角色", 209, 12, "#d6edf7");
+      ctx.fillRect(32, 165, 176, 1);
+      text("请使用电脑 Chrome / Edge", 187, 12, "#d6edf7");
+      text("连接 USB 后写入角色", 213, 12, "#d6edf7");
       text("按上 / 下键返回动作", 239, 10, "#9fc6d8");
 
       const rgba = ctx.getImageData(0, 0, width, height).data;
       return {
         pngBase64: canvas.toDataURL("image/png").split(",")[1],
         rgbaBase64: bytesToBase64(rgba),
+        statusText,
       };
     },
     {
@@ -370,6 +373,7 @@ async function captureBuilderScreen(page, backgroundBase64, fontBytes) {
       fontBase64: fontBytes.toString("base64"),
       width: SCREEN_WIDTH,
       height: SCREEN_HEIGHT,
+      statusText: BUILDER_STATUS_TEXT,
     }
   );
 }
@@ -742,7 +746,7 @@ export async function captureAvatar({
     }
     const job = (await page.locator(".character-preview-job").innerText()).trim();
     const profile = extractCharacterProfile(config, { server, family, job });
-    const fontText = `${profile.server} LV.${profile.level} ${profile.job} ${PROFILE_LAYOUT.labels.name} ${profile.name} ${PROFILE_LAYOUT.labels.family} ${profile.family} 制作或更换我的角色 avatar.miiiao.cn 请使用电脑 Chrome / Edge 连接 USB 后写入角色 按上 / 下键返回动作`;
+    const fontText = `${profile.server} LV.${profile.level} ${profile.job} ${PROFILE_LAYOUT.labels.name} ${profile.name} ${PROFILE_LAYOUT.labels.family} ${profile.family} 制作或更换我的角色 avatar.miiiao.cn ${BUILDER_STATUS_TEXT} 请使用电脑 Chrome / Edge 连接 USB 后写入角色 按上 / 下键返回动作`;
     const font = await fontProvider(fontText);
     if (!font?.bytes?.length) {
       throw new Error("The UI font provider returned no font bytes");
