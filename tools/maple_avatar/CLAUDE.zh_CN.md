@@ -6,8 +6,8 @@
 
 > L2 | 父级：[`../../CLAUDE.zh_CN.md`](../../CLAUDE.zh_CN.md)
 
-本模块是构建期导入边界。DOM 选择器留在抓取模块，二进制转换保持纯逻辑，
-输出模块只写入方案范围的来源资源与固件生成目录。
+本模块是抓取与编译边界。浏览器集成、来源校验、纯像素处理、二进制打包和仓库写入
+彼此分离；CLI 与在线服务共用同一个资源编译器。
 
 ## 成员清单
 
@@ -17,21 +17,23 @@
 | `CLAUDE.zh_CN.md` | 简体中文模块地图。 |
 | `README.md` | 英文环境、导入、失败与输出说明。 |
 | `README.zh_CN.md` | 简体中文导入器说明。 |
-| `import_avatar.mjs` | 组合抓取与输出的 CLI 根。 |
+| `import_avatar.mjs` | 抓取与仓库输出的本地 CLI 组合根。 |
 | `package.json` | 锁定的 Playwright 依赖与 npm 命令。 |
 | `package-lock.json` | 可复现的 npm 依赖图。 |
-| `lib/capture.mjs` | Playwright DOM 适配、身体原点对齐的 Canvas 帧抓取与角色铭牌屏幕合成。 |
-| `lib/cli.mjs` | 纯参数解析与帮助文本。 |
-| `lib/font.mjs` | Noto Sans SC TrueType 子集下载与校验。 |
-| `lib/layout.mjs` | 纯 240 x 320 角色铭牌几何、统一像素倍率与身体锚点定位。 |
-| `lib/output.mjs` | 原子写入来源资源、身体锚点元数据与生成固件，并保留已确认的整机效果图。 |
+| `lib/artifacts.mjs` | CLI 与在线服务共用的不可变资源图。 |
+| `lib/capture.mjs` | Playwright 适配、身体原点对齐 Canvas 抓取、资料屏与制作入口屏。 |
+| `lib/cli.mjs` | 纯参数解析、示例默认值与显式服务器边界。 |
+| `lib/font.mjs` | Noto Sans SC 字体子集下载与校验。 |
+| `lib/layout.mjs` | 纯角色铭牌几何、统一像素倍率与身体锚点定位。 |
+| `lib/output.mjs` | 原子写入来源资源与示例 `avatar.pack` 的仓库适配器。 |
+| `lib/pack.mjs` | 确定性 schema-v1 角色包编译/解析与 CRC32 实现。 |
 | `lib/pixels.mjs` | 纯 RGBA 到 RGB565/RGB565A8 转换。 |
-| `lib/source.mjs` | URL 信任边界、服务器枚举、资料兜底与显示容量校验。 |
-| `test/cli.test.mjs` | CLI 参数边界测试。 |
+| `lib/source.mjs` | MXDC URL 信任边界、服务器枚举、来源事实与显示容量校验。 |
+| `test/cli.test.mjs` | CLI 默认值与参数边界测试。 |
 | `test/font.test.mjs` | 字体请求与 CSS 解析测试。 |
-| `test/layout.test.mjs` | 人物黄金比例、地面贴合与跨动作尺寸/身体锚点一致性回归测试。 |
-| `test/output.test.mjs` | ESP-IDF 嵌入文件符号回归测试。 |
+| `test/layout.test.mjs` | 黄金比例、地面贴合、尺寸与锚点回归测试。 |
+| `test/pack.test.mjs` | 角色包确定性、偏移、格式与损坏测试。 |
 | `test/pixels.test.mjs` | 二进制像素布局测试。 |
-| `test/source.test.mjs` | 源地址规范化与角色资料测试。 |
+| `test/source.test.mjs` | 来源规范化与角色资料测试。 |
 
 [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md

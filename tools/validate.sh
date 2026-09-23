@@ -36,6 +36,10 @@ run_static_checks() {
         tests/test_maple_avatar_state.c main/maple_avatar/maple_avatar_state.c \
         -o "${test_dir}/test_maple_avatar_state"
     "${test_dir}/test_maple_avatar_state"
+    "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain/maple_avatar \
+        tests/test_maple_avatar_pack.c main/maple_avatar/maple_avatar_pack_format.c \
+        -o "${test_dir}/test_maple_avatar_pack"
+    "${test_dir}/test_maple_avatar_pack"
     "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Icomponents/bsp/src \
         tests/test_bsp_display_rounding.c components/bsp/src/bsp_display_rounding.c \
         -o "${test_dir}/test_bsp_display_rounding"
@@ -48,6 +52,7 @@ run_static_checks() {
     PYTHONDONTWRITEBYTECODE=1 python3 tests/test_check_repo.py
     PYTHONDONTWRITEBYTECODE=1 python3 tests/test_verify_firmware.py
     node --test tools/maple_avatar/test/*.test.mjs
+    node --test services/avatar-builder/test/*.test.mjs
     rm -rf "${test_dir}"
     echo "Host tests: PASS"
 }
@@ -68,6 +73,7 @@ run_firmware_checks() (
         -D "SDKCONFIG=${validation_build_dir}/sdkconfig" build
     idf.py -B "${validation_build_dir}" merge-bin \
         -o "${validation_build_dir}/FoloToy-AI-Passport-full.bin"
+    python3 tools/merge_avatar_pack.py "${validation_build_dir}"
     python3 tools/verify_firmware.py "${validation_build_dir}"
     mkdir -p "${repo_root}/build"
     install -m 0644 \

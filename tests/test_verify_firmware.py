@@ -21,6 +21,14 @@ VERIFY = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = VERIFY
 SPEC.loader.exec_module(VERIFY)
 
+MERGE_SPEC = importlib.util.spec_from_file_location(
+    "merge_avatar_pack", ROOT / "tools" / "merge_avatar_pack.py"
+)
+assert MERGE_SPEC and MERGE_SPEC.loader
+MERGE = importlib.util.module_from_spec(MERGE_SPEC)
+sys.modules[MERGE_SPEC.name] = MERGE
+MERGE_SPEC.loader.exec_module(MERGE)
+
 
 DEFAULT_TABLE_OFFSET = 0x8000
 DEFAULT_APP_OFFSET = 0x10000
@@ -162,6 +170,54 @@ class FlashArgsTest(unittest.TestCase):
         )
         self.assertEqual(offsets["FoloToy-AI-Passport.bin"], 0x18000)
         self.assertEqual(offsets["partition_table/partition-table.bin"], 0x9000)
+
+
+class AvatarPackImageTest(unittest.TestCase):
+    AVATAR_OFFSET = 0x310000
+    AVATAR_SIZE = 0x4F0000
+
+    def avatar_table(self) -> bytes:
+        return sample_table(
+            (
+                (1, 2, 0x9000, 0x6000, "nvs"),
+                (1, 1, 0xF000, 0x1000, "phy_init"),
+                (0, 0, DEFAULT_APP_OFFSET, 0x300000, "factory"),
+                (1, 0x40, self.AVATAR_OFFSET, self.AVATAR_SIZE, "avatar"),
+            )
+        )
+
+    def test_merges_and_verifies_pack_in_dedicated_partition(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_dir = root / "build"
+            (build_dir / "partition_table").mkdir(parents=True)
+            table = self.avatar_table()
+            (build_dir / "partition_table" / "partition-table.bin").write_bytes(table)
+            (build_dir / "FoloToy-AI-Passport-full.bin").write_bytes(b"\xff" * 0x10000)
+            pack_path = root / "avatar.pack"
+            pack_path.write_bytes(b"MIIIAO1\0personal-pack")
+
+            output = MERGE.merge_avatar_pack(build_dir, pack_path)
+            merged = output.read_bytes()
+
+            self.assertEqual(
+                merged[self.AVATAR_OFFSET : self.AVATAR_OFFSET + pack_path.stat().st_size],
+                pack_path.read_bytes(),
+            )
+            VERIFY.verify_avatar_image(merged, table, pack_path)
+
+    def test_rejects_pack_larger_than_partition(self) -> None:
+        entries = (
+            (1, 2, 0x9000, 0x6000, "nvs"),
+            (1, 1, 0xF000, 0x1000, "phy_init"),
+            (0, 0, DEFAULT_APP_OFFSET, 0x300000, "factory"),
+            (1, 0x40, self.AVATAR_OFFSET, 4, "avatar"),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            pack_path = Path(directory) / "avatar.pack"
+            pack_path.write_bytes(b"too large")
+            with self.assertRaisesRegex(ValueError, "partition limit"):
+                VERIFY.verify_avatar_image(b"", sample_table(entries), pack_path)
 
 
 if __name__ == "__main__":

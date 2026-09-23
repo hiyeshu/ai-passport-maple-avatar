@@ -38,8 +38,9 @@ Semibold 字体子集所适用的 SIL Open Font License 1.1 声明。每次抓�
 
 - `henesys.png`：页面原始 493 x 272 背景图。
 - `frames/`：页面原尺寸的 Canvas 完整合成帧。
-- `device-preview/`：最近邻缩放的 132 x 173 透明帧预览。
+- `device-preview/`：按身体原点对齐的 240 x 246 透明设备动作帧。
 - `screen.png`：240 x 320 RGB 背景与冒险岛风格属性签/ID 家族铭牌。
+- `builder-screen.png`：240 x 320 设备内替换示例说明，入口为 `avatar.miiiao.cn`。
 - `preview.png`：用于视觉检查的默认帧合成图。
 - `device-mockup.png`：3840 x 2160 README 展示效果图，把实际生成的
   `preview.png` 直接合成到用户提供的 AI Passport 机身原图屏幕区域；屏幕外
@@ -49,8 +50,9 @@ Semibold 字体子集所适用的 SIL Open Font License 1.1 声明。每次抓�
 - `ui-font.ttf`：栅格化固定资料及“ID/家族”标签时使用的 Noto Sans SC 精确子集，
   采用 SIL Open Font License 1.1。
 
-固件二进制输出到 `main/maple_avatar/generated/`：一张 RGB565 屏幕图与
-RGB565A8 动作帧。使用 [Maple Avatar 导入器](../tools/maple_avatar/README.zh_CN.md)
+固件资源编译为一个带版本的 `main/maple_avatar/generated/avatar.pack`：
+两张 RGB565 屏幕、六组固定顺序的 RGB565A8 动作与载荷 CRC32。使用
+[Maple Avatar 导入器](../tools/maple_avatar/README.zh_CN.md)
 可重现抓取；浏览器或源站失败会直接失败，不会产生替代图像。
 
 ## 音乐与音效（music）

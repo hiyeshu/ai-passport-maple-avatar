@@ -16,6 +16,7 @@ REQUIRED_IMAGES = (
     "partition_table/partition-table.bin",
     "FoloToy-AI-Passport.bin",
 )
+AVATAR_PACK = "main/maple_avatar/generated/avatar.pack"
 
 FLASH_SIZE = 8 * 1024 * 1024
 PARTITION_TABLE_SIZE = 0xC00
@@ -139,6 +140,34 @@ def verify_firmware_layout(
     )
 
 
+def verify_avatar_image(
+    merged: bytes,
+    partition_table: bytes,
+    pack_path: Path,
+) -> None:
+    """Verify the generated pack is present in its dedicated data partition."""
+    partitions, _ = parse_partition_table(partition_table)
+    matches = [item for item in partitions if item.label == "avatar"]
+    if len(matches) != 1:
+        raise ValueError("partition table must contain exactly one avatar partition")
+    partition = matches[0]
+    if partition.kind != 1 or partition.subtype != 0x40:
+        raise ValueError("avatar partition must use data subtype 0x40")
+    pack = pack_path.read_bytes()
+    if not pack or len(pack) > partition.size:
+        raise ValueError(
+            f"avatar pack is {len(pack)} bytes; partition limit is {partition.size}"
+        )
+    if merged[partition.offset : partition.offset + len(pack)] != pack:
+        raise ValueError(
+            f"avatar pack differs at merged offset 0x{partition.offset:x}"
+        )
+    print(
+        f"Avatar pack: PASS ({len(pack)} / {partition.size} bytes "
+        f"at 0x{partition.offset:x})"
+    )
+
+
 def main() -> int:
     build_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "build").resolve()
     merged_path = build_dir / "FoloToy-AI-Passport-full.bin"
@@ -182,11 +211,19 @@ def main() -> int:
         return 1
 
     try:
+        partition_table_offset = image_offsets["partition_table/partition-table.bin"]
         verify_firmware_layout(
             merged,
             build_dir,
-            image_offsets["partition_table/partition-table.bin"],
+            partition_table_offset,
             image_offsets["FoloToy-AI-Passport.bin"],
+        )
+        verify_avatar_image(
+            merged,
+            merged[
+                partition_table_offset : partition_table_offset + PARTITION_TABLE_SIZE
+            ],
+            Path(__file__).resolve().parents[1] / AVATAR_PACK,
         )
     except (OSError, UnicodeDecodeError, ValueError) as error:
         print(f"ERROR: {error}", file=sys.stderr)

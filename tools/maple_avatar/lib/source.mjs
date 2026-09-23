@@ -15,8 +15,6 @@ export const MAPLE_SERVERS = Object.freeze([
   "小白兔",
 ]);
 
-const DEFAULT_FAMILY = "MiiiAo";
-const DEFAULT_SERVER = "绿水灵";
 const MAX_LEVEL = 999;
 const MAX_NAME_CHARACTERS = 6;
 const MAX_FAMILY_CHARACTERS = 6;
@@ -81,8 +79,8 @@ export function extractCharacterProfile(config, options = {}) {
   const buildId = parseBuildId(build.id);
   const name = firstText(build.name, payload.n);
   const job = firstText(options.job, payload.jobName);
-  const family = firstText(options.family, payload.family, payload.guild, DEFAULT_FAMILY);
-  const server = firstText(options.server, payload.server, DEFAULT_SERVER);
+  const family = firstText(options.family, payload.family, payload.guild);
+  const server = firstText(options.server, payload.server);
   const level = Number(payload.l);
 
   if (!name) throw new Error(`Build ${buildId} has no character name`);
@@ -98,6 +96,9 @@ export function extractCharacterProfile(config, options = {}) {
   }
   if (characterCount(job) > MAX_JOB_CHARACTERS) {
     throw new Error(`Build ${buildId} job exceeds ${MAX_JOB_CHARACTERS} characters: ${job}`);
+  }
+  if (!server) {
+    throw new Error(`Build ${buildId} server is required`);
   }
   if (!MAPLE_SERVERS.includes(server)) {
     throw new Error(`Unsupported server: ${server}`);

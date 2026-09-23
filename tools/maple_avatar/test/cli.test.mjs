@@ -15,12 +15,28 @@ test("uses the approved build 5293 source by default", () => {
     options.source,
     "https://mxdc.dvg.cn/tools/character-builder/?build=5293&readonly=1"
   );
+  assert.equal(options.server, "绿水灵");
+  assert.equal(options.family, "MiiiAo");
+  assert.equal(options.sample, true);
 });
 
 test("accepts source and profile overrides", () => {
   assert.deepEqual(
     parseArguments(["3168", "--server", "小白兔", "--family", "MiiiAo"]),
-    { source: "3168", server: "小白兔", family: "MiiiAo" }
+    {
+      source: "3168",
+      server: "小白兔",
+      family: "MiiiAo",
+      sample: false,
+    }
+  );
+});
+
+test("marks only the repository fixture as a sample", () => {
+  assert.equal(parseArguments(["3168", "--server", "绿水灵"]).sample, false);
+  assert.equal(
+    parseArguments(["3168", "--server", "绿水灵", "--sample"]).sample,
+    true,
   );
 });
 

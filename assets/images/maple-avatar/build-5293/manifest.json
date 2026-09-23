@@ -112,10 +112,10 @@
   "font": {
     "family": "Noto Sans SC",
     "weight": 600,
-    "cssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC%3Awght%40600&text=%E7%BB%BF%E6%B0%B4%E7%81%B5+LV.30+%E5%86%B0%E9%9B%B7%E6%B3%95%E5%B8%88+ID+%E8%93%9D%E8%8E%93%E5%91%80+%E5%AE%B6%E6%97%8F+MiiiAo",
-    "sourceUrl": "https://fonts.gstatic.com/l/font?kit=k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGwHCnYxVWNT9zEMItH4gYhyDOyHXkIqEOrmeYYqqh0Ee1n7wb5LiF_Web3qSCLRSfc0VtMeZUA&skey=cf0bb10b5602fdc3&v=v40",
+    "cssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC%3Awght%40600&text=%E7%BB%BF%E6%B0%B4%E7%81%B5+LV.30+%E5%86%B0%E9%9B%B7%E6%B3%95%E5%B8%88+ID+%E8%93%9D%E8%8E%93%E5%91%80+%E5%AE%B6%E6%97%8F+MiiiAo+%E5%88%B6%E4%BD%9C%E6%88%96%E6%9B%B4%E6%8D%A2%E6%88%91%E7%9A%84%E8%A7%92%E8%89%B2+avatar.miiiao.cn+%E8%AF%B7%E4%BD%BF%E7%94%A8%E7%94%B5%E8%84%91+Chrome+%2F+Edge+%E8%BF%9E%E6%8E%A5+USB+%E5%90%8E%E5%86%99%E5%85%A5%E8%A7%92%E8%89%B2+%E6%8C%89%E4%B8%8A+%2F+%E4%B8%8B%E9%94%AE%E8%BF%94%E5%9B%9E%E5%8A%A8%E4%BD%9C",
+    "sourceUrl": "https://fonts.gstatic.com/l/font?kit=k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGwHCnYxV5_Xz0l95w3YubA6vHYgcczpD2z9Usgh6ZsrnNuo0rZDpCPanUXmUK7hhUcADjMuEfhP5LRMRaFCc9zTR6vlUPG_Wpe8qUzXjsrlFlex-W7-1kRP9hkoMkPsdbLFQSFTxexqD9UQfEvetqU53j0SgPngghX6vTwymPaWH-UTXG13QrZQZxc1wpvVX5hf9hKyWpA&skey=cf0bb10b5602fdc3&v=v40",
     "file": "ui-font.ttf",
-    "sha256": "12073c0ea6e78b4a1113b4a7c4fb71508419aed4837ef8376ce88df2ef8e51c3",
+    "sha256": "bea7cb4d56cf609579cf70f553ad89b2cc22e6e607ac39ebce90461070470574",
     "license": "SIL Open Font License 1.1",
     "licenseFile": "../../../fonts/NotoSansSC-OFL.txt"
   },
@@ -198,8 +198,7 @@
           "sourceSha256": "753adbfc77c838ee6853a230218d856e2507c18c937e2d617135a7131e4c622b",
           "devicePng": "device-preview/stand-00.png",
           "deviceSha256": "fc72357232c489e57f4cf065663f7d45f7338f1e6756c8ef58d9595221d25c5c",
-          "firmwareFile": "maple_avatar/generated/stand-00.rgb565a8",
-          "firmwareSha256": "898eac736a11cf2c1da4df6214f68fa5367528a02a61ad5511c3c9b834ef41d0"
+          "rgb565a8Sha256": "898eac736a11cf2c1da4df6214f68fa5367528a02a61ad5511c3c9b834ef41d0"
         },
         {
           "index": 1,
@@ -217,8 +216,7 @@
           "sourceSha256": "113fe73c9bfa26595ba13843a122df0b11e8b5beeb00a423db0f8adb347da202",
           "devicePng": "device-preview/stand-01.png",
           "deviceSha256": "76e8c34d4cd7f24b2e38f2b2af7a5788152968fc1830ecd930153b703fc25da5",
-          "firmwareFile": "maple_avatar/generated/stand-01.rgb565a8",
-          "firmwareSha256": "8803d1b9399059ff534f8c0b1b38232de125e78279cc434e24f789ec521adebf"
+          "rgb565a8Sha256": "8803d1b9399059ff534f8c0b1b38232de125e78279cc434e24f789ec521adebf"
         },
         {
           "index": 2,
@@ -236,8 +234,7 @@
           "sourceSha256": "904e72d390b5d52252a70d398a4bdef3952c2dfe57082e29711dccedffbc8035",
           "devicePng": "device-preview/stand-02.png",
           "deviceSha256": "a0a43301049d9169e1eb0dd8fad8e24d7aba3298d222002b7a2c93f06a4f1924",
-          "firmwareFile": "maple_avatar/generated/stand-02.rgb565a8",
-          "firmwareSha256": "a796cfb95869c2ed344a4f8387fdc42a55d1805ecd3c53e40da0ee7ed27beddf"
+          "rgb565a8Sha256": "a796cfb95869c2ed344a4f8387fdc42a55d1805ecd3c53e40da0ee7ed27beddf"
         }
       ]
     },
@@ -324,8 +321,7 @@
           "sourceSha256": "2005e7cf504697960ea1bef3b3ce9d8fd6ebd495aecedd1d67cb64498fde88d4",
           "devicePng": "device-preview/walk-00.png",
           "deviceSha256": "7da6b44e9643317802560219eca958f817f0a7838600c5219ed08e2b3a663708",
-          "firmwareFile": "maple_avatar/generated/walk-00.rgb565a8",
-          "firmwareSha256": "d52807156e98211b23426e3c4f36daf3b5066401fdb5b31cbf213c1104d8191b"
+          "rgb565a8Sha256": "d52807156e98211b23426e3c4f36daf3b5066401fdb5b31cbf213c1104d8191b"
         },
         {
           "index": 1,
@@ -343,8 +339,7 @@
           "sourceSha256": "226d149687742a88db8bd56c106f79a6c3ee193eb37407299706b526f1532157",
           "devicePng": "device-preview/walk-01.png",
           "deviceSha256": "e9c5569e940610b5f41146e3ce19c0aff085d01e43100a3dc73c8ecc5b98b8fd",
-          "firmwareFile": "maple_avatar/generated/walk-01.rgb565a8",
-          "firmwareSha256": "993d31bd942218f504836d6b55743c69987c1d41065ae497ec3806c8c9081d5f"
+          "rgb565a8Sha256": "993d31bd942218f504836d6b55743c69987c1d41065ae497ec3806c8c9081d5f"
         },
         {
           "index": 2,
@@ -362,8 +357,7 @@
           "sourceSha256": "10304a7af8a73ae4b0065cde584168b8ff25169e9472ac9bdb583a65c9f8ec19",
           "devicePng": "device-preview/walk-02.png",
           "deviceSha256": "d1b9fdeafc4618dbc2d8da65c6ddf118292314b9eece990c967398cee9169b95",
-          "firmwareFile": "maple_avatar/generated/walk-02.rgb565a8",
-          "firmwareSha256": "60fb7b0cc8b8f9dcf3a76df5364c3d53bd2d64659bb7840ed1b0987a2b306459"
+          "rgb565a8Sha256": "60fb7b0cc8b8f9dcf3a76df5364c3d53bd2d64659bb7840ed1b0987a2b306459"
         },
         {
           "index": 3,
@@ -381,8 +375,7 @@
           "sourceSha256": "723638c774018ad21e5b01b142f7b67f71712eb632ef77a590b56ddc8e5f0bce",
           "devicePng": "device-preview/walk-03.png",
           "deviceSha256": "96ec21cc6a44245024479d6f88a20cb6e4b73d791b92f5bd45acf2524495f3c0",
-          "firmwareFile": "maple_avatar/generated/walk-03.rgb565a8",
-          "firmwareSha256": "b562b4c9ce6550689a6b81775b8c959207f12465aaeaa70fefe36578c031e1c3"
+          "rgb565a8Sha256": "b562b4c9ce6550689a6b81775b8c959207f12465aaeaa70fefe36578c031e1c3"
         }
       ]
     },
@@ -468,8 +461,7 @@
           "sourceSha256": "b22b0a8b39fac8b4d03df3bd32d03bfb3d64e085e53bea1076fe7c373f36edc4",
           "devicePng": "device-preview/attack-00.png",
           "deviceSha256": "58223f5bd535c78b88103edda5be3eb01626fd2046e463b425ccf51c4be17ec4",
-          "firmwareFile": "maple_avatar/generated/attack-00.rgb565a8",
-          "firmwareSha256": "38f25c4656b195f8ed35c612fdfa89f1ebe2f97753710b4f79fd0d05be3c6b9b"
+          "rgb565a8Sha256": "38f25c4656b195f8ed35c612fdfa89f1ebe2f97753710b4f79fd0d05be3c6b9b"
         },
         {
           "index": 1,
@@ -487,8 +479,7 @@
           "sourceSha256": "a22c41800da6f556e27002618df8b791a80fd19302e6c8181fed275fb47a3ec4",
           "devicePng": "device-preview/attack-01.png",
           "deviceSha256": "6bb9260cf475b17b76b5b8b4d00d17672bf7297aef6c3712033819bf98402f81",
-          "firmwareFile": "maple_avatar/generated/attack-01.rgb565a8",
-          "firmwareSha256": "14e56b5bfa9a5726fdd12a093db8331e071c79bf32a2ce06b16e3de081137a39"
+          "rgb565a8Sha256": "14e56b5bfa9a5726fdd12a093db8331e071c79bf32a2ce06b16e3de081137a39"
         },
         {
           "index": 2,
@@ -506,8 +497,7 @@
           "sourceSha256": "187a3a3326be1f6bdbf0f389279234519cc932b7aa3b1e21714e70e52ba98dd5",
           "devicePng": "device-preview/attack-02.png",
           "deviceSha256": "85678f5b4f720d791d58431027d8a5ba3cde597586be403a8f2d62b31496b45b",
-          "firmwareFile": "maple_avatar/generated/attack-02.rgb565a8",
-          "firmwareSha256": "5f447b252428cee4c0c36b97c62548f534256af9ef6b4c89b64cec5dc211221c"
+          "rgb565a8Sha256": "5f447b252428cee4c0c36b97c62548f534256af9ef6b4c89b64cec5dc211221c"
         }
       ]
     },
@@ -577,8 +567,7 @@
           "sourceSha256": "21b436d3de7779540b889d5c3b7db85a205695657d7f8bf549132dc66e6ea7aa",
           "devicePng": "device-preview/sit-00.png",
           "deviceSha256": "83869bc36e203522f5595702b2fa7362e8badfe44cff6ec3ffcd671ad68769e3",
-          "firmwareFile": "maple_avatar/generated/sit-00.rgb565a8",
-          "firmwareSha256": "171630293388bf1f328bf71d9afd703689ecdbd2e91579510bc910cb082f7515"
+          "rgb565a8Sha256": "171630293388bf1f328bf71d9afd703689ecdbd2e91579510bc910cb082f7515"
         }
       ]
     },
@@ -663,8 +652,7 @@
           "sourceSha256": "7d886e37232a2bd88422a5a2e59cc997c2eac82cafaed492c131e7344051eeeb",
           "devicePng": "device-preview/two_hand_stand-00.png",
           "deviceSha256": "cf3f1c34f22b2a5238225f5c42d3b48a94f7d888cbcd2884fb387407dd47393c",
-          "firmwareFile": "maple_avatar/generated/two_hand_stand-00.rgb565a8",
-          "firmwareSha256": "f78c8620e2b6f2d27b59dede090801fb8acc47425a50b31b568defda6ef65663"
+          "rgb565a8Sha256": "f78c8620e2b6f2d27b59dede090801fb8acc47425a50b31b568defda6ef65663"
         },
         {
           "index": 1,
@@ -682,8 +670,7 @@
           "sourceSha256": "cbc3903beaae6fa8b96c71c5d28494bcc3c4900651b98b90316e3d7ff503c744",
           "devicePng": "device-preview/two_hand_stand-01.png",
           "deviceSha256": "93cc5d12189096c45f9d9d614743f5bc0bd4addde287aa5838e34f6cd5d5b3ed",
-          "firmwareFile": "maple_avatar/generated/two_hand_stand-01.rgb565a8",
-          "firmwareSha256": "20f9db5da7578e61d247c1403024f47a08574fa5a99014939f448957d76dba43"
+          "rgb565a8Sha256": "20f9db5da7578e61d247c1403024f47a08574fa5a99014939f448957d76dba43"
         },
         {
           "index": 2,
@@ -701,8 +688,7 @@
           "sourceSha256": "52d62b578861e827d4c12533c31d27257dd4f98a85c0b539973949e008cade52",
           "devicePng": "device-preview/two_hand_stand-02.png",
           "deviceSha256": "e1c0d34ae7867d70f495e1df01a3302ac5f2716795df43c4e73b57bd092fe329",
-          "firmwareFile": "maple_avatar/generated/two_hand_stand-02.rgb565a8",
-          "firmwareSha256": "7d57c44edd7d29bf20556b4f5a5ab187d5450e7c7cd35632486fcbc07fd297cc"
+          "rgb565a8Sha256": "7d57c44edd7d29bf20556b4f5a5ab187d5450e7c7cd35632486fcbc07fd297cc"
         }
       ]
     },
@@ -791,8 +777,7 @@
           "sourceSha256": "8c96381a522ecff9806210fd49a41bf5cbf0828962cb2e30345ab40e81427822",
           "devicePng": "device-preview/two_hand_walk-00.png",
           "deviceSha256": "e249d0b139083c34c38b3265a92d1f55a55244d42c80bfca6b63681b14de56ea",
-          "firmwareFile": "maple_avatar/generated/two_hand_walk-00.rgb565a8",
-          "firmwareSha256": "fcbcaafb07d2410fc104f50e4b360d7c2d134730af1cdf8ad3335f305fcd8be5"
+          "rgb565a8Sha256": "fcbcaafb07d2410fc104f50e4b360d7c2d134730af1cdf8ad3335f305fcd8be5"
         },
         {
           "index": 1,
@@ -810,8 +795,7 @@
           "sourceSha256": "5e2edbe6f064690f8de63267d1b9010c75f1e456920f05cf6d99245ed78c43e1",
           "devicePng": "device-preview/two_hand_walk-01.png",
           "deviceSha256": "984c8af9d576cf26324d3bc69034420c274f15ae8fb042a8cb33ff733bbeb651",
-          "firmwareFile": "maple_avatar/generated/two_hand_walk-01.rgb565a8",
-          "firmwareSha256": "5727e26d6495a783317d4db801ea479fe4b2e4f2b43c3b0217343734a08e215d"
+          "rgb565a8Sha256": "5727e26d6495a783317d4db801ea479fe4b2e4f2b43c3b0217343734a08e215d"
         },
         {
           "index": 2,
@@ -829,8 +813,7 @@
           "sourceSha256": "81de04088bac75923b715c18cb3462c79753aafb9410da50765068ac12ba45dc",
           "devicePng": "device-preview/two_hand_walk-02.png",
           "deviceSha256": "74cf6e93e300bc7d4c9894e341424658b93ef7c4a329692445e2b8700ee8f063",
-          "firmwareFile": "maple_avatar/generated/two_hand_walk-02.rgb565a8",
-          "firmwareSha256": "7474e4061c2b05ac0e941dbd2c808ba34b7ceb1bf045f033520c19d1dbf86a26"
+          "rgb565a8Sha256": "7474e4061c2b05ac0e941dbd2c808ba34b7ceb1bf045f033520c19d1dbf86a26"
         },
         {
           "index": 3,
@@ -848,143 +831,16 @@
           "sourceSha256": "d041cc6f87a5b8638466afc6e0447144c5b5695fe2b918640632b69883749feb",
           "devicePng": "device-preview/two_hand_walk-03.png",
           "deviceSha256": "7aa0772b260bfc938821fd74545e4d6434f564d78935e1c7a4cce72cc21b5100",
-          "firmwareFile": "maple_avatar/generated/two_hand_walk-03.rgb565a8",
-          "firmwareSha256": "314d03925636118a10e0c09899499f4196336dd151bf98b42a79a55b8021e31b"
+          "rgb565a8Sha256": "314d03925636118a10e0c09899499f4196336dd151bf98b42a79a55b8021e31b"
         }
       ]
     }
   ],
-  "firmwareFiles": [
-    {
-      "relativePath": "maple_avatar/generated/screen.rgb565",
-      "bytes": 153600,
-      "sha256": "a9f4584566fd9b3b30b24a1ab41e6aa933ec7ef8e0cf421171cf81fdd69df7eb"
-    },
-    {
-      "relativePath": "maple_avatar/generated/stand-00.rgb565a8",
-      "actionId": "stand",
-      "frameIndex": 0,
-      "bytes": 177120,
-      "sha256": "898eac736a11cf2c1da4df6214f68fa5367528a02a61ad5511c3c9b834ef41d0"
-    },
-    {
-      "relativePath": "maple_avatar/generated/stand-01.rgb565a8",
-      "actionId": "stand",
-      "frameIndex": 1,
-      "bytes": 177120,
-      "sha256": "8803d1b9399059ff534f8c0b1b38232de125e78279cc434e24f789ec521adebf"
-    },
-    {
-      "relativePath": "maple_avatar/generated/stand-02.rgb565a8",
-      "actionId": "stand",
-      "frameIndex": 2,
-      "bytes": 177120,
-      "sha256": "a796cfb95869c2ed344a4f8387fdc42a55d1805ecd3c53e40da0ee7ed27beddf"
-    },
-    {
-      "relativePath": "maple_avatar/generated/walk-00.rgb565a8",
-      "actionId": "walk",
-      "frameIndex": 0,
-      "bytes": 177120,
-      "sha256": "d52807156e98211b23426e3c4f36daf3b5066401fdb5b31cbf213c1104d8191b"
-    },
-    {
-      "relativePath": "maple_avatar/generated/walk-01.rgb565a8",
-      "actionId": "walk",
-      "frameIndex": 1,
-      "bytes": 177120,
-      "sha256": "993d31bd942218f504836d6b55743c69987c1d41065ae497ec3806c8c9081d5f"
-    },
-    {
-      "relativePath": "maple_avatar/generated/walk-02.rgb565a8",
-      "actionId": "walk",
-      "frameIndex": 2,
-      "bytes": 177120,
-      "sha256": "60fb7b0cc8b8f9dcf3a76df5364c3d53bd2d64659bb7840ed1b0987a2b306459"
-    },
-    {
-      "relativePath": "maple_avatar/generated/walk-03.rgb565a8",
-      "actionId": "walk",
-      "frameIndex": 3,
-      "bytes": 177120,
-      "sha256": "b562b4c9ce6550689a6b81775b8c959207f12465aaeaa70fefe36578c031e1c3"
-    },
-    {
-      "relativePath": "maple_avatar/generated/attack-00.rgb565a8",
-      "actionId": "attack",
-      "frameIndex": 0,
-      "bytes": 177120,
-      "sha256": "38f25c4656b195f8ed35c612fdfa89f1ebe2f97753710b4f79fd0d05be3c6b9b"
-    },
-    {
-      "relativePath": "maple_avatar/generated/attack-01.rgb565a8",
-      "actionId": "attack",
-      "frameIndex": 1,
-      "bytes": 177120,
-      "sha256": "14e56b5bfa9a5726fdd12a093db8331e071c79bf32a2ce06b16e3de081137a39"
-    },
-    {
-      "relativePath": "maple_avatar/generated/attack-02.rgb565a8",
-      "actionId": "attack",
-      "frameIndex": 2,
-      "bytes": 177120,
-      "sha256": "5f447b252428cee4c0c36b97c62548f534256af9ef6b4c89b64cec5dc211221c"
-    },
-    {
-      "relativePath": "maple_avatar/generated/sit-00.rgb565a8",
-      "actionId": "sit",
-      "frameIndex": 0,
-      "bytes": 177120,
-      "sha256": "171630293388bf1f328bf71d9afd703689ecdbd2e91579510bc910cb082f7515"
-    },
-    {
-      "relativePath": "maple_avatar/generated/two_hand_stand-00.rgb565a8",
-      "actionId": "two_hand_stand",
-      "frameIndex": 0,
-      "bytes": 177120,
-      "sha256": "f78c8620e2b6f2d27b59dede090801fb8acc47425a50b31b568defda6ef65663"
-    },
-    {
-      "relativePath": "maple_avatar/generated/two_hand_stand-01.rgb565a8",
-      "actionId": "two_hand_stand",
-      "frameIndex": 1,
-      "bytes": 177120,
-      "sha256": "20f9db5da7578e61d247c1403024f47a08574fa5a99014939f448957d76dba43"
-    },
-    {
-      "relativePath": "maple_avatar/generated/two_hand_stand-02.rgb565a8",
-      "actionId": "two_hand_stand",
-      "frameIndex": 2,
-      "bytes": 177120,
-      "sha256": "7d57c44edd7d29bf20556b4f5a5ab187d5450e7c7cd35632486fcbc07fd297cc"
-    },
-    {
-      "relativePath": "maple_avatar/generated/two_hand_walk-00.rgb565a8",
-      "actionId": "two_hand_walk",
-      "frameIndex": 0,
-      "bytes": 177120,
-      "sha256": "fcbcaafb07d2410fc104f50e4b360d7c2d134730af1cdf8ad3335f305fcd8be5"
-    },
-    {
-      "relativePath": "maple_avatar/generated/two_hand_walk-01.rgb565a8",
-      "actionId": "two_hand_walk",
-      "frameIndex": 1,
-      "bytes": 177120,
-      "sha256": "5727e26d6495a783317d4db801ea479fe4b2e4f2b43c3b0217343734a08e215d"
-    },
-    {
-      "relativePath": "maple_avatar/generated/two_hand_walk-02.rgb565a8",
-      "actionId": "two_hand_walk",
-      "frameIndex": 2,
-      "bytes": 177120,
-      "sha256": "7474e4061c2b05ac0e941dbd2c808ba34b7ceb1bf045f033520c19d1dbf86a26"
-    },
-    {
-      "relativePath": "maple_avatar/generated/two_hand_walk-03.rgb565a8",
-      "actionId": "two_hand_walk",
-      "frameIndex": 3,
-      "bytes": 177120,
-      "sha256": "314d03925636118a10e0c09899499f4196336dd151bf98b42a79a55b8021e31b"
-    }
-  ]
+  "avatarPack": {
+    "schemaVersion": 1,
+    "file": "../../../main/maple_avatar/generated/avatar.pack",
+    "bytes": 3495616,
+    "sha256": "4355568173d1177d2bb69fd0c71e8bfc2602685307044d08be25734bf67b809a",
+    "sample": true
+  }
 }

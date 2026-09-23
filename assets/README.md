@@ -42,8 +42,9 @@ Henesys background; it never substitutes AI-generated or placeholder art.
 
 - `henesys.png`: the page's original 493 x 272 background file.
 - `frames/`: original composited Canvas frames at their page dimensions.
-- `device-preview/`: nearest-neighbor 132 x 173 transparent frame previews.
+- `device-preview/`: body-origin-aligned 240 x 246 transparent device frames.
 - `screen.png`: 240 x 320 RGB background with MapleStory-inspired attribute chips and name/family nameplate.
+- `builder-screen.png`: 240 x 320 in-device instructions for replacing the sample at `avatar.miiiao.cn`.
 - `preview.png`: visual inspection composite for the default frame.
 - `device-mockup.png`: 3840 x 2160 README presentation mockup directly
   compositing the generated `preview.png` into the screen region of the
@@ -54,8 +55,9 @@ Henesys background; it never substitutes AI-generated or placeholder art.
 - `ui-font.ttf`: exact Noto Sans SC subset used to rasterize fixed profile
   text and the name/family labels under the SIL Open Font License 1.1.
 
-Firmware binaries are generated under `main/maple_avatar/generated/` as one
-RGB565 screen and RGB565A8 action frames. Reproduce the capture with the
+Firmware resources are compiled into one versioned
+`main/maple_avatar/generated/avatar.pack`: two RGB565 screens and six ordered
+RGB565A8 action sets with a payload CRC32. Reproduce the capture with the
 [Maple Avatar importer](../tools/maple_avatar/README.md); a browser or source
 failure is fatal and does not produce replacement imagery.
 

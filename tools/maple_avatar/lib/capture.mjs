@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on Playwright, layout.mjs geometry, a public MXDC build URL, and a TrueType UI subset.
- * [OUTPUT]: Captures real Canvas frames at one reference scale and body anchor, Henesys, and a 240x320 Maple profile-card image.
+ * [OUTPUT]: Captures real Canvas frames, Henesys, and 240x320 profile/builder screens from one source build.
  * [POS]: Browser adapter; owns all DOM selectors and fails explicitly when the source page drifts.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -285,6 +285,91 @@ async function captureScreen(page, profile, fontBytes) {
       width: SCREEN_WIDTH,
       height: SCREEN_HEIGHT,
       layout: PROFILE_LAYOUT,
+    }
+  );
+}
+
+async function captureBuilderScreen(page, backgroundBase64, fontBytes) {
+  return page.evaluate(
+    async ({ background, fontBase64, width, height }) => {
+      const bytesToBase64 = (bytes) => {
+        let binary = "";
+        for (let offset = 0; offset < bytes.length; offset += 0x8000) {
+          binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
+        }
+        return btoa(binary);
+      };
+      const load = async (url) => {
+        const image = new Image();
+        image.src = url;
+        await image.decode();
+        return image;
+      };
+      const font = new FontFace(
+        "MapleAvatarUI",
+        `url(data:font/ttf;base64,${fontBase64}) format("truetype")`,
+        { weight: "600" }
+      );
+      await font.load();
+      document.fonts.add(font);
+      await document.fonts.ready;
+
+      const image = await load(`data:image/png;base64,${background}`);
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      ctx.imageSmoothingEnabled = false;
+      const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+      const drawWidth = Math.ceil(image.naturalWidth * scale);
+      const drawHeight = Math.ceil(image.naturalHeight * scale);
+      ctx.drawImage(
+        image,
+        Math.floor((width - drawWidth) / 2),
+        Math.floor((height - drawHeight) / 2),
+        drawWidth,
+        drawHeight
+      );
+
+      ctx.fillStyle = "rgba(7, 20, 34, 0.78)";
+      ctx.fillRect(0, 0, width, height);
+      ctx.beginPath();
+      ctx.roundRect(14, 62, 212, 196, 12);
+      ctx.fillStyle = "rgba(17, 54, 78, 0.96)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(162, 211, 231, 0.92)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const text = (value, y, size, color = "#ffffff") => {
+        ctx.font = `600 ${size}px MapleAvatarUI`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.72)";
+        ctx.fillText(value, width / 2 + 1, y + 1, 196);
+        ctx.fillStyle = color;
+        ctx.fillText(value, width / 2, y, 196);
+      };
+
+      text("制作或更换我的角色", 93, 18, "#f7d884");
+      text("avatar.miiiao.cn", 132, 18, "#ffffff");
+      ctx.fillStyle = "rgba(188, 221, 236, 0.45)";
+      ctx.fillRect(32, 154, 176, 1);
+      text("请使用电脑 Chrome / Edge", 181, 12, "#d6edf7");
+      text("连接 USB 后写入角色", 209, 12, "#d6edf7");
+      text("按上 / 下键返回动作", 239, 10, "#9fc6d8");
+
+      const rgba = ctx.getImageData(0, 0, width, height).data;
+      return {
+        pngBase64: canvas.toDataURL("image/png").split(",")[1],
+        rgbaBase64: bytesToBase64(rgba),
+      };
+    },
+    {
+      background: backgroundBase64,
+      fontBase64: fontBytes.toString("base64"),
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT,
     }
   );
 }
@@ -657,7 +742,7 @@ export async function captureAvatar({
     }
     const job = (await page.locator(".character-preview-job").innerText()).trim();
     const profile = extractCharacterProfile(config, { server, family, job });
-    const fontText = `${profile.server} LV.${profile.level} ${profile.job} ${PROFILE_LAYOUT.labels.name} ${profile.name} ${PROFILE_LAYOUT.labels.family} ${profile.family}`;
+    const fontText = `${profile.server} LV.${profile.level} ${profile.job} ${PROFILE_LAYOUT.labels.name} ${profile.name} ${PROFILE_LAYOUT.labels.family} ${profile.family} 制作或更换我的角色 avatar.miiiao.cn 请使用电脑 Chrome / Edge 连接 USB 后写入角色 按上 / 下键返回动作`;
     const font = await fontProvider(fontText);
     if (!font?.bytes?.length) {
       throw new Error("The UI font provider returned no font bytes");
@@ -670,6 +755,11 @@ export async function captureAvatar({
       { timeout: 5000 }
     );
     const screen = await captureScreen(page, profile, font.bytes);
+    const builderScreen = await captureBuilderScreen(
+      page,
+      screen.backgroundBase64,
+      font.bytes
+    );
 
     const actions = [];
     let referenceAlignment;
@@ -721,6 +811,7 @@ export async function captureAvatar({
           fashion: config.initialBuild.payload.f || {},
         },
         screen,
+        builderScreen,
         actions,
         previewPngBase64,
       },

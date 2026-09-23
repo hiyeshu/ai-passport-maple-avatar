@@ -1,0 +1,11 @@
+# [INPUT]: Depends on repository-local build, dependency, VCS, and runtime artifact paths.
+# [OUTPUT]: Keeps the hosted-builder Docker context reproducible and small.
+# [POS]: Container-build boundary for services/avatar-builder/Dockerfile.
+# [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+.git
+build
+managed_components
+node_modules
+sdkconfig
+services/avatar-builder/.runtime
+tools/maple_avatar/node_modules

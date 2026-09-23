@@ -27,7 +27,13 @@ export async function runImport(options) {
     browserPath: options.browserPath,
     fontProvider: downloadUiFont,
   });
-  return writeCapture({ repoRoot, source, capture, font });
+  return writeCapture({
+    repoRoot,
+    source,
+    capture,
+    font,
+    sample: options.sample,
+  });
 }
 
 async function main() {

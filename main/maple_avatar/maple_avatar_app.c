@@ -1,7 +1,7 @@
 /**
- * [INPUT]: Depends on generated avatar assets, pure animation state, and LVGL widgets/timers.
- * [OUTPUT]: Renders the imported character, action animation, and optional battery badge.
- * [POS]: Product UI implementation; owns visual objects but no BSP initialization or button I/O.
+ * [INPUT]: Depends on validated runtime avatar assets, pure view state, and LVGL widgets/timers.
+ * [OUTPUT]: Renders six actions, a builder-address page, fallback recovery, and battery state.
+ * [POS]: Product UI Module; owns visual objects but no partition details, BSP init, or button I/O.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 #include "maple_avatar_app.h"
@@ -15,21 +15,42 @@
 
 static lv_obj_t *s_screen;
 static lv_obj_t *s_avatar;
+static lv_obj_t *s_profile_screen;
+static lv_obj_t *s_builder_screen;
+static lv_obj_t *s_sample_badge;
 static lv_timer_t *s_animation_timer;
 static maple_avatar_state_t s_state;
 static uint32_t s_last_tick;
 
 static const maple_avatar_action_assets_t *current_action(void)
 {
-    return &g_maple_avatar_actions[s_state.action];
+    if (maple_avatar_state_is_builder_page(&s_state)) return NULL;
+    return maple_avatar_assets_action(s_state.action);
 }
 
 static void refresh_avatar(void)
 {
     const maple_avatar_action_assets_t *action = current_action();
-    if (!s_avatar || action->frame_count == 0 || !action->frames) return;
+    if (!s_avatar || !action || action->frame_count == 0 || !action->frames) return;
     if (s_state.frame >= action->frame_count) s_state.frame = 0;
     lv_image_set_src(s_avatar, action->frames[s_state.frame]);
+}
+
+static void set_hidden(lv_obj_t *object, bool hidden)
+{
+    if (!object) return;
+    if (hidden) lv_obj_add_flag(object, LV_OBJ_FLAG_HIDDEN);
+    else lv_obj_remove_flag(object, LV_OBJ_FLAG_HIDDEN);
+}
+
+static void refresh_view(void)
+{
+    const bool builder_page = maple_avatar_state_is_builder_page(&s_state);
+    set_hidden(s_profile_screen, builder_page);
+    set_hidden(s_avatar, builder_page);
+    set_hidden(s_sample_badge, builder_page);
+    set_hidden(s_builder_screen, !builder_page);
+    if (!builder_page) refresh_avatar();
 }
 
 static void animation_tick(lv_timer_t *timer)
@@ -40,11 +61,49 @@ static void animation_tick(lv_timer_t *timer)
     s_last_tick = now;
 
     const maple_avatar_action_assets_t *action = current_action();
+    if (!action) return;
     if (maple_avatar_state_advance(&s_state, delta_ms,
                                    action->frame_count,
                                    action->frame_delay_ms)) {
         refresh_avatar();
     }
+}
+
+static void add_recovery_message(lv_obj_t *parent)
+{
+    lv_obj_t *title = lv_label_create(parent);
+    lv_obj_set_style_text_font(title, &lv_font_montserrat_20, 0);
+    lv_obj_set_style_text_color(title, lv_color_hex(0xF7D884), 0);
+    lv_label_set_text(title, "MiiiAo Avatar");
+    lv_obj_align(title, LV_ALIGN_CENTER, 0, -48);
+
+    lv_obj_t *url = lv_label_create(parent);
+    lv_obj_set_style_text_font(url, &lv_font_montserrat_20, 0);
+    lv_obj_set_style_text_color(url, lv_color_white(), 0);
+    lv_label_set_text(url, "avatar.miiiao.cn");
+    lv_obj_align(url, LV_ALIGN_CENTER, 0, -6);
+
+    lv_obj_t *hint = lv_label_create(parent);
+    lv_obj_set_style_text_font(hint, &lv_font_montserrat_14, 0);
+    lv_obj_set_style_text_color(hint, lv_color_hex(0xB9D9E8), 0);
+    lv_obj_set_style_text_align(hint, LV_TEXT_ALIGN_CENTER, 0);
+    lv_label_set_text(hint, "Open on desktop\nConnect USB to install");
+    lv_obj_align(hint, LV_ALIGN_CENTER, 0, 45);
+}
+
+static void add_sample_badge(lv_obj_t *parent)
+{
+    if (!maple_avatar_assets_is_sample()) return;
+    s_sample_badge = lv_label_create(parent);
+    lv_obj_set_style_text_font(s_sample_badge, &lv_font_montserrat_14, 0);
+    lv_obj_set_style_text_color(s_sample_badge, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(s_sample_badge, lv_color_hex(0x07101E), 0);
+    lv_obj_set_style_bg_opa(s_sample_badge, LV_OPA_70, 0);
+    lv_obj_set_style_radius(s_sample_badge, 7, 0);
+    lv_obj_set_style_pad_hor(s_sample_badge, 6, 0);
+    lv_obj_set_style_pad_ver(s_sample_badge, 2, 0);
+    lv_label_set_text(s_sample_badge, "SAMPLE");
+    lv_obj_align(s_sample_badge, LV_ALIGN_TOP_LEFT, 8, 8);
 }
 
 static void add_battery_badge(lv_obj_t *parent, int battery_soc)
@@ -80,6 +139,10 @@ lv_obj_t *maple_avatar_app_create(int battery_soc)
     }
 
     maple_avatar_state_init(&s_state);
+    s_avatar = NULL;
+    s_profile_screen = NULL;
+    s_builder_screen = NULL;
+    s_sample_badge = NULL;
     s_screen = lv_obj_create(NULL);
     lv_obj_remove_flag(s_screen, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_bg_color(s_screen, lv_color_black(), 0);
@@ -87,19 +150,30 @@ lv_obj_t *maple_avatar_app_create(int battery_soc)
     lv_obj_set_style_border_width(s_screen, 0, 0);
     lv_obj_set_style_pad_all(s_screen, 0, 0);
 
-    lv_obj_t *background = lv_image_create(s_screen);
-    lv_image_set_src(background, &g_maple_avatar_screen);
-    lv_obj_set_pos(background, 0, 0);
+    if (maple_avatar_assets_load()) {
+        s_profile_screen = lv_image_create(s_screen);
+        lv_image_set_src(s_profile_screen, maple_avatar_assets_screen());
+        lv_obj_set_pos(s_profile_screen, 0, 0);
 
-    s_avatar = lv_image_create(s_screen);
-    lv_obj_set_pos(s_avatar, MAPLE_AVATAR_FRAME_X, MAPLE_AVATAR_FRAME_Y);
-    refresh_avatar();
+        s_builder_screen = lv_image_create(s_screen);
+        lv_image_set_src(s_builder_screen, maple_avatar_assets_builder_screen());
+        lv_obj_set_pos(s_builder_screen, 0, 0);
+
+        s_avatar = lv_image_create(s_screen);
+        lv_obj_set_pos(s_avatar, MAPLE_AVATAR_FRAME_X, MAPLE_AVATAR_FRAME_Y);
+        add_sample_badge(s_screen);
+        refresh_view();
+    } else {
+        add_recovery_message(s_screen);
+    }
 
     add_battery_badge(s_screen, battery_soc);
     lv_screen_load(s_screen);
 
     s_last_tick = lv_tick_get();
-    s_animation_timer = lv_timer_create(animation_tick, ANIMATION_TICK_MS, NULL);
+    if (s_avatar) {
+        s_animation_timer = lv_timer_create(animation_tick, ANIMATION_TICK_MS, NULL);
+    }
     return s_screen;
 }
 
@@ -110,11 +184,11 @@ void maple_avatar_app_handle_command(maple_avatar_command_t command)
     switch (command) {
         case MAPLE_AVATAR_COMMAND_PREVIOUS_ACTION:
             maple_avatar_state_previous_action(&s_state);
-            refresh_avatar();
+            refresh_view();
             break;
         case MAPLE_AVATAR_COMMAND_NEXT_ACTION:
             maple_avatar_state_next_action(&s_state);
-            refresh_avatar();
+            refresh_view();
             break;
         case MAPLE_AVATAR_COMMAND_TOGGLE_PAUSE:
             maple_avatar_state_toggle_pause(&s_state);

@@ -12,8 +12,9 @@ Update `AGENTS.md` when the rules change. Do not create a second rule set here, 
 
 <directory>
 components/bsp/ - Stable ESP32-C3 board interfaces and drivers.
-main/ - Firmware composition root; `maple_avatar/` owns the imported-character UI, animation state, and generated display resources.
-tools/maple_avatar/ - Reproducible MXDC browser capture, RGB565 conversion, and provenance output pipeline.
+main/ - Firmware composition root; `maple_avatar/` owns pack loading, the product UI, and pure animation state.
+tools/maple_avatar/ - Reproducible MXDC browser capture, RGB565 conversion, avatar-pack compilation, and provenance pipeline.
+services/avatar-builder/ - Bounded asynchronous HTTP service that turns one public character link into preview and pack artifacts.
 assets/ - Licensed font material plus preserved source images and capture manifests.
 tests/ - Hardware-independent state-machine and repository tests.
 docs/ - Authoritative development, hardware, contribution, and release documentation.
@@ -22,7 +23,8 @@ docs/ - Authoritative development, hardware, contribution, and release documenta
 <config>
 README.md - Chinese-only public landing page for this fork, including build entry points and the family notice.
 sdkconfig.defaults - ESP32-C3, 8 MB Flash, USB console, and LVGL defaults.
-partitions.csv - NVS, PHY data, and single factory-application layout.
+partitions.csv - NVS, PHY, 3 MB factory application, and replaceable avatar data partition.
 dependencies.lock - Pinned ESP-IDF managed-component resolution.
-main/CMakeLists.txt - Maple Avatar application sources and embedded-resource inventory.
+main/CMakeLists.txt - Generic Maple Avatar player sources; user images are not compiled into the application.
+.dockerignore - Reproducible hosted-builder container context exclusions.
 </config>

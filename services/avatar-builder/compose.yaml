@@ -1,0 +1,27 @@
+# [INPUT]: Depends on the local Dockerfile, one persistent artifact volume, and outbound HTTPS access.
+# [OUTPUT]: Runs one serialized avatar-builder instance with restart and health policies.
+# [POS]: Single-host deployment recipe; TLS and /api reverse proxy remain at the host gateway.
+# [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+services:
+  avatar-builder:
+    build:
+      context: ../..
+      dockerfile: services/avatar-builder/Dockerfile
+    restart: unless-stopped
+    environment:
+      PORT: "8788"
+      AVATAR_MAX_QUEUE: "8"
+      AVATAR_TTL_HOURS: "24"
+      AVATAR_OUTPUT_DIR: /data/builds
+    ports:
+      - "127.0.0.1:8788:8788"
+    volumes:
+      - avatar-builds:/data/builds
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8788/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  avatar-builds:

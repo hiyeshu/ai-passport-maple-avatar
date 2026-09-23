@@ -24,7 +24,7 @@ test("canonicalizes the public MXDC build link as read-only", () => {
   );
 });
 
-test("extracts the public build and applies explicit server and family fallbacks", () => {
+test("extracts source facts and keeps user-supplied profile fields explicit", () => {
   const profile = extractCharacterProfile(
     {
       initialBuild: {
@@ -34,7 +34,7 @@ test("extracts the public build and applies explicit server and family fallbacks
         payload: { l: 30, n: "蓝莓呀" },
       },
     },
-    { job: "冰雷法师" }
+    { job: "冰雷法师", server: "绿水灵", family: "" }
   );
 
   assert.deepEqual(profile, {
@@ -42,10 +42,24 @@ test("extracts the public build and applies explicit server and family fallbacks
     name: "蓝莓呀",
     level: 30,
     job: "冰雷法师",
-    family: "MiiiAo",
+    family: "",
     server: "绿水灵",
     revision: "public-revision",
   });
+});
+
+test("rejects a missing server instead of borrowing the sample identity", () => {
+  const build = {
+    initialBuild: {
+      id: 5293,
+      name: "蓝莓呀",
+      payload: { l: 30, n: "蓝莓呀" },
+    },
+  };
+  assert.throws(
+    () => extractCharacterProfile(build, { job: "冰雷法师" }),
+    /server is required/i,
+  );
 });
 
 test("enforces the profile card capacity instead of shrinking overflow text", () => {
@@ -80,7 +94,7 @@ test("accepts the exact six-character and three-digit profile boundaries", () =>
         payload: { l: 999, n: "角色名字六字" },
       },
     },
-    { job: "超级冰雷师", family: "家族名字六字" }
+    { job: "超级冰雷师", family: "家族名字六字", server: "绿水灵" }
   );
 
   assert.equal(profile.name, "角色名字六字");

@@ -4,70 +4,76 @@
 
 # Firmware Layout
 
-This repository is a minimal base for user-defined firmware targeting an
-ESP32-C3 with 8 MB Flash. Its default does not reserve product-specific
-identity, OTA, or unused data partitions.
+This product fork targets an ESP32-C3 with 8 MB Flash. Application code and
+replaceable avatar content intentionally live in separate partitions, so a
+community user installs the firmware once and later changes only their avatar.
 
-## Default layout
-
-The default partition table contains exactly:
+## Product layout
 
 | Partition | Type/subtype | Offset | Size | Purpose |
 | --- | --- | ---: | ---: | --- |
 | `nvs` | data/NVS | `0x9000` | `0x6000` | ESP-IDF and application key-value storage |
 | `phy_init` | data/PHY | `0xF000` | `0x1000` | PHY initialization data |
-| `factory` | app/factory | `0x10000` | `0x7F0000` | The single application image; all remaining Flash |
+| `factory` | app/factory | `0x10000` | `0x300000` | Generic Maple Avatar application |
+| `avatar` | data/`0x40` | `0x310000` | `0x4F0000` | One replaceable, CRC-checked `avatar.pack` |
 
-The default has no OTA slots. This is a starting point, not a restriction on
-user firmware.
+The layout has no OTA slot. `avatar.pack` schema version 1 contains two
+240 x 320 RGB565 screens and six ordered 240 x 246 RGB565A8 action sets.
+The firmware rejects an unsupported schema, invalid geometry, out-of-bounds
+offset, oversized payload, or CRC mismatch instead of rendering partial data.
 
-## Custom layouts
+The `avatar` offset is a compatibility contract shared by `partitions.csv`,
+firmware verification, and the website's ESP Web Tools manifest. Do not move or
+resize it without updating and releasing all three together.
 
-Users may edit `partitions.csv` to resize, move, add, or remove partitions for
-their application. A custom table may use OTA slots, filesystem/resource
-partitions, or other application-specific data. Keep the 8 MB device boundary,
-avoid overlaps, and make sure the application image is flashed at the start of
-an app partition large enough to contain it. When a derivative changes its
-layout, update that project's documentation and flashing instructions.
+## Two installation paths
+
+### First community installation
+
+`./tools/validate.sh --firmware` builds the generic application, creates
+`build/FoloToy-AI-Passport-full.bin`, injects the reproducible sample
+`main/maple_avatar/generated/avatar.pack`, and verifies the resulting bytes.
+The full image is written from `0x0` and establishes the required partition
+table. It is the artifact for first-time installation or an intentional
+complete refresh.
+
+### Personal avatar replacement
+
+The hosted builder returns an ESP Web Tools manifest with exactly one part:
+
+```json
+{"path":"avatar.pack","offset":3211264}
+```
+
+That decimal offset is `0x310000`. The browser writes only the `avatar`
+partition; it does not replace the application, partition table, NVS, or PHY
+regions. This path is compatible only after the community firmware with this
+partition layout has been installed.
 
 ## Enforced validation
-
-Run:
 
 ```bash
 ./tools/validate.sh --firmware
 ```
 
-The check builds in an isolated directory, creates the merged image, reads the
-configured image offsets from `flash_args`, validates the partition-table MD5,
-partition bounds, unique labels, and non-overlap, then ensures the application
-offset matches an app partition large enough to contain it. It intentionally
-does not require the default partition list. CI runs the same gate.
-
-Upload only `build/FoloToy-AI-Passport-full.bin`; the similarly named app-only
-`build/FoloToy-AI-Passport.bin` does not contain the bootloader or partition
-table.
+The check builds in an isolated directory, creates the merged image, reads
+actual offsets from `flash_args`, verifies the partition-table MD5, bounds,
+labels, and non-overlap, checks application capacity, injects the sample pack,
+and byte-compares that pack at the configured avatar offset.
 
 ## Flashing and stored data
 
 > **No backup of the firmware already installed on the device is required
-> before downloading (flashing) new firmware.** Do not make reading out the
-> original firmware or saving a full-Flash dump a prerequisite for this
-> workflow. The new firmware replaces the original firmware; this workflow
-> does not retain an automatic rollback copy or promise that the original
-> firmware can be restored.
+> before flashing new firmware.** This workflow does not retain an automatic
+> rollback copy or promise that the original firmware can be restored.
 
-Firmware and user data are different. If existing NVS settings, application
-records, or files must be kept, export or otherwise save them before flashing
-using a method supported by that application. Not requiring an original-firmware
-backup does not guarantee data preservation or authorize a full-chip erase.
+The full image from `0x0` can reset NVS and PHY regions because it pads gaps
+between component images. Use it for first installation or a deliberate full
+refresh. For development that must preserve NVS, use compatible segmented
+`idf.py flash` targets. `idf.py erase-flash` erases all user data and is
+never a routine prerequisite.
 
-The verified merged image is written from `0x0`. Because the merged file pads
-the gaps between images, flashing it can reset the NVS and PHY data regions.
-Use the merged image for blank-device provisioning or an intentional complete
-refresh. During normal development, use segmented `idf.py flash` when existing
-NVS state should be preserved; this also requires a compatible partition layout
-and flash targets that do not overwrite those data regions. `idf.py erase-flash`
-erases all user data. Do not add it as a routine prerequisite: use it only when
-a complete erase is explicitly intended and any data that must be kept has
-been saved.
+A personal avatar replacement targets only `0x310000`, but power loss,
+disconnects, incompatible older firmware, or browser/driver failures can still
+leave an invalid pack. In that case the application shows its recovery page;
+reconnect and install a valid personal pack or the verified full image.

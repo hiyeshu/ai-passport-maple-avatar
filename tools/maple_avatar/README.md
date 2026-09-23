@@ -4,18 +4,15 @@
 
 # Maple Avatar importer
 
-This build-time tool imports a real public MXDC character build into the AI
-Passport firmware. Browser capture, source parsing, pixel conversion, and
-filesystem output are separate modules. Any source-page drift, failed request,
-missing Canvas, invalid font, or unsupported server stops the import with an
-explicit error; the tool never creates substitute artwork.
+This build-time tool turns one public MXDC character build into preserved source
+artifacts and one replaceable `avatar.pack`. Browser capture, source parsing,
+pixel conversion, pack compilation, and filesystem persistence are separate.
+Source drift, request failure, missing Canvas, invalid font, or invalid profile
+data fails explicitly; no sample or generated artwork is substituted.
 
 ## Setup
 
-Node.js 20 or newer and a Chromium-compatible browser are required. On macOS,
-the importer uses the installed Google Chrome application when present. On
-other systems, or when no system browser is available, install Playwright's
-pinned browser after installing dependencies.
+Node.js 20 or newer and a Chromium-compatible browser are required:
 
 ```bash
 cd tools/maple_avatar
@@ -23,62 +20,47 @@ npm ci
 npx playwright install chromium
 ```
 
-The explicit `--browser PATH` option and `MAPLE_AVATAR_CHROME` environment
-variable override browser discovery. The browser download is unnecessary when
-a compatible executable is supplied.
+On macOS, an installed Google Chrome is discovered automatically.
+`--browser PATH` and `MAPLE_AVATAR_CHROME` override discovery.
 
 ## Import
 
-The approved build 5293 URL is the default:
+Running with no arguments reproduces the repository's approved 5293 sample and
+marks it as the community sample:
 
 ```bash
 npm run import
-npm run import -- 'https://mxdc.dvg.cn/tools/character-builder/?build=5293&readonly=1'
 ```
 
-Optional overrides are intentionally narrow:
+Every explicit user build requires a server. Family is optional because the
+source does not provide it:
 
 ```bash
-npm run import -- 5293 --family 'MiiiAo'
+npm run import -- \
+  'https://mxdc.dvg.cn/tools/character-builder/?build=5293&readonly=1' \
+  --server 'SERVER_NAME' \
+  --family 'FAMILY_NAME'
 ```
 
-Supported server values are <code>&#x84DD;&#x8717;&#x725B;</code>,
+Supported servers are <code>&#x84DD;&#x8717;&#x725B;</code>,
 <code>&#x8611;&#x83C7;&#x4ED4;</code>, <code>&#x7EFF;&#x6C34;&#x7075;</code>,
 <code>&#x6F02;&#x6F02;&#x732A;</code>, and <code>&#x5C0F;&#x767D;&#x5154;</code>.
-The importer canonicalizes every accepted URL to read-only mode, reads
-`CHARACTER_BUILDER_CONFIG`, selects the Henesys background, listens for each
-same-origin layer response, and captures unique composited Canvas frames.
-Each response's real `map` and `origin` coordinates reconstruct the action
-Canvas bounds and body anchor; geometry drift fails explicitly.
-
-The fixed profile area adapts MapleStory's identity-card language for the
-small display: server, level, and job use separate berry, amber, and cool-blue
-attribute chips, while name and family split one blue nameplate evenly. The
-background remains uninterrupted; only the chips and nameplate carry fills. Name
-and family each reserve six characters, level supports `LV.999`, job supports
-five characters, and server comes from the fixed enum. Overflow fails clearly
-instead of shrinking text indefinitely; measured coordinates replace spaces.
+Name, level, and job are immutable source facts read from
+`CHARACTER_BUILDER_CONFIG`; only server and family are supplied externally.
 
 ## Outputs
 
-- `assets/images/maple-avatar/build-<id>/` preserves source PNGs, device
-  previews, font subset, a visual composite, and `manifest.json` provenance.
-- `main/maple_avatar/generated/` contains one 240 x 320 RGB565 screen,
-  240 x 246 RGB565A8 scene frames, generated LVGL descriptors, and CMake inventory.
-  Every action uses the standing Canvas height as one pixel-scale reference, so
-  wider attack canvases reveal their horizontal range without shrinking the
-  character. The standing action establishes one device-space body anchor;
-  every later action maps its real source body origin to that same point rather
-  than centering an asymmetrical Canvas. The transparent frame spans the full
-  246 px scene so attack pixels below the anchor remain available. The standing
-  avatar's visual center sits at 61.8% of the scene, and its feet meet the
-  grass-surface baseline at 232 px.
-- The fixed Chinese profile text and nameplate UI are rasterized into the screen at build time.
-  Runtime firmware therefore needs no broad CJK font allocation.
-- An action with one unique frame has a zero frame delay and is rendered
-  statically by the firmware state machine.
+- `assets/images/maple-avatar/build-<id>/` preserves source frames, 240 x 246
+  device frames, the Henesys background, 240 x 320 profile and builder screens,
+  font subset, preview, and a SHA-256 provenance manifest.
+- `main/maple_avatar/generated/avatar.pack` is the single firmware resource:
+  two RGB565 screens plus six ordered RGB565A8 action sets, versioned geometry,
+  a sample flag, build ID, and payload CRC32.
+- The CLI and hosted service call `lib/artifacts.mjs`, so browser preview,
+  download, and device installation cannot silently compile different pixels.
+- One-frame actions use a zero frame delay and render statically.
 
-Run the importer host tests without downloading a browser:
+Run host tests without opening a browser:
 
 ```bash
 npm test

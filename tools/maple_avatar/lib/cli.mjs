@@ -15,6 +15,7 @@ export function usage() {
 Options:
   --server NAME    Override the server (${MAPLE_SERVERS.join(", ")})
   --family NAME    Override the family when the source has none
+  --sample         Mark the generated pack as the bundled community example
   --browser PATH   Use a specific Chromium-compatible browser executable
   --help           Show this help
 `;
@@ -29,7 +30,14 @@ function valueAfter(args, index, option) {
 }
 
 export function parseArguments(args) {
-  const options = { source: DEFAULT_SOURCE };
+  const options = args.length === 0
+    ? {
+        source: DEFAULT_SOURCE,
+        server: "绿水灵",
+        family: "MiiiAo",
+        sample: true,
+      }
+    : { source: DEFAULT_SOURCE, family: "", sample: false };
   let sourceSeen = false;
 
   for (let index = 0; index < args.length; index++) {
@@ -44,6 +52,8 @@ export function parseArguments(args) {
     } else if (argument === "--browser") {
       options.browserPath = valueAfter(args, index, argument);
       index++;
+    } else if (argument === "--sample") {
+      options.sample = true;
     } else if (argument.startsWith("--")) {
       throw new Error(`Unknown option: ${argument}`);
     } else if (!sourceSeen) {
@@ -56,6 +66,9 @@ export function parseArguments(args) {
 
   if (options.server && !MAPLE_SERVERS.includes(options.server)) {
     throw new Error(`Unsupported server: ${options.server}`);
+  }
+  if (!options.server) {
+    throw new Error(`--server is required (${MAPLE_SERVERS.join(", ")})`);
   }
   return options;
 }

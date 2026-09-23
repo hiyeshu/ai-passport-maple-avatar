@@ -17,6 +17,7 @@ int main(void)
     assert(state.frame == 0);
     assert(state.elapsed_ms == 0);
     assert(!state.paused);
+    assert(!maple_avatar_state_is_builder_page(&state));
 
     state.frame = 2;
     state.elapsed_ms = 77;
@@ -28,7 +29,17 @@ int main(void)
     maple_avatar_state_previous_action(&state);
     assert(state.action == MAPLE_AVATAR_ACTION_STAND);
     maple_avatar_state_previous_action(&state);
+    assert(maple_avatar_state_is_builder_page(&state));
+    assert(!maple_avatar_state_is_animating(&state, 4));
+    maple_avatar_state_previous_action(&state);
+    assert(!maple_avatar_state_is_builder_page(&state));
     assert(state.action == MAPLE_AVATAR_ACTION_TWO_HAND_WALK);
+
+    maple_avatar_state_next_action(&state);
+    assert(maple_avatar_state_is_builder_page(&state));
+    maple_avatar_state_next_action(&state);
+    assert(state.action == MAPLE_AVATAR_ACTION_STAND);
+    assert(!maple_avatar_state_is_builder_page(&state));
 
     maple_avatar_state_toggle_pause(&state);
     assert(state.paused);

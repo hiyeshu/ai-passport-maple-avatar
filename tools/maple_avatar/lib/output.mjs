@@ -1,7 +1,7 @@
 /**
  * [INPUT]: Depends on captured Canvas data, profile metadata, and pure pixel converters.
- * [OUTPUT]: Writes provenance and anchor metadata plus generated LVGL binaries, descriptors, and CMake inventory while retaining curated build sidecars.
- * [POS]: Importer persistence boundary; atomically replaces generated outputs without deleting the build's documented device mockup.
+ * [OUTPUT]: Writes provenance PNGs and one versioned avatar.pack while retaining curated build sidecars.
+ * [POS]: Repository persistence Adapter; hosted and local builds share artifacts.mjs instead of generated C.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 import { createHash } from "node:crypto";
@@ -14,20 +14,12 @@ import {
 } from "node:fs/promises";
 import path from "node:path";
 
-import { rgbaToRgb565, rgbaToRgb565A8 } from "./pixels.mjs";
+import { compileAvatarArtifacts } from "./artifacts.mjs";
 
 const PRESERVED_BUILD_SIDECARS = Object.freeze(["device-mockup.png"]);
 
 function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
-}
-
-function cString(value) {
-  return JSON.stringify(String(value));
-}
-
-export function embeddedFileSymbol(relativePath) {
-  return `_binary_${path.basename(relativePath).replace(/[^A-Za-z0-9]/g, "_")}`;
 }
 
 async function replaceDirectory(tempDirectory, destination) {
@@ -49,108 +41,7 @@ async function replaceDirectory(tempDirectory, destination) {
   }
 }
 
-function generatedSource(capture, firmwareFiles) {
-  const declarations = [];
-  const descriptors = [];
-  const frameTables = [];
-  const actionRows = [];
-
-  const backgroundPath = "maple_avatar/generated/screen.rgb565";
-  const backgroundSymbol = embeddedFileSymbol(backgroundPath);
-  declarations.push(
-    `extern const uint8_t ${backgroundSymbol}_start[] asm("${backgroundSymbol}_start");`
-  );
-  descriptors.push(`const lv_image_dsc_t g_maple_avatar_screen = {
-    .header.magic = LV_IMAGE_HEADER_MAGIC,
-    .header.cf = LV_COLOR_FORMAT_RGB565,
-    .header.flags = 0,
-    .header.w = MAPLE_AVATAR_SCREEN_WIDTH,
-    .header.h = MAPLE_AVATAR_SCREEN_HEIGHT,
-    .header.stride = MAPLE_AVATAR_SCREEN_WIDTH * 2,
-    .data_size = MAPLE_AVATAR_SCREEN_WIDTH * MAPLE_AVATAR_SCREEN_HEIGHT * 2,
-    .data = ${backgroundSymbol}_start,
-};`);
-
-  capture.actions.forEach((action) => {
-    const frameNames = [];
-    action.frames.forEach((frame, frameIndex) => {
-      const file = firmwareFiles.find(
-        (candidate) => candidate.actionId === action.id && candidate.frameIndex === frameIndex
-      );
-      const symbol = embeddedFileSymbol(file.relativePath);
-      const descriptorName = `s_${action.id}_frame_${frameIndex}`;
-      declarations.push(`extern const uint8_t ${symbol}_start[] asm("${symbol}_start");`);
-      descriptors.push(`static const lv_image_dsc_t ${descriptorName} = {
-    .header.magic = LV_IMAGE_HEADER_MAGIC,
-    .header.cf = LV_COLOR_FORMAT_RGB565A8,
-    .header.flags = 0,
-    .header.w = MAPLE_AVATAR_FRAME_WIDTH,
-    .header.h = MAPLE_AVATAR_FRAME_HEIGHT,
-    .header.stride = MAPLE_AVATAR_FRAME_WIDTH * 2,
-    .data_size = MAPLE_AVATAR_FRAME_WIDTH * MAPLE_AVATAR_FRAME_HEIGHT * 3,
-    .data = ${symbol}_start,
-};`);
-      frameNames.push(`&${descriptorName}`);
-    });
-    frameTables.push(
-      `static const lv_image_dsc_t *const s_${action.id}_frames[] = { ${frameNames.join(", ")} };`
-    );
-    actionRows.push(`    {
-        .id = ${cString(action.id)},
-        .label = ${cString(action.label)},
-        .frame_count = ${action.frames.length},
-        .frame_delay_ms = ${action.frames.length > 1 ? action.frameDelayMs : 0},
-        .frames = s_${action.id}_frames,
-    }`);
-  });
-
-  return `/**
- * [INPUT]: Generated from the public MXDC build URL by tools/maple_avatar/import_avatar.mjs.
- * [OUTPUT]: Provides immutable LVGL image descriptors, action assets, and profile metadata.
- * [POS]: Generated firmware data adapter; do not edit by hand.
- * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
- */
-#include "maple_avatar_assets.h"
-
-#include <stdint.h>
-
-${declarations.join("\n")}
-
-${descriptors.join("\n\n")}
-
-${frameTables.join("\n")}
-
-_Static_assert(MAPLE_AVATAR_ACTION_COUNT == ${capture.actions.length},
-               "generated action table must match maple_avatar_action_t");
-
-const maple_avatar_action_assets_t g_maple_avatar_actions[MAPLE_AVATAR_ACTION_COUNT] = {
-${actionRows.join(",\n")}
-};
-
-const maple_avatar_profile_t g_maple_avatar_profile = {
-    .build_id = ${capture.profile.buildId},
-    .server = ${cString(capture.profile.server)},
-    .level = ${capture.profile.level},
-    .job = ${cString(capture.profile.job)},
-    .name = ${cString(capture.profile.name)},
-    .family = ${cString(capture.profile.family)},
-};
-`;
-}
-
-function generatedCmake(firmwareFiles) {
-  const files = firmwareFiles.map((file) => `    "${file.relativePath}"`).join("\n");
-  return `# [INPUT]: Generated from captured RGB565/RGB565A8 binary assets.
-# [OUTPUT]: Exposes MAPLE_AVATAR_EMBED_FILES to the main component build.
-# [POS]: Generated CMake inventory; do not edit by hand.
-# [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
-set(MAPLE_AVATAR_EMBED_FILES
-${files}
-)
-`;
-}
-
-export async function writeCapture({ repoRoot, source, capture, font }) {
+export async function writeCapture({ repoRoot, source, capture, font, sample = false }) {
   const assetParent = path.join(repoRoot, "assets/images/maple-avatar");
   const assetDirectory = path.join(assetParent, `build-${capture.profile.buildId}`);
   const firmwareDirectory = path.join(repoRoot, "main/maple_avatar/generated");
@@ -176,94 +67,52 @@ export async function writeCapture({ repoRoot, source, capture, font }) {
 
   try {
     const { screen: screenGeometry, avatar: avatarGeometry } = capture.geometry;
-    const backgroundBytes = Buffer.from(capture.screen.backgroundBase64, "base64");
-    const screenPng = Buffer.from(capture.screen.pngBase64, "base64");
-    const screenRgba = Buffer.from(capture.screen.rgbaBase64, "base64");
-    const previewPng = Buffer.from(capture.previewPngBase64, "base64");
-    await writeFile(path.join(assetTemp, "henesys.png"), backgroundBytes);
-    await writeFile(path.join(assetTemp, "screen.png"), screenPng);
-    await writeFile(path.join(assetTemp, "preview.png"), previewPng);
+    const artifacts = compileAvatarArtifacts(capture, { sample });
+    await writeFile(path.join(assetTemp, "henesys.png"), artifacts.backgroundPng);
+    await writeFile(path.join(assetTemp, "screen.png"), artifacts.screenPng);
+    await writeFile(path.join(assetTemp, "builder-screen.png"), artifacts.builderScreenPng);
+    await writeFile(path.join(assetTemp, "preview.png"), artifacts.previewPng);
     await writeFile(path.join(assetTemp, "ui-font.ttf"), font.bytes);
 
-    const backgroundBinary = rgbaToRgb565(
-      screenRgba,
-      screenGeometry.width,
-      screenGeometry.height
-    );
-    await writeFile(path.join(firmwareTemp, "screen.rgb565"), backgroundBinary);
-    const firmwareFiles = [
-      {
-        relativePath: "maple_avatar/generated/screen.rgb565",
-        bytes: backgroundBinary.length,
-        sha256: sha256(backgroundBinary),
-      },
-    ];
     const actionManifest = [];
 
-    for (const action of capture.actions) {
+    for (const action of artifacts.actions) {
       const frameManifest = [];
       for (let frameIndex = 0; frameIndex < action.frames.length; frameIndex++) {
         const frame = action.frames[frameIndex];
         const suffix = String(frameIndex).padStart(2, "0");
-        const sourcePng = Buffer.from(frame.sourcePngBase64, "base64");
-        const devicePng = Buffer.from(frame.devicePngBase64, "base64");
-        const deviceRgba = Buffer.from(frame.deviceRgbaBase64, "base64");
         const sourceName = `${action.id}-${suffix}.png`;
-        const binaryName = `${action.id}-${suffix}.rgb565a8`;
-        await writeFile(path.join(assetTemp, "frames", sourceName), sourcePng);
-        await writeFile(path.join(assetTemp, "device-preview", sourceName), devicePng);
-        const binary = rgbaToRgb565A8(
-          deviceRgba,
-          avatarGeometry.width,
-          avatarGeometry.height
-        );
-        await writeFile(path.join(firmwareTemp, binaryName), binary);
-
-        const relativePath = `maple_avatar/generated/${binaryName}`;
-        firmwareFiles.push({
-          relativePath,
-          actionId: action.id,
-          frameIndex,
-          bytes: binary.length,
-          sha256: sha256(binary),
-        });
+        await writeFile(path.join(assetTemp, "frames", sourceName), frame.sourcePng);
+        await writeFile(path.join(assetTemp, "device-preview", sourceName), frame.devicePng);
         frameManifest.push({
           index: frameIndex,
-          canvasHash: frame.hash,
-          sourceWidth: frame.sourceWidth,
-          sourceHeight: frame.sourceHeight,
-          devicePlacement: frame.devicePlacement,
+          canvasHash: frame.capture.hash,
+          sourceWidth: frame.capture.sourceWidth,
+          sourceHeight: frame.capture.sourceHeight,
+          devicePlacement: frame.capture.devicePlacement,
           sourcePng: `frames/${sourceName}`,
-          sourceSha256: sha256(sourcePng),
+          sourceSha256: sha256(frame.sourcePng),
           devicePng: `device-preview/${sourceName}`,
-          deviceSha256: sha256(devicePng),
-          firmwareFile: relativePath,
-          firmwareSha256: sha256(binary),
+          deviceSha256: sha256(frame.devicePng),
+          rgb565a8Sha256: sha256(frame.binary),
         });
       }
       actionManifest.push({
         id: action.id,
         label: action.label,
-        rendererAction: action.rendererAction,
-        pose: action.pose,
-        declaredFrameCount: action.declaredFrameCount,
+        rendererAction: action.capture.rendererAction,
+        pose: action.capture.pose,
+        declaredFrameCount: action.capture.declaredFrameCount,
         capturedFrameCount: action.frames.length,
-        frameDelayMs: action.frames.length > 1 ? action.frameDelayMs : 0,
+        frameDelayMs: action.frameDelayMs,
         static: action.frames.length <= 1,
-        alignment: action.alignment,
-        layerPaths: action.layerPaths,
+        alignment: action.capture.alignment,
+        layerPaths: action.capture.layerPaths,
         frames: frameManifest,
       });
     }
 
-    await writeFile(
-      path.join(firmwareTemp, "avatar_generated.c"),
-      generatedSource(capture, firmwareFiles)
-    );
-    await writeFile(
-      path.join(firmwareTemp, "assets.cmake"),
-      generatedCmake(firmwareFiles)
-    );
+    await writeFile(path.join(firmwareTemp, "avatar.pack"), artifacts.pack);
 
     const manifest = {
       schemaVersion: 1,
@@ -305,7 +154,7 @@ export async function writeCapture({ repoRoot, source, capture, font }) {
         width: capture.screen.backgroundWidth,
         height: capture.screen.backgroundHeight,
         file: "henesys.png",
-        sha256: sha256(backgroundBytes),
+        sha256: sha256(artifacts.backgroundPng),
       },
       font: {
         family: "Noto Sans SC",
@@ -318,7 +167,13 @@ export async function writeCapture({ repoRoot, source, capture, font }) {
         licenseFile: "../../../fonts/NotoSansSC-OFL.txt",
       },
       actions: actionManifest,
-      firmwareFiles,
+      avatarPack: {
+        schemaVersion: 1,
+        file: "../../../main/maple_avatar/generated/avatar.pack",
+        bytes: artifacts.pack.length,
+        sha256: sha256(artifacts.pack),
+        sample,
+      },
     };
     await writeFile(
       path.join(assetTemp, "manifest.json"),
