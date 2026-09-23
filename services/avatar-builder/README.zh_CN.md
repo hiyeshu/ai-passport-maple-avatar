@@ -64,9 +64,10 @@ docker compose -f services/avatar-builder/compose.yaml up -d --build
 服务不需要凭据，也不把凭据写进资源。网关仍应设置限流；日志不得记录私密令牌或完整
 浏览器数据。当前 API 对用户保持无状态：任务过期后，使用原公开链接重新生成即可。
 
-备案期间只把前端部署到 Vercel 提供的默认预览域名用于测试，不绑定或跳转
-`miiiao.cn`。设备继续显示规划入口 `avatar.miiiao.cn`，并明确标注“备案中，稍后
-开放”。生产 API 仍等待备案、DNS、TLS 与后端就绪后按同源方式部署。
+备案期间前端继续使用 Vercel 默认域名，并把同源 API 请求转发到 ECS 临时 HTTPS
+网关，不绑定或跳转 `miiiao.cn`。设备继续显示规划入口 `avatar.miiiao.cn`，并明确
+标注“备案中，稍后开放”。ECS 后端已经部署；备案完成后只需把临时网关切换为正式
+域名与证书。
 
 ## 测试
 
