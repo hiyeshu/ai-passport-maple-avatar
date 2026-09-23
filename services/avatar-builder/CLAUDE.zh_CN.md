@@ -22,6 +22,6 @@
 | `package.json` | 服务启动与主机测试命令。 |
 | `server.mjs` | 环境解析与真实抓取/编译组合根。 |
 | `lib/service.mjs` | 请求校验、有界队列、状态持久化、TTL 清理与 HTTP 交付。 |
-| `test/service.test.mjs` | 校验、生命周期、仅角色包清单、不可变文件与过期测试。 |
+| `test/service.test.mjs` | 校验、生命周期、仅角色包资源、不可变文件与过期测试。 |
 
 [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md

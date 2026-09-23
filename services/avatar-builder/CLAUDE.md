@@ -23,6 +23,6 @@ capture and binary compilation remain in `tools/maple_avatar/`.
 | `package.json` | Service start and host-test commands. |
 | `server.mjs` | Environment parsing and real capture/compiler composition root. |
 | `lib/service.mjs` | Request validation, bounded queue, status persistence, TTL cleanup, and HTTP delivery. |
-| `test/service.test.mjs` | Validation, lifecycle, pack-only manifest, immutable file, and expiry tests. |
+| `test/service.test.mjs` | Validation, lifecycle, pack-only artifact, immutable file, and expiry tests. |
 
 [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md

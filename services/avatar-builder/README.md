@@ -26,8 +26,10 @@ normalizes them before submission. Server is required,
 family is optional and limited to six characters, while name, level, and job
 always come from the source page. The response is `202` with a job ID.
 Poll `GET /api/avatar-builds/:id` until `ready` or `failed`; a ready result
-contains same-origin immutable URLs for screen, preview, six action sets,
-`avatar.pack`, and its pack-only ESP Web Tools manifest.
+contains same-origin immutable URLs for screen, preview, six action sets, and
+`avatar.pack`. The dedicated frontend writer owns the partition address and
+write-safety contract; this service does not emit a generic firmware manifest
+that could request a full-device erase.
 
 There is no silent sample fallback. Source drift, browser failure, invalid data,
 or restart during an unfinished job becomes an explicit failed status.

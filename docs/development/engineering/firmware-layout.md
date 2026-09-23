@@ -23,8 +23,8 @@ The firmware rejects an unsupported schema, invalid geometry, out-of-bounds
 offset, oversized payload, or CRC mismatch instead of rendering partial data.
 
 The `avatar` offset is a compatibility contract shared by `partitions.csv`,
-firmware verification, and the website's ESP Web Tools manifest. Do not move or
-resize it without updating and releasing all three together.
+firmware verification, and the website's dedicated avatar writer. Do not move
+or resize it without updating and releasing all three together.
 
 ## Two installation paths
 
@@ -39,16 +39,18 @@ complete refresh.
 
 ### Personal avatar replacement
 
-The hosted builder returns an ESP Web Tools manifest with exactly one part:
+The hosted builder returns only a validated `avatar.pack`. The dedicated web
+writer revalidates magic, schema, total length, CRC, and build ID, then uses one
+fixed write target:
 
 ```json
-{"path":"avatar.pack","offset":3211264}
+{"path":"avatar.pack","offset":3211264,"eraseAll":false}
 ```
 
-That decimal offset is `0x310000`. The browser writes only the `avatar`
-partition; it does not replace the application, partition table, NVS, or PHY
-regions. This path is compatible only after the community firmware with this
-partition layout has been installed.
+That decimal offset is `0x310000`. The writer exposes no full-device erase path;
+the browser writes only the `avatar` partition and does not replace the
+application, partition table, NVS, or PHY regions. This path is compatible only
+after the community firmware with this partition layout has been installed.
 
 ## Enforced validation
 

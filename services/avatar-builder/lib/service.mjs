@@ -47,7 +47,6 @@ function publicResult(jobId, profile, actions) {
     screenUrl: `${root}/screen.png`,
     previewUrl: `${root}/preview.png`,
     packUrl: `${root}/avatar.pack`,
-    installManifestUrl: `${root}/install-manifest.json`,
     actions: actions.map((action) => ({
       id: action.id,
       label: action.label,
@@ -59,7 +58,7 @@ function publicResult(jobId, profile, actions) {
   };
 }
 
-export async function writeBuildArtifacts({ directory, jobId, build, packOffset }) {
+export async function writeBuildArtifacts({ directory, jobId, build }) {
   const staging = path.join(directory, ".staging");
   await rm(staging, { recursive: true, force: true });
   await mkdir(path.join(staging, "frames"), { recursive: true });
@@ -77,19 +76,7 @@ export async function writeBuildArtifacts({ directory, jobId, build, packOffset 
         );
       }
     }
-    const installManifest = {
-      name: `${build.profile.name}的冒险角色`,
-      version: `avatar-${build.profile.buildId}-${jobId.slice(0, 8)}`,
-      new_install_prompt_erase: false,
-      builds: [{
-        chipFamily: "ESP32-C3",
-        improv: false,
-        parts: [{ path: "avatar.pack", offset: packOffset }],
-      }],
-    };
-    await writeJsonAtomic(path.join(staging, "install-manifest.json"), installManifest);
-
-    for (const filename of ["screen.png", "preview.png", "avatar.pack", "install-manifest.json", "frames"]) {
+    for (const filename of ["screen.png", "preview.png", "avatar.pack", "frames"]) {
       await rename(path.join(staging, filename), path.join(directory, filename));
     }
     await rm(staging, { recursive: true, force: true });
@@ -132,12 +119,11 @@ function safeErrorMessage(error) {
 }
 
 export class AvatarBuildQueue {
-  constructor({ outputRoot, buildAvatar, maxQueued = 8, packOffset = 0x310000, idFactory }) {
+  constructor({ outputRoot, buildAvatar, maxQueued = 8, idFactory }) {
     if (typeof buildAvatar !== "function") throw new TypeError("buildAvatar is required");
     this.outputRoot = outputRoot;
     this.buildAvatar = buildAvatar;
     this.maxQueued = maxQueued;
-    this.packOffset = packOffset;
     this.idFactory = idFactory ?? (() => randomUUID().replaceAll("-", ""));
     this.jobs = new Map();
     this.pending = [];
@@ -220,7 +206,6 @@ export class AvatarBuildQueue {
             directory: path.join(this.outputRoot, job.id),
             jobId: job.id,
             build,
-            packOffset: this.packOffset,
           });
           job.status = "ready";
         } catch (error) {
@@ -258,7 +243,7 @@ export function createRequestHandler(queue) {
     }
 
     const fileMatch = url.pathname.match(
-      /^\/api\/avatar-builds\/([a-f0-9]{32})\/files\/(screen\.png|preview\.png|avatar\.pack|install-manifest\.json|frames\/[a-z_]+-\d{2}\.png)$/,
+      /^\/api\/avatar-builds\/([a-f0-9]{32})\/files\/(screen\.png|preview\.png|avatar\.pack|frames\/[a-z_]+-\d{2}\.png)$/,
     );
     if (request.method === "GET" && fileMatch) {
       const job = await queue.get(fileMatch[1]);

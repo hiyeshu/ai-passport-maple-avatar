@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on Node HTTP/client primitives and the injectable hosted-builder service Module.
- * [OUTPUT]: Verifies request validation, serialized jobs, artifact manifests, and public HTTP lifecycle.
+ * [OUTPUT]: Verifies request validation, serialized jobs, pack-only artifacts, and public HTTP lifecycle.
  * [POS]: Host contract test for the browser-to-builder-to-avatar-pack path.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -60,7 +60,7 @@ test("validates source, server, and optional family at the API boundary", () => 
   );
 });
 
-test("writes a pack-only ESP Web Tools manifest at the avatar partition offset", async () => {
+test("writes only generated preview and pack artifacts", async () => {
   const root = await mkdtemp(path.join(tmpdir(), "avatar-service-"));
   try {
     const queue = new AvatarBuildQueue({
@@ -71,12 +71,12 @@ test("writes a pack-only ESP Web Tools manifest at the avatar partition offset",
     await queue.create(validateBuildRequest({ source: "5293", server: "绿水灵" }));
     const job = await waitUntilReady(queue);
     assert.equal(job.status, "ready");
-    assert.equal(job.result.installManifestUrl, `/api/avatar-builds/${JOB_ID}/files/install-manifest.json`);
-    const manifest = JSON.parse(
-      await readFile(path.join(root, JOB_ID, "install-manifest.json"), "utf8"),
+    assert.equal(job.result.packUrl, `/api/avatar-builds/${JOB_ID}/files/avatar.pack`);
+    assert.equal("installManifestUrl" in job.result, false);
+    assert.equal(
+      (await readFile(path.join(root, JOB_ID, "avatar.pack"))).toString(),
+      "avatar-pack",
     );
-    assert.equal(manifest.new_install_prompt_erase, false);
-    assert.deepEqual(manifest.builds[0].parts, [{ path: "avatar.pack", offset: 0x310000 }]);
     assert.equal(
       await queue.cleanupExpired({ now: Date.now() + 25 * 60 * 60 * 1000 }),
       1,
