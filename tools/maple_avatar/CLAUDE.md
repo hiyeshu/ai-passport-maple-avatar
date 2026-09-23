@@ -30,6 +30,7 @@ remain separate; the CLI and hosted service share the same artifact compiler.
 | `lib/pack.mjs` | Deterministic schema-v1 pack compiler/parser and CRC32 implementation. |
 | `lib/pixels.mjs` | Pure RGBA-to-RGB565/RGB565A8 conversion. |
 | `lib/source.mjs` | MXDC URL trust boundary, server enum, source facts, and display-capacity validation. |
+| `test/artifacts.test.mjs` | Clean presentation and pack-type separation tests at the artifact seam. |
 | `test/cli.test.mjs` | CLI defaults and argument-boundary tests. |
 | `test/font.test.mjs` | Font request and CSS parsing tests. |
 | `test/layout.test.mjs` | Golden-ratio, ground-contact, scale, and anchor regressions. |

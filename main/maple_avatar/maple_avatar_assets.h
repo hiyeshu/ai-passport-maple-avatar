@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on LVGL image types and the versioned avatar pack stored in Flash.
- * [OUTPUT]: Exposes loaded profile/builder screens, action frames, timing, and sample metadata.
+ * [OUTPUT]: Exposes loaded profile/builder screens, action frames, timing, and build identity.
  * [POS]: Stable runtime interface hiding partition mapping and binary-pack validation.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -29,7 +29,6 @@ typedef struct {
 bool maple_avatar_assets_load(void);
 void maple_avatar_assets_unload(void);
 bool maple_avatar_assets_is_loaded(void);
-bool maple_avatar_assets_is_sample(void);
 uint32_t maple_avatar_assets_build_id(void);
 const lv_image_dsc_t *maple_avatar_assets_screen(void);
 const lv_image_dsc_t *maple_avatar_assets_builder_screen(void);

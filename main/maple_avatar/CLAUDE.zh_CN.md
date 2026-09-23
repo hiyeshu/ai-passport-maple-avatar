@@ -15,7 +15,7 @@
 | --- | --- |
 | `CLAUDE.md` | 英文模块地图。 |
 | `CLAUDE.zh_CN.md` | 简体中文模块地图。 |
-| `maple_avatar_app.c` | 六动作、制作/恢复页、示例角标和电量角标的 LVGL 展示层。 |
+| `maple_avatar_app.c` | 六动作、制作/恢复页和电量角标的 LVGL 展示层。 |
 | `maple_avatar_app.h` | 展示 API 与标准化按键命令。 |
 | `maple_avatar_assets.c` | 校验、映射 avatar 分区并提供 LVGL 运行时描述符的存储适配器。 |
 | `maple_avatar_assets.h` | 稳定资源尺寸与运行时查询接口。 |

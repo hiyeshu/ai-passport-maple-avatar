@@ -29,6 +29,7 @@
 | `lib/pack.mjs` | 确定性 schema-v1 角色包编译/解析与 CRC32 实现。 |
 | `lib/pixels.mjs` | 纯 RGBA 到 RGB565/RGB565A8 转换。 |
 | `lib/source.mjs` | MXDC URL 信任边界、服务器枚举、来源事实与显示容量校验。 |
+| `test/artifacts.test.mjs` | 资源边界的纯净展示与包类型隔离测试。 |
 | `test/cli.test.mjs` | CLI 默认值与参数边界测试。 |
 | `test/font.test.mjs` | 字体请求与 CSS 解析测试。 |
 | `test/layout.test.mjs` | 黄金比例、地面贴合、尺寸与锚点回归测试。 |

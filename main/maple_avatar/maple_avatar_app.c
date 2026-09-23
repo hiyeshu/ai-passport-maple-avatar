@@ -17,7 +17,6 @@ static lv_obj_t *s_screen;
 static lv_obj_t *s_avatar;
 static lv_obj_t *s_profile_screen;
 static lv_obj_t *s_builder_screen;
-static lv_obj_t *s_sample_badge;
 static lv_timer_t *s_animation_timer;
 static maple_avatar_state_t s_state;
 static uint32_t s_last_tick;
@@ -48,7 +47,6 @@ static void refresh_view(void)
     const bool builder_page = maple_avatar_state_is_builder_page(&s_state);
     set_hidden(s_profile_screen, builder_page);
     set_hidden(s_avatar, builder_page);
-    set_hidden(s_sample_badge, builder_page);
     set_hidden(s_builder_screen, !builder_page);
     if (!builder_page) refresh_avatar();
 }
@@ -91,21 +89,6 @@ static void add_recovery_message(lv_obj_t *parent)
     lv_obj_align(hint, LV_ALIGN_CENTER, 0, 45);
 }
 
-static void add_sample_badge(lv_obj_t *parent)
-{
-    if (!maple_avatar_assets_is_sample()) return;
-    s_sample_badge = lv_label_create(parent);
-    lv_obj_set_style_text_font(s_sample_badge, &lv_font_montserrat_14, 0);
-    lv_obj_set_style_text_color(s_sample_badge, lv_color_white(), 0);
-    lv_obj_set_style_bg_color(s_sample_badge, lv_color_hex(0x07101E), 0);
-    lv_obj_set_style_bg_opa(s_sample_badge, LV_OPA_70, 0);
-    lv_obj_set_style_radius(s_sample_badge, 7, 0);
-    lv_obj_set_style_pad_hor(s_sample_badge, 6, 0);
-    lv_obj_set_style_pad_ver(s_sample_badge, 2, 0);
-    lv_label_set_text(s_sample_badge, "SAMPLE");
-    lv_obj_align(s_sample_badge, LV_ALIGN_TOP_LEFT, 8, 8);
-}
-
 static void add_battery_badge(lv_obj_t *parent, int battery_soc)
 {
     if (battery_soc < 0 || battery_soc > 100) return;
@@ -142,7 +125,6 @@ lv_obj_t *maple_avatar_app_create(int battery_soc)
     s_avatar = NULL;
     s_profile_screen = NULL;
     s_builder_screen = NULL;
-    s_sample_badge = NULL;
     s_screen = lv_obj_create(NULL);
     lv_obj_remove_flag(s_screen, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_bg_color(s_screen, lv_color_black(), 0);
@@ -161,7 +143,6 @@ lv_obj_t *maple_avatar_app_create(int battery_soc)
 
         s_avatar = lv_image_create(s_screen);
         lv_obj_set_pos(s_avatar, MAPLE_AVATAR_FRAME_X, MAPLE_AVATAR_FRAME_Y);
-        add_sample_badge(s_screen);
         refresh_view();
     } else {
         add_recovery_message(s_screen);

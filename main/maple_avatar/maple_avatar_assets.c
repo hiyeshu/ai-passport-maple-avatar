@@ -170,11 +170,6 @@ bool maple_avatar_assets_is_loaded(void)
     return s_mapped;
 }
 
-bool maple_avatar_assets_is_sample(void)
-{
-    return s_mapped && (s_pack.flags & MAPLE_AVATAR_PACK_FLAG_SAMPLE) != 0;
-}
-
 uint32_t maple_avatar_assets_build_id(void)
 {
     return s_mapped ? s_pack.build_id : 0;

@@ -16,7 +16,7 @@ logic independent from LVGL.
 | --- | --- |
 | `CLAUDE.md` | English module map. |
 | `CLAUDE.zh_CN.md` | Simplified Chinese module map. |
-| `maple_avatar_app.c` | LVGL presentation for six actions, builder/recovery pages, sample and battery badges. |
+| `maple_avatar_app.c` | LVGL presentation for six actions, builder/recovery pages, and the battery badge. |
 | `maple_avatar_app.h` | Presentation API and normalized button commands. |
 | `maple_avatar_assets.c` | Avatar-partition adapter that validates, maps, and exposes runtime LVGL descriptors. |
 | `maple_avatar_assets.h` | Stable asset dimensions and runtime lookup interface. |
