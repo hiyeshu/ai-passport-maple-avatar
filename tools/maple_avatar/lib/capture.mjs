@@ -1,7 +1,7 @@
 /**
- * [INPUT]: Depends on Playwright, layout.mjs geometry, a public MXDC build URL, and a TrueType UI subset.
- * [OUTPUT]: Captures real Canvas frames, Henesys, and 240x320 profile/builder screens from one source build.
- * [POS]: Browser adapter; owns all DOM selectors and fails explicitly when the source page drifts.
+ * [INPUT]: 依赖 Playwright、layout.mjs 几何、公开 MXDC 角色链接与 TrueType UI 字体子集。
+ * [OUTPUT]: 抓取统一人体比例及脚底落点的真实 Canvas 帧、射手村背景和资料/制作入口屏。
+ * [POS]: 浏览器适配层，独占 DOM 选择器并在来源页面漂移时明确失败。
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 import { existsSync } from "node:fs";
@@ -10,7 +10,7 @@ import { chromium } from "playwright";
 
 import {
   AVATAR_HEIGHT,
-  AVATAR_REFERENCE_HEIGHT,
+  AVATAR_DISPLAY_SCALE,
   AVATAR_WIDTH,
   AVATAR_X,
   AVATAR_Y,
@@ -20,6 +20,7 @@ import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
   calculateActionCanvasGeometry,
+  calculateActionBodyTarget,
   calculateFramePlacement,
 } from "./layout.mjs";
 import { extractCharacterProfile } from "./source.mjs";
@@ -576,7 +577,7 @@ async function captureVisibleFrames(
   );
 }
 
-async function captureAction(page, spec, firstAction, referenceAlignment) {
+async function captureAction(page, spec, firstAction) {
   const layersPromise = page.waitForResponse(
     (response) => response.url().includes("/api/character_layers.php"),
     { timeout: 30000 }
@@ -621,19 +622,13 @@ async function captureAction(page, spec, firstAction, referenceAlignment) {
         `${canvasGeometry.sourceWidth}x${canvasGeometry.sourceHeight}`
     );
   }
-  const referenceSourceHeight =
-    referenceAlignment?.sourceHeight || sourceGeometry.height;
+  const targetAnchor = calculateActionBodyTarget(canvasGeometry);
   const placement = calculateFramePlacement(
     sourceGeometry.width,
     sourceGeometry.height,
-    referenceSourceHeight,
-    referenceAlignment ? canvasGeometry.sourceAnchor : undefined,
-    referenceAlignment?.targetAnchor
+    canvasGeometry.sourceAnchor,
+    targetAnchor
   );
-  const targetAnchor = referenceAlignment?.targetAnchor || {
-    x: placement.x + canvasGeometry.sourceAnchor.x * placement.scale,
-    y: placement.y + canvasGeometry.sourceAnchor.y * placement.scale,
-  };
   const declaredCount = Array.isArray(layers.frames) ? layers.frames.length : 0;
   const frameDelayMs = Number.isFinite(layers.frame_delay) ? layers.frame_delay : 0;
   const frames = await captureVisibleFrames(
@@ -672,6 +667,8 @@ async function captureAction(page, spec, firstAction, referenceAlignment) {
         height: canvasGeometry.height,
       },
       bodyAnchor: canvasGeometry.bodyAnchor,
+      bodyGroundOffset: canvasGeometry.bodyGroundOffset,
+      headCenter: canvasGeometry.headCenter,
       sourceAnchor: canvasGeometry.sourceAnchor,
       targetAnchor,
       devicePlacement: placement,
@@ -766,21 +763,13 @@ export async function captureAvatar({
     );
 
     const actions = [];
-    let referenceAlignment;
     for (let index = 0; index < ACTION_SPECS.length; index++) {
       const action = await captureAction(
         page,
         ACTION_SPECS[index],
-        index === 0,
-        referenceAlignment
+        index === 0
       );
       actions.push(action);
-      if (!referenceAlignment) {
-        referenceAlignment = {
-          sourceHeight: action.frames[0].sourceHeight,
-          targetAnchor: action.alignment.targetAnchor,
-        };
-      }
     }
     const previewPngBase64 = await composePreview(
       page,
@@ -804,9 +793,9 @@ export async function captureAvatar({
             y: AVATAR_Y,
             width: AVATAR_WIDTH,
             height: AVATAR_HEIGHT,
-            referenceRenderHeight: AVATAR_REFERENCE_HEIGHT,
-            referenceSourceHeight: referenceAlignment.sourceHeight,
-            targetAnchor: referenceAlignment.targetAnchor,
+            displayScale: AVATAR_DISPLAY_SCALE,
+            focusX: SCREEN_WIDTH / 2,
+            groundY: SCENE_GROUND_Y,
           },
         },
         appearance: {

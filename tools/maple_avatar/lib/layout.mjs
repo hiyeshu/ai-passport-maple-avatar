@@ -1,6 +1,6 @@
 /**
  * [INPUT]: 依赖来源 Canvas 尺寸、分层 map/origin 坐标与设备布局约束。
- * [OUTPUT]: 对外提供屏幕/铭牌常量、动作画布几何计算与身体锚点定位函数。
+ * [OUTPUT]: 对外提供屏幕/铭牌常量、动作画布几何计算与装备无关的头部/身体/脚底定位函数。
  * [POS]: maple_avatar 导入器的纯布局内核，被浏览器抓取器与主机回归测试消费。
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -8,15 +8,16 @@ export const SCREEN_WIDTH = 240;
 export const SCREEN_HEIGHT = 320;
 export const AVATAR_WIDTH = SCREEN_WIDTH;
 export const AVATAR_HEIGHT = 246;
-export const AVATAR_REFERENCE_HEIGHT = 173;
-export const AVATAR_REFERENCE_BOTTOM = 239;
 export const AVATAR_X = 0;
 export const AVATAR_Y = 0;
 export const GOLDEN_RATIO = 0.618;
 export const SCENE_GROUND_Y = 232;
 
 const SOURCE_RENDER_SCALE = 3;
+const DEVICE_PIXELS_PER_LOGICAL_PIXEL = 2;
 const SOURCE_PADDING = 3;
+export const AVATAR_DISPLAY_SCALE =
+  DEVICE_PIXELS_PER_LOGICAL_PIXEL / SOURCE_RENDER_SCALE;
 
 export const PROFILE_LAYOUT = Object.freeze({
   variant: "maple-profile-card-v2",
@@ -33,50 +34,51 @@ export const PROFILE_LAYOUT = Object.freeze({
 export function calculateFramePlacement(
   sourceWidth,
   sourceHeight,
-  referenceSourceHeight,
   sourceAnchor,
   targetAnchor
 ) {
   if (
     !Number.isFinite(sourceWidth) ||
     !Number.isFinite(sourceHeight) ||
-    !Number.isFinite(referenceSourceHeight) ||
     sourceWidth <= 0 ||
-    sourceHeight <= 0 ||
-    referenceSourceHeight <= 0
+    sourceHeight <= 0
   ) {
-    throw new TypeError("Frame dimensions and reference height must be positive numbers");
+    throw new TypeError("Frame dimensions must be positive numbers");
   }
 
-  const scale = AVATAR_REFERENCE_HEIGHT / referenceSourceHeight;
+  const scale = AVATAR_DISPLAY_SCALE;
   const width = Math.max(1, Math.round(sourceWidth * scale));
   const height = Math.max(1, Math.round(sourceHeight * scale));
-  if ((sourceAnchor && !targetAnchor) || (!sourceAnchor && targetAnchor)) {
-    throw new TypeError("Source and target anchors must be provided together");
-  }
-  if (sourceAnchor && targetAnchor) {
-    for (const [label, point] of [
-      ["source", sourceAnchor],
-      ["target", targetAnchor],
-    ]) {
-      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) {
-        throw new TypeError(`${label} anchor must contain finite x and y values`);
-      }
+  for (const [label, point] of [
+    ["source", sourceAnchor],
+    ["target", targetAnchor],
+  ]) {
+    if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y)) {
+      throw new TypeError(`${label} anchor must contain finite x and y values`);
     }
-    return {
-      x: Math.round(targetAnchor.x - sourceAnchor.x * scale),
-      y: Math.round(targetAnchor.y - sourceAnchor.y * scale),
-      width,
-      height,
-      scale,
-    };
   }
   return {
-    x: Math.floor((AVATAR_WIDTH - width) / 2),
-    y: AVATAR_REFERENCE_BOTTOM - height,
+    x: Math.round(targetAnchor.x - sourceAnchor.x * scale),
+    y: Math.round(targetAnchor.y - sourceAnchor.y * scale),
     width,
     height,
     scale,
+  };
+}
+
+export function calculateActionBodyTarget(geometry) {
+  if (
+    !Number.isFinite(geometry?.bodyAnchor?.x) ||
+    !Number.isFinite(geometry?.bodyGroundOffset) ||
+    !Number.isFinite(geometry?.headCenter?.x)
+  ) {
+    throw new Error("Action has no valid body, head, or ground anchor for alignment");
+  }
+  return {
+    x: SCREEN_WIDTH / 2 -
+      (geometry.headCenter.x - geometry.bodyAnchor.x) * DEVICE_PIXELS_PER_LOGICAL_PIXEL,
+    y: SCENE_GROUND_Y + 1 -
+      geometry.bodyGroundOffset * DEVICE_PIXELS_PER_LOGICAL_PIXEL,
   };
 }
 
@@ -97,6 +99,13 @@ function bodyLayer(frame) {
   );
 }
 
+function headLayer(frame) {
+  return (
+    frame.find((layer) => layer?.part === "head" || layer?.debug === "head") ||
+    frame.find((layer) => layer?.z === "head")
+  );
+}
+
 export function calculateActionCanvasGeometry(frames, imageSizes) {
   if (!Array.isArray(frames) || frames.length === 0) {
     throw new Error("Character action has no frames");
@@ -107,8 +116,10 @@ export function calculateActionCanvasGeometry(frames, imageSizes) {
   let maxX = -Infinity;
   let maxY = -Infinity;
   let bodyAnchor;
+  let bodyGroundOffset = -Infinity;
+  let headCenter;
 
-  for (const frame of frames) {
+  for (const [frameIndex, frame] of frames.entries()) {
     if (!Array.isArray(frame) || frame.length === 0) {
       throw new Error("Character action contains an empty frame");
     }
@@ -122,6 +133,7 @@ export function calculateActionCanvasGeometry(frames, imageSizes) {
       throw new Error("Character body anchor changes within one action");
     }
     bodyAnchor ||= frameBodyAnchor;
+    const referenceHead = frameIndex === 0 ? headLayer(frame) : undefined;
 
     for (const layer of frame) {
       if (!layer?.path) throw new Error("Character layer path is missing");
@@ -140,6 +152,18 @@ export function calculateActionCanvasGeometry(frames, imageSizes) {
       const origin = layerPoint(layer, "origin");
       const x = map.x - origin.x;
       const y = map.y - origin.y;
+      if (layer === body) {
+        bodyGroundOffset = Math.max(
+          bodyGroundOffset,
+          y + size.height - frameBodyAnchor.y
+        );
+      }
+      if (layer === referenceHead) {
+        headCenter = {
+          x: x + size.width / 2,
+          y: y + size.height / 2,
+        };
+      }
       minX = Math.min(minX, x);
       minY = Math.min(minY, y);
       maxX = Math.max(maxX, x + size.width);
@@ -168,6 +192,8 @@ export function calculateActionCanvasGeometry(frames, imageSizes) {
     sourceWidth: width * SOURCE_RENDER_SCALE,
     sourceHeight: height * SOURCE_RENDER_SCALE,
     bodyAnchor,
+    bodyGroundOffset,
+    headCenter,
     sourceAnchor: {
       x: (bodyAnchor.x - left) * SOURCE_RENDER_SCALE,
       y: (bodyAnchor.y - top) * SOURCE_RENDER_SCALE,

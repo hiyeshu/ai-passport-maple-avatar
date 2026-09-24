@@ -59,6 +59,10 @@ Name, level, and job are immutable source facts read from
 - The CLI and hosted service call `lib/artifacts.mjs`, so browser preview,
   download, and device installation cannot silently compile different pixels.
 - One-frame actions use a zero frame delay and render statically.
+- Each action centers its first base-head frame and grounds its base body foot
+  at the same grass line. Every animation frame and layer keeps its source offset;
+  hats, hair, pets, weapons, and effects cannot resize or recenter the body.
+  Oversized effects may crop at the screen edge instead.
 
 Run host tests without opening a browser:
 
