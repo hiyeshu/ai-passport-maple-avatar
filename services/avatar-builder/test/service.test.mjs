@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on Node HTTP/client primitives and the injectable hosted-builder service Module.
- * [OUTPUT]: Verifies request validation, serialized jobs, pack-only artifacts, and public HTTP lifecycle.
+ * [OUTPUT]: Verifies twelve-slot family input, serialized jobs, pack-only artifacts, and public HTTP lifecycle.
  * [POS]: Host contract test for the browser-to-builder-to-avatar-pack path.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -57,6 +57,22 @@ test("validates source, server, and optional family at the API boundary", () => 
   assert.throws(
     () => validateBuildRequest({ source: "5293", server: "测试服", family: "" }),
     /有效的怀旧服区服/,
+  );
+  assert.equal(
+    validateBuildRequest({ source: "5293", server: "绿水灵", family: "MiiiAoFamily" }).family,
+    "MiiiAoFamily",
+  );
+  assert.equal(
+    validateBuildRequest({ source: "5293", server: "绿水灵", family: "W".repeat(12) }).family,
+    "W".repeat(12),
+  );
+  assert.throws(
+    () => validateBuildRequest({ source: "5293", server: "绿水灵", family: "家族名字七个字" }),
+    /最多 6 个汉字或 12 个英文字母/,
+  );
+  assert.throws(
+    () => validateBuildRequest({ source: "5293", server: "绿水灵", family: "ABCDEFGHIJKLM" }),
+    /最多 6 个汉字或 12 个英文字母/,
   );
 });
 

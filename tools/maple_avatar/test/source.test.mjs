@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on node:test and the public source parsing API.
- * [OUTPUT]: Verifies accepted MXDC build links and their canonical read-only URL.
+ * [OUTPUT]: Verifies accepted MXDC build links, canonical URLs, and twelve-slot family input.
  * [POS]: Importer contract test that protects the only accepted external source boundary.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -80,8 +80,8 @@ test("enforces the profile card capacity instead of shrinking overflow text", ()
     /invalid level/
   );
   assert.throws(
-    () => extractCharacterProfile(build, { job: "冰雷法师", family: "1234567" }),
-    /family exceeds 6 characters/
+    () => extractCharacterProfile(build, { job: "冰雷法师", family: "i".repeat(33) }),
+    /family exceeds six Chinese or twelve Latin slots/
   );
 });
 
@@ -101,4 +101,36 @@ test("accepts the exact six-character and three-digit profile boundaries", () =>
   assert.equal(profile.level, 999);
   assert.equal(profile.job, "超级冰雷师");
   assert.equal(profile.family, "家族名字六字");
+});
+
+test("accepts a family with twelve Latin characters", () => {
+  const profile = extractCharacterProfile(
+    {
+      initialBuild: {
+        id: 5293,
+        name: "蓝莓呀",
+        payload: { l: 30, n: "蓝莓呀" },
+      },
+    },
+    { job: "冰雷法师", family: "MiiiAoFamily", server: "绿水灵" }
+  );
+  assert.equal(profile.family, "MiiiAoFamily");
+});
+
+test("limits family names to six Chinese or twelve Latin slots without glyph measurement", () => {
+  const build = {
+    initialBuild: { id: 5293, name: "蓝莓呀", payload: { l: 30, n: "蓝莓呀" } },
+  };
+  assert.equal(
+    extractCharacterProfile(build, { job: "冰雷法师", family: "W".repeat(12), server: "绿水灵" }).family,
+    "W".repeat(12),
+  );
+  assert.throws(
+    () => extractCharacterProfile(build, { job: "冰雷法师", family: "家族名字七个字", server: "绿水灵" }),
+    /family exceeds six Chinese or twelve Latin slots/,
+  );
+  assert.throws(
+    () => extractCharacterProfile(build, { job: "冰雷法师", family: "ABCDEFGHIJKLM", server: "绿水灵" }),
+    /family exceeds six Chinese or twelve Latin slots/,
+  );
 });

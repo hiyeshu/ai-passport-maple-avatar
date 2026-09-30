@@ -1,6 +1,6 @@
 /**
  * [INPUT]: 依赖 Playwright、layout.mjs 几何、公开 MXDC 角色链接与 TrueType UI 字体子集。
- * [OUTPUT]: 抓取统一人体比例及脚底落点的真实 Canvas 帧、射手村背景和资料/制作入口屏。
+ * [OUTPUT]: 抓取人体对齐的真实 Canvas 帧、射手村背景，以及绘制已按字数校验家族名的资料/制作入口屏。
  * [POS]: 浏览器适配层，独占 DOM 选择器并在来源页面漂移时明确失败。
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -145,11 +145,11 @@ async function captureScreen(page, profile, fontBytes) {
           color = "#ffffff",
         }) => {
           let size = preferredSize;
-          do {
-            ctx.font = `600 ${size}px MapleAvatarUI`;
-            if (ctx.measureText(text).width <= maxWidth || size <= minimumSize) break;
+          ctx.font = `600 ${size}px MapleAvatarUI`;
+          while (size > minimumSize && ctx.measureText(text).width > maxWidth) {
             size--;
-          } while (size >= minimumSize);
+            ctx.font = `600 ${size}px MapleAvatarUI`;
+          }
           ctx.textAlign = align;
           ctx.textBaseline = "alphabetic";
           ctx.fillStyle = "rgba(0, 0, 0, 0.82)";
@@ -258,7 +258,6 @@ async function captureScreen(page, profile, fontBytes) {
           align: "left",
           preferredSize: 15,
           minimumSize: 15,
-          maxWidth: plate.x + plate.width - plate.dividerX - 18,
         });
         const rgba = ctx.getImageData(0, 0, width, height).data;
 

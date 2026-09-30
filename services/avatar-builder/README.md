@@ -22,8 +22,12 @@ run behind the same HTTPS origin as the `miiiao-avatar-builder` frontend.
 
 Only canonical `mxdc.dvg.cn/tools/character-builder/` public build links are
 accepted by this internal API. The frontend also accepts profile links and
-normalizes them before submission. Server is required,
-family is optional and limited to six characters, while name, level, and job
+normalizes them before submission. Server is required. Family is optional and
+uses twelve fixed slots: Chinese/full-width graphemes cost two and
+English/half-width graphemes cost one. Up to six Chinese or twelve English
+characters are accepted, including mixed names. Pixel width is not a rejection
+rule; wide Latin glyphs may extend beyond the nameplate and be clipped at the
+screen edge. Over-limit names fail explicitly. Name, level, and job
 always come from the source page. The response is `202` with a job ID.
 Poll `GET /api/avatar-builds/:id` until `ready` or `failed`; a ready result
 contains same-origin immutable URLs for screen, preview, six action sets, and

@@ -22,7 +22,7 @@ capture and binary compilation remain in `tools/maple_avatar/`.
 | `compose.yaml` | Single-worker deployment, persistent volume, health check, and loopback port. |
 | `package.json` | Service start and host-test commands. |
 | `server.mjs` | Environment parsing and real capture/compiler composition root. |
-| `lib/service.mjs` | Request validation, bounded queue, status persistence, TTL cleanup, and HTTP delivery. |
-| `test/service.test.mjs` | Validation, lifecycle, pack-only artifact, immutable file, and expiry tests. |
+| `lib/service.mjs` | Twelve-slot family request validation, bounded queue, status persistence, TTL cleanup, and HTTP delivery. |
+| `test/service.test.mjs` | Family-input validation, lifecycle, pack-only artifact, immutable file, and expiry tests. |
 
 [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md

@@ -1,6 +1,6 @@
 /**
- * [INPUT]: Depends on captured Canvas data, profile metadata, and pure pixel converters.
- * [OUTPUT]: Writes provenance PNGs and one versioned avatar.pack while retaining curated build sidecars.
+ * [INPUT]: Depends on captured Canvas data, profile metadata, pure pixel converters, and family-slot constants.
+ * [OUTPUT]: Writes provenance PNGs, fixed-slot profile capacity, and one avatar.pack while retaining curated sidecars.
  * [POS]: Repository persistence Adapter; hosted and local builds share artifacts.mjs instead of generated C.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -15,6 +15,7 @@ import {
 import path from "node:path";
 
 import { compileAvatarArtifacts } from "./artifacts.mjs";
+import { MAX_FAMILY_DISPLAY_UNITS } from "./source.mjs";
 
 const PRESERVED_BUILD_SIDECARS = Object.freeze(["device-mockup.png"]);
 
@@ -135,7 +136,9 @@ export async function writeCapture({ repoRoot, source, capture, font, sample = f
         nameplate: capture.screen.layout.nameplate,
         capacity: {
           nameCharacters: 6,
-          familyCharacters: 6,
+          familyCjkCharacters: 6,
+          familyLatinCharacters: MAX_FAMILY_DISPLAY_UNITS,
+          familyDisplayUnits: MAX_FAMILY_DISPLAY_UNITS,
           maximumLevel: 999,
           jobCharacters: 5,
           server: "fixed-enum",

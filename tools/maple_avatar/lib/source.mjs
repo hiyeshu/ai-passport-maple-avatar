@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on WHATWG URL and MXDC's public character-builder URL contract.
- * [OUTPUT]: Provides source parsing, canonical URLs, profile fallbacks, and display-capacity checks.
+ * [OUTPUT]: Provides source parsing, canonical URLs, profile fallbacks, and twelve-slot family input.
  * [POS]: Importer's trust boundary; rejects ambiguous or unsupported external sources.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -17,11 +17,22 @@ export const MAPLE_SERVERS = Object.freeze([
 
 const MAX_LEVEL = 999;
 const MAX_NAME_CHARACTERS = 6;
-const MAX_FAMILY_CHARACTERS = 6;
+export const MAX_FAMILY_DISPLAY_UNITS = 12;
 const MAX_JOB_CHARACTERS = 5;
+const FAMILY_GRAPHEMES = new Intl.Segmenter("zh", { granularity: "grapheme" });
 
 function characterCount(value) {
   return [...String(value)].length;
+}
+
+export function familyDisplayUnits(value) {
+  let units = 0;
+  for (const { segment } of FAMILY_GRAPHEMES.segment(String(value))) {
+    const narrowLatin = !/[\uFF00-\uFFEF]/u.test(segment)
+      && /^\p{Script=Latin}\p{Mark}*$/u.test(segment);
+    units += /^[\x20-\x7E]$/u.test(segment) || narrowLatin ? 1 : 2;
+  }
+  return units;
 }
 
 function parseBuildId(value) {
@@ -91,8 +102,8 @@ export function extractCharacterProfile(config, options = {}) {
   if (characterCount(name) > MAX_NAME_CHARACTERS) {
     throw new Error(`Build ${buildId} name exceeds ${MAX_NAME_CHARACTERS} characters: ${name}`);
   }
-  if (characterCount(family) > MAX_FAMILY_CHARACTERS) {
-    throw new Error(`Build ${buildId} family exceeds ${MAX_FAMILY_CHARACTERS} characters: ${family}`);
+  if (familyDisplayUnits(family) > MAX_FAMILY_DISPLAY_UNITS) {
+    throw new Error(`Build ${buildId} family exceeds six Chinese or twelve Latin slots`);
   }
   if (characterCount(job) > MAX_JOB_CHARACTERS) {
     throw new Error(`Build ${buildId} job exceeds ${MAX_JOB_CHARACTERS} characters: ${job}`);

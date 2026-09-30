@@ -1,5 +1,5 @@
 /**
- * [INPUT]: Depends on validated build requests, one injected avatar compiler, and a writable artifact directory.
+ * [INPUT]: Depends on source and twelve-slot family validation, one injected avatar compiler, and a writable artifact directory.
  * [OUTPUT]: Provides a bounded asynchronous job queue plus HTTP status and immutable artifact delivery.
  * [POS]: Hosted builder Application Module; isolates request lifecycle from Playwright and binary details.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
@@ -8,7 +8,12 @@ import { randomUUID } from "node:crypto";
 import { mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { MAPLE_SERVERS, parseBuildSource } from "../../../tools/maple_avatar/lib/source.mjs";
+import {
+  familyDisplayUnits,
+  MAPLE_SERVERS,
+  MAX_FAMILY_DISPLAY_UNITS,
+  parseBuildSource,
+} from "../../../tools/maple_avatar/lib/source.mjs";
 
 const JSON_LIMIT_BYTES = 4096;
 const JOB_ID_PATTERN = /^[a-f0-9]{32}$/;
@@ -18,10 +23,6 @@ const CONTENT_TYPES = Object.freeze({
   ".png": "image/png",
 });
 
-function countCharacters(value) {
-  return [...String(value)].length;
-}
-
 export function validateBuildRequest(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     throw new Error("请求内容必须是 JSON 对象。");
@@ -30,7 +31,9 @@ export function validateBuildRequest(value) {
   const server = String(value.server ?? "").trim();
   const family = String(value.family ?? "").trim();
   if (!MAPLE_SERVERS.includes(server)) throw new Error("请选择有效的怀旧服区服。");
-  if (countCharacters(family) > 6) throw new Error("家族名称最多 6 个字。");
+  if (familyDisplayUnits(family) > MAX_FAMILY_DISPLAY_UNITS) {
+    throw new Error("家族名称最多 6 个汉字或 12 个英文字母；混排按中文 2 格、英文 1 格计算。");
+  }
   return Object.freeze({ source, server, family });
 }
 

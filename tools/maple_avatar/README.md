@@ -47,6 +47,11 @@ Supported servers are <code>&#x84DD;&#x8717;&#x725B;</code>,
 <code>&#x6F02;&#x6F02;&#x732A;</code>, and <code>&#x5C0F;&#x767D;&#x5154;</code>.
 Name, level, and job are immutable source facts read from
 `CHARACTER_BUILDER_CONFIG`; only server and family are supplied externally.
+Family input has twelve slots: a Chinese/full-width grapheme uses two and an
+English/half-width grapheme uses one. That permits up to six Chinese or twelve
+English characters, including mixed names. Width is not measured or used to
+reject a name, and the font is not shrunk. Wide Latin glyphs may extend beyond
+the nameplate and be clipped at the screen edge.
 
 ## Outputs
 
