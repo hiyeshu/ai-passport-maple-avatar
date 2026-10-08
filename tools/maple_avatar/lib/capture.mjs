@@ -1,6 +1,6 @@
 /**
  * [INPUT]: 依赖 Playwright、layout.mjs 几何、公开 MXDC 角色链接与 TrueType UI 字体子集。
- * [OUTPUT]: 抓取人体对齐的真实 Canvas 帧、射手村背景，以及绘制已按字数校验家族名的资料/制作入口屏。
+ * [OUTPUT]: 抓取人体对齐的真实 Canvas 帧、射手村背景，以及绘制已按字数校验家族名的资料/已开放制作入口屏。
  * [POS]: 浏览器适配层，独占 DOM 选择器并在来源页面漂移时明确失败。
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -38,7 +38,7 @@ const DEFAULT_CHROME_PATH =
   process.platform === "darwin"
     ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     : "";
-const BUILDER_STATUS_TEXT = "备案中，稍后开放";
+const BUILDER_STATUS_TEXT = "网页已开放";
 
 function browserLaunchOptions(explicitPath) {
   const executablePath = explicitPath || process.env.MAPLE_AVATAR_CHROME || DEFAULT_CHROME_PATH;

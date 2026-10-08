@@ -22,7 +22,7 @@ remain separate; the CLI and hosted service share the same artifact compiler.
 | `package.json` | Pinned Playwright dependency and npm commands. |
 | `package-lock.json` | Reproducible npm dependency graph. |
 | `lib/artifacts.mjs` | Shared immutable artifact graph for CLI and hosted service. |
-| `lib/capture.mjs` | Playwright adapter, anatomy-centered Canvas capture, fixed-size family rendering, profile screen, and builder screen. |
+| `lib/capture.mjs` | Playwright adapter, anatomy-centered Canvas capture, fixed-size family rendering, profile screen, and live builder-entry screen. |
 | `lib/cli.mjs` | Pure argument parsing, sample defaults, and explicit-server boundary. |
 | `lib/font.mjs` | Noto Sans SC subset download and validation. |
 | `lib/layout.mjs` | Pure profile-card geometry, fixed logical-pixel scaling, and head/body/foot anchoring. |

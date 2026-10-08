@@ -21,7 +21,7 @@
 | `package.json` | 锁定的 Playwright 依赖与 npm 命令。 |
 | `package-lock.json` | 可复现的 npm 依赖图。 |
 | `lib/artifacts.mjs` | CLI 与在线服务共用的不可变资源图。 |
-| `lib/capture.mjs` | Playwright 适配、人体锚点对齐 Canvas 抓取、固定字号家族名与资料/制作入口屏。 |
+| `lib/capture.mjs` | Playwright 适配、人体锚点对齐 Canvas 抓取、固定字号家族名与资料/已开放制作入口屏。 |
 | `lib/cli.mjs` | 纯参数解析、示例默认值与显式服务器边界。 |
 | `lib/font.mjs` | Noto Sans SC 字体子集下载与校验。 |
 | `lib/layout.mjs` | 纯角色铭牌几何、固定逻辑像素倍率与人体锚点定位。 |

@@ -76,12 +76,12 @@ limits and request logs without logging private tokens or complete browser data.
 The current API is intentionally stateless from the user's perspective: expired
 jobs are regenerated from the original public link.
 
-While ICP filing is pending, the frontend remains on its Vercel-provided domain
-and proxies same-origin API requests to the temporary HTTPS ECS gateway. It must
-not bind or redirect `miiiao.cn`, and the device continues to show the planned
-`avatar.miiiao.cn` address with an explicit pending-filing notice. The ECS
-backend is deployed; after filing, migration only replaces the temporary gateway
-origin with the final DNS name and certificate.
+The approved production frontend is `https://avatar.miiiao.cn/` on the existing
+Vercel project. Its same-origin `/api/avatar-builds` rewrite continues to use
+the existing ECS HTTPS gateway; binding the frontend domain does not change the
+backend origin or point the rewrite back to the frontend. Newly generated avatar
+packs show the open builder address. The already-published community firmware
+remains a separate release and is not silently replaced by this service deploy.
 
 ## Tests
 
