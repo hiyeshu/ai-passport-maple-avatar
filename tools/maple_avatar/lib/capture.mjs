@@ -1,13 +1,17 @@
 /**
- * [INPUT]: 依赖 Playwright、layout.mjs 几何、公开 MXDC 角色链接与 TrueType UI 字体子集。
+ * [INPUT]: 依赖 Playwright、browser-controls.mjs、action-diagnostic.mjs、layout.mjs 与 UI 字体。
  * [OUTPUT]: 抓取人体对齐的真实 Canvas 帧、射手村背景，以及绘制已按字数校验家族名的资料/已开放制作入口屏。
  * [POS]: 浏览器适配层，独占 DOM 选择器并在来源页面漂移时明确失败。
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
-import { existsSync } from "node:fs";
-
 import { chromium } from "playwright";
 
+import { explainActionLayerFailureInPage } from "./action-diagnostic.mjs";
+import {
+  browserLaunchOptions,
+  dismissReleaseNotes,
+  selectDropdownOption,
+} from "./browser-controls.mjs";
 import {
   AVATAR_HEIGHT,
   AVATAR_DISPLAY_SCALE,
@@ -34,34 +38,7 @@ export const ACTION_SPECS = Object.freeze([
   { id: "two_hand_walk", label: "双手持武器行走" },
 ]);
 
-const DEFAULT_CHROME_PATH =
-  process.platform === "darwin"
-    ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-    : "";
 const BUILDER_STATUS_TEXT = "网页已开放";
-
-function browserLaunchOptions(explicitPath) {
-  const executablePath = explicitPath || process.env.MAPLE_AVATAR_CHROME || DEFAULT_CHROME_PATH;
-  if (executablePath && existsSync(executablePath)) {
-    return { headless: true, executablePath };
-  }
-  return { headless: true };
-}
-
-async function selectDropdownOption(page, triggerPrefix, label) {
-  await page.locator(`button[aria-label^="${triggerPrefix}"]`).click();
-  const option = page.getByRole("menuitemradio", { name: label, exact: true });
-  await option.waitFor({ state: "visible", timeout: 5000 });
-  await option.click();
-}
-
-async function dismissReleaseNotes(page) {
-  const close = page.getByRole("button", { name: "关闭更新日志", exact: true });
-  if (await close.isVisible().catch(() => false)) {
-    await close.click();
-    await page.locator(".builder-release-overlay").waitFor({ state: "hidden", timeout: 5000 });
-  }
-}
 
 async function captureScreen(page, profile, fontBytes) {
   return page.evaluate(
@@ -592,7 +569,7 @@ async function captureAction(page, spec, firstAction) {
 
   const response = await layersPromise;
   if (!response.ok()) {
-    throw new Error(`${spec.label} layer request failed: HTTP ${response.status()}`);
+    throw await explainActionLayerFailureInPage(page, response, spec.label);
   }
   const layers = await response.json();
   if (!layers || layers.success !== true) {

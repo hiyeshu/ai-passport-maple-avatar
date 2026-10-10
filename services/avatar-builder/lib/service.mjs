@@ -121,6 +121,20 @@ function safeErrorMessage(error) {
   return message.replace(/[\r\n]+/g, " ").slice(0, 300);
 }
 
+function publicBuildFailure(error) {
+  if (error?.code !== "ACTION_ASSET_UNAVAILABLE" || error.upstreamStatus !== 422) {
+    return null;
+  }
+  const id = String(error.item?.id ?? "");
+  const name = String(error.item?.name ?? "").replace(/[\r\n]+/g, " ").trim().slice(0, 40);
+  return {
+    code: "ACTION_ASSET_UNAVAILABLE",
+    action: String(error.action ?? "动作").replace(/[\r\n]+/g, " ").slice(0, 20),
+    item: /^\d{1,10}$/.test(id) && name ? { id, name } : null,
+    upstreamStatus: 422,
+  };
+}
+
 export class AvatarBuildQueue {
   constructor({ outputRoot, buildAvatar, maxQueued = 8, idFactory }) {
     if (typeof buildAvatar !== "function") throw new TypeError("buildAvatar is required");
@@ -214,6 +228,8 @@ export class AvatarBuildQueue {
         } catch (error) {
           job.status = "failed";
           job.error = safeErrorMessage(error);
+          const failure = publicBuildFailure(error);
+          if (failure) job.failure = failure;
         }
         await this.#save(job);
       }

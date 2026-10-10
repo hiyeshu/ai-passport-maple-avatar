@@ -22,7 +22,9 @@ remain separate; the CLI and hosted service share the same artifact compiler.
 | `package.json` | Pinned Playwright dependency and npm commands. |
 | `package-lock.json` | Reproducible npm dependency graph. |
 | `lib/artifacts.mjs` | Shared immutable artifact graph for CLI and hosted service. |
-| `lib/capture.mjs` | Playwright adapter, anatomy-centered Canvas capture, fixed-size family rendering, profile screen, and live builder-entry screen. |
+| `lib/action-diagnostic.mjs` | Bounded, read-only action-layer probes that identify one verified blocking appearance or preserve a generic failure. |
+| `lib/browser-controls.mjs` | Browser launch and source-page control helpers shared by capture. |
+| `lib/capture.mjs` | Playwright adapter, anatomy-centered Canvas capture, action-failure handoff, fixed-size family rendering, profile screen, and live builder-entry screen. |
 | `lib/cli.mjs` | Pure argument parsing, sample defaults, and explicit-server boundary. |
 | `lib/font.mjs` | Noto Sans SC subset download and validation. |
 | `lib/layout.mjs` | Pure profile-card geometry, fixed logical-pixel scaling, and head/body/foot anchoring. |
@@ -31,6 +33,7 @@ remain separate; the CLI and hosted service share the same artifact compiler.
 | `lib/pixels.mjs` | Pure RGBA-to-RGB565/RGB565A8 conversion. |
 | `lib/source.mjs` | MXDC URL trust boundary, server enum, source facts, and twelve-slot family input. |
 | `test/artifacts.test.mjs` | Clean presentation and pack-type separation tests at the artifact seam. |
+| `test/action-diagnostic.test.mjs` | Unique-culprit, ambiguity, candidate-cap, and time-budget regression tests. |
 | `test/cli.test.mjs` | CLI defaults and argument-boundary tests. |
 | `test/font.test.mjs` | Font request and CSS parsing tests. |
 | `test/layout.test.mjs` | Golden-ratio, seated ground-contact, decorative-extents, and action-anchor regressions. |

@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Depends on Node HTTP/client primitives and the injectable hosted-builder service Module.
- * [OUTPUT]: Verifies twelve-slot family input, serialized jobs, pack-only artifacts, and public HTTP lifecycle.
+ * [OUTPUT]: Verifies twelve-slot family input, serialized jobs, structured action failures, pack-only artifacts, and public HTTP lifecycle.
  * [POS]: Host contract test for the browser-to-builder-to-avatar-pack path.
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
@@ -98,6 +98,39 @@ test("writes only generated preview and pack artifacts", async () => {
       1,
     );
     assert.equal(await queue.get(JOB_ID), null);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("persists a verified appearance failure without losing the legacy error text", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "avatar-failure-"));
+  try {
+    const queue = new AvatarBuildQueue({
+      outputRoot: root,
+      buildAvatar: async () => {
+        const error = new Error("攻击动作无法生成：请在小册子更换「透明手套」后重试。");
+        error.code = "ACTION_ASSET_UNAVAILABLE";
+        error.action = "攻击";
+        error.item = { id: "1082102", name: "透明手套" };
+        error.upstreamStatus = 422;
+        throw error;
+      },
+      idFactory: () => JOB_ID,
+    });
+    await queue.create(validateBuildRequest({ source: "18632", server: "绿水灵" }));
+    const job = await waitUntilReady(queue);
+
+    assert.equal(job.status, "failed");
+    assert.equal(job.error, "攻击动作无法生成：请在小册子更换「透明手套」后重试。");
+    assert.deepEqual(job.failure, {
+      code: "ACTION_ASSET_UNAVAILABLE",
+      action: "攻击",
+      item: { id: "1082102", name: "透明手套" },
+      upstreamStatus: 422,
+    });
+    const persisted = JSON.parse(await readFile(path.join(root, JOB_ID, "status.json"), "utf8"));
+    assert.deepEqual(persisted.failure, job.failure);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

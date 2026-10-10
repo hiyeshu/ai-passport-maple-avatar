@@ -9,6 +9,10 @@ artifacts and one replaceable `avatar.pack`. Browser capture, source parsing,
 pixel conversion, pack compilation, and filesystem persistence are separate.
 Source drift, request failure, missing Canvas, invalid font, or invalid profile
 data fails explicitly; no sample or generated artwork is substituted.
+If MXDC explicitly reports missing attack resources, the importer can make up to
+eight sequential, read-only layer requests within about five seconds to identify
+one uniquely blocking equipped appearance. If the evidence is incomplete, it
+reports the action failure without naming an item or changing the outfit.
 
 ## Setup
 

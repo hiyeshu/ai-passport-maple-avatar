@@ -21,7 +21,9 @@
 | `package.json` | 锁定的 Playwright 依赖与 npm 命令。 |
 | `package-lock.json` | 可复现的 npm 依赖图。 |
 | `lib/artifacts.mjs` | CLI 与在线服务共用的不可变资源图。 |
-| `lib/capture.mjs` | Playwright 适配、人体锚点对齐 Canvas 抓取、固定字号家族名与资料/已开放制作入口屏。 |
+| `lib/action-diagnostic.mjs` | 仅在特定动作资源失败时有界只读探测，唯一确认外观或保持笼统失败。 |
+| `lib/browser-controls.mjs` | 抓取器复用的浏览器启动与源页控件辅助。 |
+| `lib/capture.mjs` | Playwright 适配、人体锚点对齐 Canvas 抓取、动作失败交接、固定字号家族名与资料/已开放制作入口屏。 |
 | `lib/cli.mjs` | 纯参数解析、示例默认值与显式服务器边界。 |
 | `lib/font.mjs` | Noto Sans SC 字体子集下载与校验。 |
 | `lib/layout.mjs` | 纯角色铭牌几何、固定逻辑像素倍率与人体锚点定位。 |
@@ -30,6 +32,7 @@
 | `lib/pixels.mjs` | 纯 RGBA 到 RGB565/RGB565A8 转换。 |
 | `lib/source.mjs` | MXDC URL 信任边界、服务器枚举、来源事实与家族名十二格校验。 |
 | `test/artifacts.test.mjs` | 资源边界的纯净展示与包类型隔离测试。 |
+| `test/action-diagnostic.test.mjs` | 唯一阻断件、歧义、候选上限与时间预算回归测试。 |
 | `test/cli.test.mjs` | CLI 默认值与参数边界测试。 |
 | `test/font.test.mjs` | 字体请求与 CSS 解析测试。 |
 | `test/layout.test.mjs` | 黄金比例、坐姿贴地、装饰外框与动作锚点回归测试。 |

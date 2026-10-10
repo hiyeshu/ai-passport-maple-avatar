@@ -37,6 +37,11 @@ that could request a full-device erase.
 
 There is no silent sample fallback. Source drift, browser failure, invalid data,
 or restart during an unfinished job becomes an explicit failed status.
+For MXDC's specific missing-attack-asset response, a failed job preserves its
+existing `error` text and adds `failure: { code: "ACTION_ASSET_UNAVAILABLE",
+action, item, upstreamStatus: 422 }`. `item` is `{ id, name }` only when bounded,
+read-only source probes verify one unique culprit; otherwise it is `null`.
+Ordinary builds and gateway errors trigger no diagnostic probes.
 
 ## Local run
 
